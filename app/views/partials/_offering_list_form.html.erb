@@ -1,0 +1,22 @@
+<div class="container">
+  <h2 class="text-center"><%= Date.today.strftime("%Y") %> Marketing Offering</h2>
+  <table class="table table-striped">
+  	<% @groups.each do |key, value| %>
+  		<thead>
+    		<tr style="background-color:darkgray;color:white;"><th colspan="2" class="text-center"><%= key %></th></tr>
+    		<tr style="background-color:lightgray;">
+      		<th>Name</th>
+      		<th>Price</th>
+    		</tr>
+    	</thead>
+    	<tbody>
+    		<% value.each do |product| %>
+      		<tr>
+      			<td><%= product.name %></td>
+      			<td><%= number_to_currency(product.price) %></td>
+      		</tr>
+      	<% end %>
+    	</tbody>
+    <% end %>
+ </table>
+</div>

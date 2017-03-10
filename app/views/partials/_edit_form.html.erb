@@ -1,0 +1,180 @@
+<table class="table table-striped"  id="<%= @type %>_table">
+	<thead>
+		<% @table_headers.each do |header| %>
+			<th><%= header %></th>
+		<% end %>
+		<th><span class="glyphicon glyphicon-remove pull-right" id="close_view" aria-hidden="true"></span></th>
+	</thead>
+	<tbody>
+		<% @data_variable.each do |data| %>
+			<tr>
+				<% @column_names.each do |column_name| %>
+					<% if column_name == "tsm_id" %>
+						<td><%= Tsm.get_name(data[column_name]) %></td>
+					<% else %>
+						<td><%= data[column_name] %></td>
+					<% end %>
+				<% end %>
+				<td><%= link_to "Edit", "#", class: "edit_#{@type}" %> | <%= link_to "Delete", eval("#{@type}_path(data.id)"), method: :delete, data: {confirm: "Are you sure?"} %></td>
+				<td/>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+
+<script type="text/javascript">
+	$( function() {
+    editForm();
+  });
+
+	$('#close_view').on('click', function(){
+		$('#account_management_view').empty();
+	});
+
+	function editForm(){
+		$('.edit_product, .edit_tsm, .edit_user, .edit_sales_rep').on('click', function(e){
+	    e.preventDefault();
+	    row = $(this).parents('tr');
+	    path = $(this).siblings().attr('href')
+	    if (row.children().length === 3){
+	    	field_1 = row.children('td:eq(0)').text();
+	    	row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append("<input class=form-control value='" + field_1 + "'></input>");
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append("<a data-remote='true' class='btn btn-sm btn-warning update_edit' href='#'>Update</a> <a class='cancel_edit' href='#' style='vertical-align:bottom;'>Cancel</a>");
+	    } else if (row.children().length == 4){
+	    	field_1 = row.children('td:eq(0)').text();
+		    field_2 = row.children('td:eq(1)').text();
+		    row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append("<input class=form-control value='" + field_1 + "'></input>");
+		    row.children('td:eq(1)').empty();
+		 		if ($(this).attr('class') == 'edit_user'){
+		    	row.children('td:eq(1)').append("<input type='password' class=form-control value='" + field_2 + "'></input>");
+		 		} else {
+		    	row.children('td:eq(1)').append("<input type='text' class=form-control value='" + field_2 + "'></input>");
+		 		}
+		    row.children('td:eq(2)').empty();
+		    row.children('td:eq(2)').append("<a data-remote='true' class='btn btn-sm btn-warning update_edit' href='#'>Update</a> <a class='cancel_edit' href='#' style='vertical-align:bottom;'>Cancel</a>");
+	    }
+	    else {
+	    	field_1 = row.children('td:eq(0)').text();
+		    field_2 = row.children('td:eq(1)').text();
+		    field_3 = row.children('td:eq(2)').text();  
+		    row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append("<input class=form-control value='" + field_1 + "'></input>");
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append("<input class=form-control value='" + field_2 + "'></input>");
+		    row.children('td:eq(2)').empty();
+		    row.children('td:eq(2)').append("<input class=form-control value='" + field_3 + "'></input>");
+		    row.children('td:eq(3)').empty();
+		    row.children('td:eq(3)').append("<a data-remote='true' class='btn btn-sm btn-warning update_edit' href='#'>Update</a> <a class='cancel_edit' href='#' style='vertical-align:bottom;'>Cancel</a>");
+	    }
+	    
+	    updateEdit(path);
+	    cancelEdit(path);
+	  });
+	}
+
+	function cancelEdit(path){
+  	$('.cancel_edit').on('click', function(e){
+	  	e.preventDefault();
+	  	row = $(this).parents('tr');
+	  	table_name = $(this).parents('table').attr('id').match(/[^_]+/)[0];
+	  	if (row.children().length === 3){
+	  		field_1 = row.children('td:eq(0)').children().val();
+	  		row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append(field_1);
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' href='" + path + "'>Delete</a>")
+	    } else if (row.children().length == 4){
+	    	field_1 = row.children('td:eq(0)').children().val();
+		    field_2 = row.children('td:eq(1)').children().attr('type') === "password" ? "" : row.children('td:eq(1)').children().val();
+		    row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append(field_1);
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append(field_2);
+		    row.children('td:eq(2)').empty();
+		    row.children('td:eq(2)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' href='" + path + "'>Delete</a>");
+	    } else {
+	  		field_1 = row.children('td:eq(0)').children().val();
+	    	field_2 = row.children('td:eq(1)').children().val();
+		    field_3 = row.children('td:eq(2)').children().val();
+		  	row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append(field_1);
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append(field_2);
+		    row.children('td:eq(2)').empty();
+		    row.children('td:eq(2)').append(field_3);
+		    row.children('td:eq(3)').empty();
+		    row.children('td:eq(3)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' href='" + path + "'>Delete</a>")
+	    }
+	    
+	    editForm();
+  	});
+  }
+
+  function updateEdit(path){
+  	$('.update_edit').on('click', function(e){
+  		e.preventDefault();
+  		row = $(this).parents('tr');
+  		table_name = $(this).parents('table').attr('id').match(/[^_]+/)[0];
+  		if (row.children().length === 3){
+  			field_1 = row.children('td:eq(0)').children().val();
+  			row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append(field_1);
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' href='" + path + "'>Delete</a>")
+  			params = {name: field_1}
+  		} else if (row.children().length == 4){
+	    	field_1 = row.children('td:eq(0)').children().val();
+		    field_2 = row.children('td:eq(1)').children().attr('type') === "password" ? "" : row.children('td:eq(1)').children().val();
+		    row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append(field_1);
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append(field_2);
+		    row.children('td:eq(2)').empty();
+		    row.children('td:eq(2)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' href='" + path + "'>Delete</a>")
+		    if (table_name === "sales"){
+		    	params = {tsm: field_1, name: field_2}
+		    } else {
+			    params = {email: field_1, password: field_2}
+		    }
+	    } else {
+  			field_1 = row.children('td:eq(0)').children().val();
+		    field_2 = row.children('td:eq(1)').children().val();
+		    field_3 = row.children('td:eq(2)').children().val();
+		    row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append(field_1);
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append(field_2);
+		    row.children('td:eq(2)').empty();
+		    row.children('td:eq(2)').append(field_3);
+		    row.children('td:eq(3)').empty();
+		    row.children('td:eq(3)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' href='" + path + "'>Delete</a>")
+		    params = {name: field_1, price: field_2, group: field_3}
+  		}
+	  	
+	    if (path == undefined) {
+	    } else {
+	    	postForm(path, 'put', params);
+	    }
+  	});	
+
+  	function postForm(url, method, params){
+		$.ajax({
+      url: url,
+      type: method,
+      data: params,
+      datatype: 'json',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      success: function (data) {
+        editForm();
+      }   
+    });
+	}
+  }
+
+  
+  
+</script>

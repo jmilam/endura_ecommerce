@@ -1,0 +1,66 @@
+class SalesRepController < ApplicationController
+
+	def new
+		@type = "sales_rep"
+		@table_headers = ["TSM", "Name", "Actions"]
+		@tsms = Tsm.all
+		@data_variable = SalesRep.new
+		@column_names = @data_variable.attributes.keys.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
+		respond_to do |format|
+			format.js
+		end
+	end
+
+	def create
+		@sales_rep = Tsm.find_by_id(params[:sales_rep][:tsm_id]).sales_reps.new(sales_rep_params)
+		if @sales_rep.save
+			flash[:notice] = "User successfully created"
+			redirect_to :back
+		else
+			#flash[:error] = "Error when creating TSM"
+			#redirect_to :back
+		end
+	end
+
+	def update
+		begin
+			p @tsm = Tsm.find_by_name(params[:tsm])
+			if SalesRep.update(params[:id], name: params[:name], tsm_id: @tsm.id)
+				@response = {response: {success: true}}
+			else
+				"Not saved"
+			end
+		rescue Exception => error
+			p error
+			@response = {response: {success: false, error: "#{error}"}}
+		end
+
+		respond_to do |format|
+			format.json { render json: @response}
+		end
+	end
+
+	def edit
+		@type = "sales_rep"
+  	@table_headers = ["TSM", "Name", "Actions"]
+  	@data_variable = SalesRep.all
+  	@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
+		respond_to do |format|
+			format.js
+		end
+	end
+	
+	def destroy
+		@sales_rep = SalesRep.find(params[:id])
+		if @sales_rep.delete
+			redirect_to(:root)
+		else
+			redirect_to(:root)
+		end
+	end
+	private
+
+	def sales_rep_params
+		params.require(:sales_rep).permit(:name)
+	end
+end

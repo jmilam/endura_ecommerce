@@ -1,0 +1,2 @@
+module UserPortalHelper
+end

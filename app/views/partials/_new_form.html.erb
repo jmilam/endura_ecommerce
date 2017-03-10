@@ -1,0 +1,22 @@
+<div class="row container">
+	<div class="centered">
+		<div class="col-sm-10 col-md-10">
+			<h3>Add New <%= @type.titlecase %></h3>
+		</div>
+		<div class="col-sm-1 col-md-1">
+			<span class="glyphicon glyphicon-remove" id="close_view" aria-hidden="true"></span>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-10 col-sm-offset-1 col-md-11 col-md-offset-1 ">	
+		<%= render partial: "new_#{@type}" %>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+	$('#close_view').on('click', function(){
+		$('#account_management_view').empty();
+	});
+</script>

@@ -1,0 +1,21 @@
+<%= form_for :product, url: product_index_path, as: :post do |f| %>
+	<div class="row">
+		<div class="col-sm-10 col-md-3 col-md-offset-1">
+			<div class="form-group">
+				<%= f.label 'Name' %>
+				<%= f.text_field :name, class: 'form-control' %>
+			</div>
+		</div>
+		<div class="col-sm-10 col-md-3">
+			<%= f.label "Price"%>
+			<%= f.text_field :price, class: 'form-control' %>
+		</div>
+		<div class="col-sm-10 col-md-3">
+			<%= f.label "Group"%>
+			<%= f.text_field :group, class: 'form-control' %>
+		</div>
+		<div class="col-sm-10 col-md-1">
+			<%= f.submit 'Submit' , class: 'btn btn-lg btn-success', style: "margin-top: 15px;" %>
+		</div>
+	</div>
+<% end %>
