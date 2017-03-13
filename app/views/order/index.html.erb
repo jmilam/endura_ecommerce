@@ -1,0 +1,27 @@
+<% if @orders.count == 0 %>
+	<div class="jumbotron">
+		<div class="container">
+		  <h2>No Current Orders!</h2>
+		  <p class="lead">You have no open orders. Please add items to your cart if you want to start a new order.</p>
+		</div>
+	</div>
+<% else %>
+	<table class="table table-striped">
+		<thead>
+				<th/>
+				<th>Current Order</th>
+				<th>Order Complete</th>
+				<th>Order Date</th>
+		</thead>
+		<tbody>
+			<% @orders.each_with_index do |order, idx| %>
+			  <tr>
+			  	<td><%= idx + 1 %></td>
+			  	<td><%= order.current_order %></td>
+			  	<td><%= order.order_complete %></td>
+			  	<td><%= order.updated_at %></td>
+			  </tr>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>

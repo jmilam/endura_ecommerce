@@ -27,9 +27,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><%= link_to user_portal_index_path do %>
-                          <%= image_tag("user_placeholder.png", height: "50", data: {title: "#{current_user}"}) %>
-                        <% end %>
+                    <li>
+                      <%= link_to order_index_path do %>
+                        <%= image_tag "cart_light.png", height: "50", data: {title: "5"}%>
+                      <% end %>
+                    </li>
+                    <li>
+                      <%= link_to user_portal_index_path do %>
+                        <%= image_tag("user_placeholder.png", height: "50", data: {title: "#{current_user}"}) %>
+                      <% end %>
                     </li>
                     <li><%= link_to "Sign Out", destroy_user_session_path, method: :delete %></li>
                 </ul>
@@ -45,20 +51,20 @@
         		<li><%= link_to "Endura Marketing Request Form", user_portal_index_path(partial: "general_request")%></li>
         		<li><%= link_to "Endura Image Requst Form", user_portal_index_path(partial: "image_request")%></li>
         		<li><%= link_to "Products And Offering list",user_portal_index_path(partial: "offering_list")%></li>
-        		<li><%= link_to "Endura Marketing Update Request Form", user_portal_index_path(partial: "update_request") %></li>
+        		<li><%#= link_to "Endura Marketing Update Request Form", user_portal_index_path(partial: "update_request") %></li>
 
         	</ul> 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <div style="margin-top: 60px;">
-  	        <div class="container">
+  	        <div class="row">
   	            <% if flash[:notice] %>
   	              <div class="alert alert-success alert-dismissable">
   	                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   	                <strong>Success!</strong> <%= flash[:notice] %>
   	              </div>
   	            <% elsif flash[:error] %>
-  		          <div class="alert alert-danger alert-dismissable">
+  		            <div class="alert alert-danger alert-dismissable">
   	                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   	                <strong>Error!</strong> 
   	                <ul>
@@ -77,10 +83,6 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
-        $( function() {
-          $( "#date" ).datepicker();
-          $( "#deadline" ).datepicker();
-        });
     </script>
   </body>
 </html>

@@ -3,9 +3,10 @@ class TsmController < ApplicationController
 		@type = "tsm"
 		@table_headers = ["Name", "Actions"]
 		@data_variable = Tsm.new
+		@path = tsm_index_path
 		@column_names = @data_variable.attributes.keys.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
-			format.js
+			format.js { render :template => "/partials/new" }
 		end
 	end
 
@@ -15,8 +16,8 @@ class TsmController < ApplicationController
 			flash[:notice] = "TSM successfully created"
 			redirect_to :back
 		else
-			#flash[:error] = "Error when creating TSM"
-			#redirect_to :back
+			flash[:error] = @tsm.errors
+			redirect_to :back
 		end
 	end
 
@@ -26,7 +27,7 @@ class TsmController < ApplicationController
   	@data_variable = Tsm.all
   	@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
-			format.js
+			format.js { render :template => "/partials/edit" }
 		end
   end
 

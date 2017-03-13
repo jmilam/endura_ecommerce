@@ -3,11 +3,13 @@ class SalesRepController < ApplicationController
 	def new
 		@type = "sales_rep"
 		@table_headers = ["TSM", "Name", "Actions"]
-		@tsms = Tsm.all
+		@select_box_data = Tsm.all
 		@data_variable = SalesRep.new
+		@path = sales_rep_index_path
+		@select_id = "tsm_id"
 		@column_names = @data_variable.attributes.keys.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
-			format.js
+			format.js { render :template => "/partials/new" }
 		end
 	end
 
@@ -17,14 +19,14 @@ class SalesRepController < ApplicationController
 			flash[:notice] = "User successfully created"
 			redirect_to :back
 		else
-			#flash[:error] = "Error when creating TSM"
-			#redirect_to :back
+			flash[:error] = @sales_rep.errors
+			redirect_to :back
 		end
 	end
 
 	def update
 		begin
-			p @tsm = Tsm.find_by_name(params[:tsm])
+			@tsm = Tsm.find_by_name(params[:tsm])
 			if SalesRep.update(params[:id], name: params[:name], tsm_id: @tsm.id)
 				@response = {response: {success: true}}
 			else
@@ -46,7 +48,7 @@ class SalesRepController < ApplicationController
   	@data_variable = SalesRep.all
   	@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
-			format.js
+			format.js { render :template => "/partials/edit" }
 		end
 	end
 	

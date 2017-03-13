@@ -4,8 +4,13 @@ class ProductController < ApplicationController
 	def new
 		@type = "product"
 		@data_variable = Product.new
+		@select_box_data = ["Literature", "Samples & Displays", "Services"]
+		@path = product_index_path
+		@select_id = "group"
+		@column_names = @data_variable.attributes.keys.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
+
 		respond_to do |format|
-			format.js
+			format.js { render :template => "/partials/new" }
 		end
 	end
 
@@ -15,18 +20,18 @@ class ProductController < ApplicationController
 		@data_variable = Product.all
 		@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
-			format.js
+			format.js { render :template => "/partials/edit" }
 		end
 	end
 	
 	def create
-		@tsm = Product.new(product_params)
-		if @tsm.save
+		@product = Product.new(product_params)
+		if @product.save
 			flash[:notice] = "Product successfully created"
 			redirect_to :back
 		else
-			#flash[:error] = "Error when creating TSM"
-			#redirect_to :back
+			flash[:error] = @product.errors
+			redirect_to :back
 		end
 	end
 

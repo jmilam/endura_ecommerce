@@ -3,9 +3,10 @@ class UserController < ApplicationController
 		@type = "user"
 		@table_headers = ["Email", "Actions"]
 		@data_variable = User.new
-		@column_names = @data_variable.attributes.keys.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
+		@path = user_index_path
+		@column_names = [:email, :password, :password_confirmation]
 		respond_to do |format|
-			format.js
+			format.js { render :template => "/partials/new" }
 		end
 	end
 
@@ -15,8 +16,8 @@ class UserController < ApplicationController
 			flash[:notice] = "User successfully created"
 			redirect_to :back
 		else
-			#flash[:error] = "Error when creating TSM"
-			#redirect_to :back
+			flash[:error] = @user.errors
+			redirect_to :back
 		end
 	end
 
@@ -49,7 +50,7 @@ class UserController < ApplicationController
   	@column_names = @data_variable.column_names.keep_if {|value| value == "email" }
   	@column_names << "*******"
 		respond_to do |format|
-			format.js
+			format.js { render :template => "/partials/edit" }
 		end
 	end
 	
@@ -66,7 +67,7 @@ class UserController < ApplicationController
 	private
 
 	def user_params
-		params.require(:user).permit(:email, :password, :password_confirmation)
+		params.require(:user).permit(:email, :password, :password_confirmation, :created_at)
 	end
 
 end

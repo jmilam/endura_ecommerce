@@ -5,7 +5,7 @@
 	</div>
 </div>
 
-<%= form_for :catalog_request do |f| %>
+<%= form_for :catalog_request, url: catalog_request_index_path, method: :post do |f| %>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
@@ -22,19 +22,19 @@
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Sales Representative*' %>
-				<%= f.text_field :sales_rep, class: 'form-control' %>
+				<%= f.select :sales_rep, @sales_reps.map {|rep| rep.name}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label "Territory Sales Manager*"%>
-			<%= f.text_field :tsm, class: 'form-control' %>
+			<%= f.select :tsm, @tsms.map {|tsm| tsm.name}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Company Name*' %>
-				<%= f.text_field :company_name, class: 'form-control' %>
+				<%= f.select :company_name, @customers.map {|customer| customer.company_name}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
 			</div>
 		</div>
 	</div>
@@ -42,7 +42,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Company Contact*' %>
-				<%= f.text_field :company_contact, class: 'form-control' %>
+				<%= f.text_field :company_contact, class: 'form-control company_contact' %>
 			</div>
 		</div>
 	</div>
@@ -50,19 +50,19 @@
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Email*' %>
-				<%= f.text_field :email, class: 'form-control' %>
+				<%= f.text_field :email, class: 'form-control email' %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label "Phone Number*"%>
-			<%= f.text_field :phone_number, class: 'form-control' %>
+			<%= f.text_field :phone_number, class: 'form-control phone_number' %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Shipping Address*' %>
-				<%= f.text_field :ship_address, class: 'form-control' %>
+				<%= f.text_field :ship_address, class: 'form-control ship_address' %>
 			</div>
 		</div>
 	</div>
@@ -70,16 +70,16 @@
 		<div class="col-sm-6 col-md-2 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'City*' %>
-				<%= f.text_field :city, class: 'form-control' %>
+				<%= f.text_field :city, class: 'form-control city' %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-2">
 			<%= f.label "State/Region*"%>
-			<%= f.text_field :sate, class: 'form-control' %>
+			<%= f.text_field :state, class: 'form-control state' %>
 		</div>
 		<div class="col-sm-6 col-md-2">
 			<%= f.label "Zip Code*"%>
-			<%= f.text_field :zipcode, class: 'form-control' %>
+			<%= f.text_field :zipcode, class: 'form-control zipcode' %>
 		</div>
 	</div>
 	<div class="row">
@@ -130,7 +130,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Ultimate Astragal*' %>
-				<%= f.select :ultimate_atragal, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :ultimate_astragal, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -146,7 +146,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Frame Saver*' %>
-				<%= f.select :famesaver, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :framesaver, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -191,7 +191,7 @@
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
-				<%= f.submit 'Submit', class: 'btn btn-block btn-danger' %>
+				<%= f.submit 'Add To Cart', class: 'btn btn-block btn-danger' %>
 			</div>
 		</div>
 	</div>

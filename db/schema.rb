@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310145348) do
+ActiveRecord::Schema.define(version: 20170313204508) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -23,13 +23,13 @@ ActiveRecord::Schema.define(version: 20170310145348) do
     t.string   "phone_number"
     t.string   "ship_address"
     t.string   "city"
-    t.string   "sate"
+    t.string   "state"
     t.string   "zipcode"
     t.string   "produced_by"
     t.integer  "page_count"
     t.string   "endura_intro"
     t.string   "z_cap_sill"
-    t.string   "trilennium_multi_point"
+    t.string   "trillenium_multi_point"
     t.string   "multi_point_astragal"
     t.string   "ultimate_astragal"
     t.string   "flip_lever_astragal"
@@ -52,9 +52,47 @@ ActiveRecord::Schema.define(version: 20170310145348) do
     t.string   "city"
     t.string   "state"
     t.string   "zipcode"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.text     "company_contact", limit: 65535
     t.index ["sales_rep_id"], name: "index_customers_on_sales_rep_id", using: :btree
+  end
+
+  create_table "image_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.date     "date"
+    t.date     "deadline"
+    t.string   "sales_rep"
+    t.string   "tsm"
+    t.string   "company_name"
+    t.string   "company_contact"
+    t.string   "email"
+    t.string   "phone_number"
+    t.string   "request_purpose"
+    t.text     "other_entry",         limit: 65535
+    t.integer  "total_number_images"
+    t.text     "images_needed",       limit: 65535
+    t.string   "file_format"
+    t.binary   "file_1",              limit: 65535
+    t.binary   "file_2",              limit: 65535
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  create_table "order_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "order_id"
+    t.string   "item_type"
+    t.integer  "reference_id"
+    t.integer  "quantity"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.boolean  "current_order",  default: false
+    t.boolean  "order_complete", default: false
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
