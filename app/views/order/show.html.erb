@@ -1,0 +1,117 @@
+<div class="row">
+	<div class="text-center"><h3>Order #<%= @order.id %> Summary</h3></div>
+</div>
+
+<div class="row">
+	<%= form_for '/order', url: order_index_path, method: :post do |f| %>
+		<div class="row">
+			<div class="col-sm-12 col-md-6 col-md-offset-3">
+				<div class="form-group">
+					<%= f.label :deadline %>
+					<%= f.text_field :deadline, class: 'form-control', id: 'deadline' %>
+				</div>
+			</div>
+			<div class="col-sm-12 col-md-6 col-md-offset-3">
+				<%= f.label 'Deadline Reason' %>
+				<%= f.text_area :deadline_reason, class: 'form-control', id: 'deadline_reason' %>
+			</div>
+			<div class="col-sm-12 col-md-6 col-md-offset-3">
+				<%= f.label 'Reason for Placing Order' %>
+				<%= f.text_area :order_reason, class: 'form-control' %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-3 col-md-offset-3">
+				<p>Requester</p>
+				<p><%= current_user.name %></p>
+			</div>
+			<div class="col-sm-6 col-md-3 col-md-offset-1">
+				<p>Email</p>
+				<p><%= current_user.email %></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-6 col-md-offset-3">
+				<%= f.label 'Payment Method' %>
+				<%= f.select :payment_method, @payment_methods.map {|payment| payment}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-6 col-md-offset-3">
+				<%= f.label 'Company Name' %>
+				<%= f.select :company_name, @customers.map {|customer| customer.company_name}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-3 col-md-offset-3">
+				<%= f.label 'Order Recipient' %>
+				<%= f.text_field :order_recipient, class: 'form-control company_contact' %>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<%= f.label :email %>
+				<%= f.text_field :email, class: 'form-control email' %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-3 col-md-offset-3">
+				<%= f.label 'Phone Number' %>
+				<%= f.text_field :phone_number, class: 'form-control phone_number' %>
+			</div>
+			<div class="col-sm-6 col-md-3">
+				<%= f.label :address %>
+				<%= f.text_field :address, class: 'form-control ship_address' %>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-md-3 col-md-offset-3">
+				<%= f.label :city %>
+				<%= f.text_field :city, class: 'form-control city' %>
+			</div>
+			<div class="col-sm-6 col-md-1">
+				<%= f.label :state %>
+				<%= f.text_field :state, class: 'form-control state' %>
+			</div>
+			<div class="col-sm-6 col-md-2">
+				<%= f.label :zipcode %>
+				<%= f.text_field :zipcode, class: 'form-control zipcode' %>
+			</div>
+		</div>
+<!-- 		<div class="row">
+		  <div class="col-sm-6 col-6 col-md-offset-3" style="margin-top:15px;">
+		  	<%#= f.submit 'Next', class: 'btn btn-block btn-danger' %>
+		  </div>
+		</div> -->
+	<% end %>
+</div>
+
+<div class="row" style="margin-top:15px;">
+	<table class="table table-stripped">
+		<thead>
+		</thead>
+			<tr>
+				<th>Product Name</th>
+				<th>Quantity</th>
+				<th>Price</th>
+			</tr>
+		<tbody>
+			<% @items.each do |item| %>
+				<tr>
+					<td><%= @products.find(item.reference_id).name %></td>
+					<td><%= item.quantity %></td>
+					<td><%= number_to_currency(item.item_total) %></td>
+				</tr>
+			<% end %>
+			<tr class="success">
+				<td>Total</td>
+				<td><%= @total_qty %></td>
+				<td><%= number_to_currency(@total_sum) %></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="row">
+	<% if @order.order_complete == false %>
+		<%= link_to "Check Out", order_path(@order.id, job: "checkout"), method: :put, class: "btn btn-block btn-primary" %>
+	<% end %>
+</div>

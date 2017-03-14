@@ -33,7 +33,6 @@ class SalesRepController < ApplicationController
 				"Not saved"
 			end
 		rescue Exception => error
-			p error
 			@response = {response: {success: false, error: "#{error}"}}
 		end
 

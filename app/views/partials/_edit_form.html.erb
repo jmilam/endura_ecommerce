@@ -13,6 +13,8 @@
 						<td><%= Tsm.get_name(data[column_name]) %></td>
 					<% elsif column_name == "sales_rep_id" %>
 						<td><%= SalesRep.get_name(data[column_name]) %></td>
+					<% elsif column_name == "customer_id" %>
+						<td><%= FundsBank.get_customer(data[column_name]) %></td>
 					<% else %>
 						<td><%= data[column_name] %></td>
 					<% end %>
@@ -35,8 +37,9 @@
 	});
 
 	function editForm(){
-		$('.edit_product, .edit_tsm, .edit_user, .edit_sales_rep, .edit_customer').on('click', function(e){
+		$('.edit_product, .edit_tsm, .edit_user, .edit_sales_rep, .edit_customer, .edit_funds_bank').on('click', function(e){
 	    e.preventDefault();
+	    edit_link = $(this).attr('class');
 	    row = $(this).parents('tr');
 	    path = $(this).siblings().attr('href')
 	    if (row.children().length === 3){
@@ -101,22 +104,23 @@
 	    	alert("This amount of edit fields isn't setup.Please set it up, and try again");
 	    }
 	    
-	    updateEdit(path);
-	    cancelEdit(path);
+	    updateEdit(path, edit_link);
+	    cancelEdit(path, edit_link);
 	  });
 	}
 
-	function cancelEdit(path){
+	function cancelEdit(path, edit_link){
   	$('.cancel_edit').on('click', function(e){
 	  	e.preventDefault();
 	  	row = $(this).parents('tr');
-	  	table_name = $(this).parents('table').attr('id').match(/[^_]+/)[0];
+	  	//table_name = $(this).parents('table').attr('id').match(/[^_]+/)[0];
+	  	
 	  	if (row.children().length === 3){
 	  		field_1 = row.children('td:eq(0)').children().val();
 	  		row.children('td:eq(0)').empty();
 		    row.children('td:eq(0)').append(field_1);
 		    row.children('td:eq(1)').empty();
-		    row.children('td:eq(1)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
+		    row.children('td:eq(1)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
 	    } else if (row.children().length == 4){
 	    	field_1 = row.children('td:eq(0)').children().val();
 		    field_2 = row.children('td:eq(1)').children().attr('type') === "password" ? "" : row.children('td:eq(1)').children().val();
@@ -125,7 +129,7 @@
 		    row.children('td:eq(1)').empty();
 		    row.children('td:eq(1)').append(field_2);
 		    row.children('td:eq(2)').empty();
-		    row.children('td:eq(2)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>");
+		    row.children('td:eq(2)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>");
 	    } else if (row.children().length == 5) {
 	  		field_1 = row.children('td:eq(0)').children().val();
 	    	field_2 = row.children('td:eq(1)').children().val();
@@ -137,7 +141,7 @@
 		    row.children('td:eq(2)').empty();
 		    row.children('td:eq(2)').append(field_3);
 		    row.children('td:eq(3)').empty();
-		    row.children('td:eq(3)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
+		    row.children('td:eq(3)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
 	    } else if (row.children().length == 10){
 	    	field_1 = row.children('td:eq(0)').children().val();
 		    field_2 = row.children('td:eq(1)').children().val();
@@ -164,23 +168,24 @@
 		    row.children('td:eq(7)').empty();
 		    row.children('td:eq(7)').append(field_8);
 		    row.children('td:eq(8)').empty();
-		    row.children('td:eq(8)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>");
+		    row.children('td:eq(8)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>");
 	    }
 	    editForm();
   	});
   }
 
-  function updateEdit(path){
+  function updateEdit(path, edit_link){
   	$('.update_edit').on('click', function(e){
   		e.preventDefault();
   		row = $(this).parents('tr');
   		table_name = $(this).parents('table').attr('id').match(/[^_]+/)[0];
+
   		if (row.children().length === 3){
   			field_1 = row.children('td:eq(0)').children().val();
   			row.children('td:eq(0)').empty();
 		    row.children('td:eq(0)').append(field_1);
 		    row.children('td:eq(1)').empty();
-		    row.children('td:eq(1)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
+		    row.children('td:eq(1)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
   			params = {name: field_1}
   		} else if (row.children().length == 4){
 	    	field_1 = row.children('td:eq(0)').children().val();
@@ -190,13 +195,13 @@
 		    row.children('td:eq(1)').empty();
 		    row.children('td:eq(1)').append(field_2);
 		    row.children('td:eq(2)').empty();
-		    row.children('td:eq(2)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
+		    row.children('td:eq(2)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
 		    if (table_name === "sales"){
 		    	params = {tsm: field_1, name: field_2}
 		    } else {
 			    params = {email: field_1, password: field_2}
 		    }
-	    } else if (row.children.length == 5) {
+	    } else if (row.children().length == 5) {
   			field_1 = row.children('td:eq(0)').children().val();
 		    field_2 = row.children('td:eq(1)').children().val();
 		    field_3 = row.children('td:eq(2)').children().val();
@@ -207,8 +212,12 @@
 		    row.children('td:eq(2)').empty();
 		    row.children('td:eq(2)').append(field_3);
 		    row.children('td:eq(3)').empty();
-		    row.children('td:eq(3)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
-		    params = {name: field_1, price: field_2, group: field_3}
+		    row.children('td:eq(3)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
+		    if (table_name === "funds"){
+		    	params = {customer_name: field_1, marketing_allowance: field_2, allocated_amt: field_3}
+		    } else {
+		    	params = {name: field_1, price: field_2, group: field_3}		    	
+		    }
   		} else if (row.children().length == 10){
 	    	field_1 = row.children('td:eq(0)').children().val();
 		    field_2 = row.children('td:eq(1)').children().val();
@@ -235,7 +244,7 @@
 		    row.children('td:eq(7)').empty();
 		    row.children('td:eq(7)').append(field_8);
 		    row.children('td:eq(8)').empty();
-		    row.children('td:eq(8)').append("<a class='edit_" + table_name + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>");
+		    row.children('td:eq(8)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>");
 		    params = {sales_rep: field_1, company_name: field_2, contact_email: field_3, phone_number: field_4, address: field_5, city: field_6, state: field_7, zipcode: field_8}
 	    }
 	  	

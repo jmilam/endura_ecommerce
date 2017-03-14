@@ -7,6 +7,7 @@ class UserPortalController < ApplicationController
     @customers = Customer.all
     @img_request_purpose = ["Advertisement", "System Brochure", "Single Product Brochure", "Website", "Other"]
     @file_formats = ["JPEG", "PNG", "TIFF", "GIF"]
+    
     @groups = Hash.new
     @products.map {|product| @groups[product.group] = Array.new }.uniq
     @products.each {|product| @groups[product.group].push(product)}

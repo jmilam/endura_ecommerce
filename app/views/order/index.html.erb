@@ -9,17 +9,27 @@
 	<table class="table table-striped">
 		<thead>
 				<th/>
+				<th>Items in Cart</th>
+				<th>Order Total</th>
 				<th>Current Order</th>
 				<th>Order Complete</th>
 				<th>Order Date</th>
+				<th/>
 		</thead>
 		<tbody>
 			<% @orders.each_with_index do |order, idx| %>
 			  <tr>
 			  	<td><%= idx + 1 %></td>
+			  	<td><%= order.order_items.count %></td>
+			  	<td><%= number_to_currency(order.sum) %></td>
 			  	<td><%= order.current_order %></td>
 			  	<td><%= order.order_complete %></td>
 			  	<td><%= order.updated_at %></td>
+			  	<% if order.order_complete %>
+			  		<td><%= link_to 'View Order', order_path(order.id), class: 'btn btn-sm btn-warning' %></td>
+			  	<% else %>
+			  		<td><%= link_to 'Checkout', order_path(order.id), class: 'btn btn-sm btn-primary' %></td>
+			  	<% end %>
 			  </tr>
 			<% end %>
 		</tbody>

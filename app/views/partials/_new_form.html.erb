@@ -24,6 +24,8 @@
 				    	  <%= f.select @select_id.to_sym, @select_box_data.map {|data| [data,data]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 				    	<% elsif /sales_rep_id/.match(name.downcase) %>
 				    		<%= f.select @select_id.to_sym, @select_box_data.map {|data| [data.name,data.id]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				    	<% elsif /customer_id/.match(name.downcase) %>
+				    		<%= f.select @select_id.to_sym, @select_box_data.map {|data| [data.company_name,data.id]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 				    	<% else %>
 					      <%= f.text_field name, autofocus: true, class: "form-control" %>
 					    <% end %>

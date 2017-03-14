@@ -29,7 +29,8 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li>
                       <%= link_to order_index_path do %>
-                        <%= image_tag "cart_light.png", height: "50", data: {title: "5"}%>
+                      <div id="cart_count"><%= @cart_count %></div>
+                        <%= image_tag "cart_light.png", height: "50", data: {title: "5"} %>
                       <% end %>
                     </li>
                     <li>
