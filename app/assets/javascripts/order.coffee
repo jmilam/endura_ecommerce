@@ -3,10 +3,15 @@ $(document).on "turbolinks:load", ->
 
   $('#date').datepicker
     dateFormat: 'yy-mm-dd'
+  
   $('#deadline').datepicker
     dateFormat: 'yy-mm-dd'
-  $("#image_request_company_name, #catalog_request_company_name, #_order_company_name").on 'change', ->
-    ajaxCompanyRequest $(this).val(), '/customer/1', 'GET'
+  
+  $('.right').tooltip
+    placehment: 'right'
+
+  $("#image_request_company_name, #catalog_request_company_name, #order_company_id").on 'change', ->
+    ajaxCompanyRequest $(this).find('option:selected').text(), '/customer/1', 'GET'
 
   ajaxCompanyRequest = (company_name, url, request_type) ->
   	$.ajax

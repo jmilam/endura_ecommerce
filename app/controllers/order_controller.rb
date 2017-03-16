@@ -14,9 +14,8 @@ class OrderController < ApplicationController
 	end
 
 	def update
-		@order = Order.find(params[:id])
 		if params[:job] == "checkout"
-			if @order.update(order_complete: true, current_order: false)
+			if Order.update(params[:id], deadline: params[:deadline], deadline_reason: params[:deadline_reason], payment_method: params[:payment_method], company_id: params[:company_id], order_reason: params[:order_reason], order_complete: true, current_order: false)
 				flash[:notice] = "Your order was placed!"
 			else
 				flash[:errors] = @order.errors

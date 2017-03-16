@@ -15,8 +15,8 @@ $(document).on "turbolinks:load", ->
   $('.add_to_cart').on 'click', ->
     qty = $(this).parent().siblings('.item_qty').children('.item_qty_input').val()
     item_desc = $(this).parent().siblings('.product_name_container').text()
-    console.log qty
-    ajaxCartRequest $(this).val(), '/order_item', 'POST', item_desc, qty, $(this)
+    item_note = $(this).parent().siblings('.notes').children('textarea').val()
+    ajaxCartRequest $(this).val(), '/order_item', 'POST', item_desc, qty, $(this), item_note
 
   $('.item_qty_input').on 'keyup', ->
     if $(this).val() == ''
@@ -29,13 +29,13 @@ $(document).on "turbolinks:load", ->
       else
         $(this).parent().siblings('.total_cost').text("$" + item_cost * qty)
 
-  ajaxCartRequest = (company_name, url, request_type, item_desc, qty, object) ->
+  ajaxCartRequest = (company_name, url, request_type, item_desc, qty, object, note) ->
     $.ajaxSetup headers: 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
     $.ajax
       url: url
       type: request_type
       dataType: 'json'
-      data: qty: qty, item_desc: item_desc
+      data: qty: qty, item_desc: item_desc, note: note
       success: (response) ->
         response = JSON.stringify response
         response = JSON.parse response

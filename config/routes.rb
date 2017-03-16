@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   get 'user_portal/index'
 
   post 'product/upload'
-  devise_for :users
+  devise_for :users, controllers: {
+    registrations: 'users/registrations'
+  }
   resources :user
   resources :user_portal
   resources :product

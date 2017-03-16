@@ -1,9 +1,16 @@
 class ImageRequestController < ApplicationController
 	def create
 		@image_request = ImageRequest.new(image_params)
+		@user = current_user
 
 		begin
 			if @image_request.save
+				if Order.current_order?(@user).empty?
+					create_new_order("image_request", @image_request.id, 1)
+				else
+					update_order("image_request", @image_request.id, 1)
+				end
+
 				flash[:notice] = "Request Form successfully created"
 				redirect_to :back
 			else

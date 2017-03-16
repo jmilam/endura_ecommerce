@@ -3,26 +3,24 @@ class CatalogRequestController < ApplicationController
 		@catalog = CatalogRequest.new(catalog_params)
 		@user = current_user
 
-		#begin
+		begin
 			if @catalog.save
 				if Order.current_order?(@user).empty?
-					@order = @user.orders.create(current_order: true)
-					@order.order_items.create(item_type: "catalog_request", reference_id: @catalog.id, quantity: 1)
+					create_new_order("catalog_request", @catalog.id, 1)
 				else
-					@order = Order.current_order?(@user).last
-					@order.order_items.create(item_type: "catalog_request", reference_id: @catalog.id, quantity: 1)
+					update_order("catalog_request", @catalog.id, 1)
 				end
 
 				flash[:notice] = "Request Form successfully created"
 				redirect_to :back
 			else
-				flash[:error] = @catalog.errors
+				flash[:errors] = @catalog.errors
 				redirect_to :back
 			end
-		# rescue 
-		# 	flash[:error] = @catalog.errors
-		# 	redirect_to :back
-		# end
+		rescue 
+			flash[:errors] = @catalog.errors
+			redirect_to :back
+		end
 	end
 
 	private
