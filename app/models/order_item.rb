@@ -1,6 +1,6 @@
 class OrderItem < ApplicationRecord
 	validates :item_type, :reference_id, :quantity, :item_total, presence: true
-	belongs_to :order
+	belongs_to :order, dependent: :destroy
 
 	def product_name_by_product_type
 		case self.item_type

@@ -69,10 +69,14 @@
   	                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   	                <strong>Error!</strong> 
   	                <ul>
-  	                  <% flash[:error].each do |error| %>
-  	                      <li><%= error %></li>
+                      <% if flash[:error].class == String %>
+                        <li><%= flash[:error] %></li>
+                      <% else %>
+    	                  <% flash[:error].each do |error| %>
+    	                      <li><%= error %></li>
+    	                  <% end %>
   	                  <% end %>
-  	                </ul>
+                    </ul>
   	              </div>
   	            <% end %>
   	        </div>

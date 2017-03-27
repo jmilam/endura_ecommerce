@@ -19,7 +19,6 @@ class ApplicationController < ActionController::Base
   end
 
   def update_order(item_type, reference_id, quantity)
-    p current_user
     @order = Order.current_order?(current_user).last
     @order.order_items.create(item_type: item_type, reference_id: reference_id, quantity: quantity)
   end

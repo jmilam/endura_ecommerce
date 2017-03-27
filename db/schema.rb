@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316133538) do
+ActiveRecord::Schema.define(version: 20170327203741) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -60,10 +60,9 @@ ActiveRecord::Schema.define(version: 20170316133538) do
 
   create_table "funds_banks", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "customer_id"
-    t.float    "marketing_allowance", limit: 24, default: 0.0
-    t.float    "allocated_amt",       limit: 24, default: 0.0
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.float    "allocated_amt", limit: 24, default: 0.0
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.index ["customer_id"], name: "index_funds_banks_on_customer_id", using: :btree
   end
 
@@ -109,6 +108,11 @@ ActiveRecord::Schema.define(version: 20170316133538) do
     t.text     "payment_method",  limit: 65535
     t.integer  "company_id"
     t.text     "order_reason",    limit: 65535
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zipcode"
+    t.boolean  "accepted"
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -124,6 +128,7 @@ ActiveRecord::Schema.define(version: 20170316133538) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "email"
     t.index ["tsm_id"], name: "index_sales_reps_on_tsm_id", using: :btree
   end
 
@@ -131,6 +136,7 @@ ActiveRecord::Schema.define(version: 20170316133538) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "email"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

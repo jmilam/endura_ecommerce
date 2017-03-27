@@ -12,7 +12,7 @@
 				<th>Items in Cart</th>
 				<th>Order Total</th>
 				<th>Current Order</th>
-				<th>Order Complete</th>
+				<th>Order Accepted</th>
 				<th>Order Date</th>
 				<th/>
 		</thead>
@@ -22,13 +22,13 @@
 			  	<td><%= idx + 1 %></td>
 			  	<td><%= order.order_items.count %></td>
 			  	<td><%= number_to_currency(order.sum) %></td>
-			  	<td><%= order.current_order %></td>
-			  	<td><%= order.order_complete %></td>
-			  	<td><%= order.updated_at %></td>
+			  	<td><span class="<%= Order.show_glyph(order.order_complete) %>"></span></td>
+			  	<td><span class="<%= Order.show_glyph(order.accepted) %>"></span></td>
+			  	<td><%= order.created_at.strftime("%m/%d/%Y") %></td>
 			  	<% if order.order_complete %>
 			  		<td><%= link_to 'View Order', order_path(order.id), class: 'btn btn-sm btn-warning' %></td>
 			  	<% else %>
-			  		<td><%= link_to 'Checkout', order_path(order.id), class: 'btn btn-sm btn-primary' %></td>
+			  		<td><%= link_to 'Checkout', order_path(order.id), class: 'btn btn-sm btn-primary' %> <%= link_to 'Delete', order_path(order.id), method: :delete, data: {confirm: "Are you sure you want to delete your current order? This will delete all items in your cart." }, style: "vertical-align:bottom;" %></td>
 			  	<% end %>
 			  </tr>
 			<% end %>

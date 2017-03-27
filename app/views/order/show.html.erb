@@ -1,4 +1,7 @@
 <div class="row">
+	<%= link_to "<< Back", order_index_path %>
+</div>
+<div class="row">
 	<div class="text-center"><h3>Order #<%= @order.id %> Summary</h3></div>
 </div>
 <%= form_for :order, url: order_path(@order.id, job: "checkout"), method: :put do |f| %>
@@ -58,7 +61,7 @@
 					<%= text_field_tag :phone_number, nil, class: 'form-control phone_number' %>
 				</div>
 				<div class="col-sm-6 col-md-3">
-					<%= f.label :address %>
+					<%= f.label 'Shipping address' %>
 					<%= text_field_tag :address, nil, class: 'form-control ship_address' %>
 				</div>
 			</div>
@@ -96,7 +99,7 @@
 						<td><%= item.product_name_by_product_type() %></td>
 						<td><%= item.quantity %></td>
 						<td><%= number_to_currency(item.item_total) %></td>
-						<td><% unless item.note.nil? %><span class="glyphicon glyphicon-info-sign text-primary right" title='<%= item.note %>'></span> <% end %></td>
+						<td><% unless item.note.nil? || item.note.empty? %><span class="glyphicon glyphicon-info-sign text-primary right" title='<%= item.note %>'></span> <% end %></td>
 						<td><%= link_to "Delete", order_item_path(item.id), method: :delete, data: {confirm: "Are you sure you want to remove this item from your cart?"} if @order.current_order == true && @order.order_complete == false %></td>
 					</tr>
 				<% end %>
@@ -115,5 +118,11 @@
 		<% if @order.order_complete == false %>
 			<%= f.submit "Check Out",  class: "btn btn-block btn-primary" %>
 		<% end %>
+	</div>
+
+	<div class="row">
+	<% if @order.accepted.nil?  && @order.order_complete %>
+		<div class="pull-right"><%= link_to "Approve", order_path(@order.id, accepted: true, job: "approve"), method: :put, class: 'btn btn-success' %> <%= link_to "Decline", order_path(@order.id, accepted: false, job: "approve"), method: :put, class: 'btn btn-danger' %></div>
+	<% end %>
 	</div>
 <% end %>
