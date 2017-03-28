@@ -23,6 +23,16 @@ class CatalogRequestController < ApplicationController
 		end
 	end
 
+	def show
+		@sales_reps = SalesRep.all
+		@tsms = Tsm.all
+		@customers = Customer.all
+		@produced_by = ["Customer", "Endura Marketing"]
+    @page_sizes = ["1/8 page", "1/4 page", "3/8 page", "1/2 page", "5/8 page", "3/4 page", "7/8 page", "full page"]
+
+		@catalog_request = CatalogRequest.find(params[:id])
+	end
+
 	private
 
 	def catalog_params

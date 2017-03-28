@@ -1,15 +1,15 @@
 FactoryGirl.define do
   factory :order do
     current_order			true
-    order_complete		false
-    deadline					nil
-    deadline_reason		nil
-    payment_method		nil
+    order_complete		    false
+    deadline				'2012-12-25'
+    deadline_reason		    'Test Order'
+    payment_method		    'Rebate/Marketing Funds'
     company_id				nil
-    order_reason			nil
-    address						nil
-    city							nil
-    state							nil
-    zipcode						nil
+    order_reason			'To test order functions'
+    address					'8817 W Market St'
+    city					'Colfax'
+    state					'NC'
+    zipcode					27235
   end
 end

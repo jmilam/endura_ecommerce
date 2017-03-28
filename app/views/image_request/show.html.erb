@@ -1,0 +1,123 @@
+<div class="row">
+	<div class="centered">
+		<%= image_tag 'powered_by.png' %>
+		<h1>Image Request Form</h1>
+	</div>
+</div>
+
+<%= form_for :image_request, url: image_request_index_path, method: :post do |f| %>
+	<div class="row">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label :date %>
+				<%= f.text_field :date, class: 'form-control', id: 'date' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<%= f.label :deadline %>
+			<%= f.text_field :deadline, class: 'form-control', id: 'deadline' %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Sales Representative*' %>
+				<%= f.select :sales_rep, @sales_reps.map {|rep| rep.name}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<%= f.label "Territory Sales Manager*"%>
+			<%= f.select :tsm, @tsms.map {|tsm| tsm.name}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Company Name*' %>
+				<%= f.select :company_name, @customers.map {|customer| customer.company_name}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+				
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Company Contact*' %>
+				<%= f.text_field :company_contact, class: 'form-control company_contact' %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Email*' %>
+				<%= f.text_field :email, class: 'form-control email' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<%= f.label "Phone Number*"%>
+			<%= f.text_field :phone_number, class: 'form-control phone_number' %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Purpose of Image Request*' %>
+				<%= f.label 'Where will the image(s) be placed?' %>
+				<%= f.select :request_purpose, @img_request_purpose.map {|purpose| purpose}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Other Entry' %>
+				<%= f.label 'If Other, please include the description below' %>
+				<%= f.text_area :other_entry, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Total # of Images Needed*' %>
+				<%= f.text_field :total_number_images, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Image(s) Needed*' %>
+				<%= f.text_area :images_needed, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'File Format Needed*' %>
+				<%= f.select :file_format, @file_formats.map {|format| format}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Attach a file' %>
+				<%= f.file_field :file_1 %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<%= f.label "Attache a second file"%>
+			<%= f.file_field :file_2 %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= link_to 'Print', '#', class: 'btn btn-block btn-danger' %>
+			</div>
+		</div>
+	</div>
+<% end %>

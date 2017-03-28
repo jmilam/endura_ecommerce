@@ -42,6 +42,7 @@
 	    edit_link = $(this).attr('class');
 	    row = $(this).parents('tr');
 	    path = $(this).siblings().attr('href')
+
 	    if (row.children().length === 3){
 	    	field_1 = row.children('td:eq(0)').text();
 	    	row.children('td:eq(0)').empty();
@@ -179,7 +180,7 @@
   		e.preventDefault();
   		row = $(this).parents('tr');
   		table_name = $(this).parents('table').attr('id').match(/[^_]+/)[0];
-
+  		console.log(table_name)
   		if (row.children().length === 3){
   			field_1 = row.children('td:eq(0)').children().val();
   			row.children('td:eq(0)').empty();
@@ -196,8 +197,9 @@
 		    row.children('td:eq(1)').append(field_2);
 		    row.children('td:eq(2)').empty();
 		    row.children('td:eq(2)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
-		    if (table_name === "sales"){
-		    	params = {tsm: field_1, name: field_2}
+		    console.log(table_name);
+		    if (table_name === "tsm"){
+		    	params = {name: field_1, email: field_2}
 		    } else {
 			    params = {email: field_1, password: field_2}
 		    }
@@ -214,7 +216,9 @@
 		    row.children('td:eq(3)').empty();
 		    row.children('td:eq(3)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
 		    if (table_name === "funds"){
-		    	params = {customer_name: field_1, marketing_allowance: field_2, allocated_amt: field_3}
+		    	params = {customer_name: field_1, allocated_amt: field_2, current_bal: field_3}
+		    } else if (table_name === "sales"){
+		    	params = {tsm: field_1, name: field_2, email: field_3}
 		    } else {
 		    	params = {name: field_1, price: field_2, group: field_3}		    	
 		    }

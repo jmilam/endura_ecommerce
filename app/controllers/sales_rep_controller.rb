@@ -27,7 +27,7 @@ class SalesRepController < ApplicationController
 	def update
 		begin
 			@tsm = Tsm.find_by_name(params[:tsm])
-			if SalesRep.update(params[:id], name: params[:name], tsm_id: @tsm.id)
+			if SalesRep.update(params[:id], name: params[:name], email: params[:email], tsm_id: @tsm.id)
 				@response = {response: {success: true}}
 			else
 				"Not saved"
@@ -43,7 +43,7 @@ class SalesRepController < ApplicationController
 
 	def edit
 		@type = "sales_rep"
-  	@table_headers = ["TSM", "Name", "Actions"]
+  	@table_headers = ["TSM", "Name", "Email", "Actions"]
   	@data_variable = SalesRep.all
   	@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
@@ -62,6 +62,6 @@ class SalesRepController < ApplicationController
 	private
 
 	def sales_rep_params
-		params.require(:sales_rep).permit(:name)
+		params.require(:sales_rep).permit(:name, :email)
 	end
 end

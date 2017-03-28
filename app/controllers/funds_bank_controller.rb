@@ -27,7 +27,7 @@ class FundsBankController < ApplicationController
 
 	def edit
 		@type = "funds_bank"
-		@table_headers = ["Customer", "Marketing Allowance", "Allocated Amt.", "Actions"]
+		@table_headers = ["Customer", "Allocated Amt.", "Current Balance", "Actions"]
 		@data_variable = FundsBank.all.includes(:customer)
 		@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
@@ -38,7 +38,7 @@ class FundsBankController < ApplicationController
 	def update
 		begin
 			@customer = Customer.find_by_company_name(params[:customer_name])
-			if FundsBank.update(params[:id], marketing_allowance: params[:marketing_allowance], allocated_amt: params[:allocated_amt], customer_id: @customer.id)
+			if FundsBank.update(params[:id], allocated_amt: params[:allocated_amt], current_bal: params[:current_bal], customer_id: @customer.id)
 				@response = {response: {success: true}}
 			else
 				"Not saved"
@@ -55,6 +55,6 @@ class FundsBankController < ApplicationController
 	private
 
 	def funds_bank_params
-		params.require(:funds_bank).permit(:customer_id, :marketing_allowance, :allocated_amt)
+		params.require(:funds_bank).permit(:customer_id, :allocated_amt, :current_bal)
 	end
 end

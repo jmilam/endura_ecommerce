@@ -23,7 +23,7 @@ class TsmController < ApplicationController
 
   def edit
   	@type = "tsm"
-  	@table_headers = ["Name", "Actions"]
+  	@table_headers = ["Name", "Email", "Actions"]
   	@data_variable = Tsm.all
   	@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
@@ -33,7 +33,7 @@ class TsmController < ApplicationController
 
   def update
   	begin
-			if Tsm.update(params[:id], name: params[:name])
+			if Tsm.update(params[:id], name: params[:name], email: params[:email])
 				@response = {response: {success: true}}
 			else
 				"Not saved"
@@ -60,6 +60,6 @@ class TsmController < ApplicationController
   private
 
   def tsm_params
-  	params.require(:tsm).permit(:name)
+  	params.require(:tsm).permit(:name, :email)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170327203741) do
+ActiveRecord::Schema.define(version: 20170328162928) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20170327203741) do
     t.float    "allocated_amt", limit: 24, default: 0.0
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
+    t.integer  "current_bal",              default: 0
     t.index ["customer_id"], name: "index_funds_banks_on_customer_id", using: :btree
   end
 

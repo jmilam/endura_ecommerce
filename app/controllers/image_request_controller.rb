@@ -23,6 +23,16 @@ class ImageRequestController < ApplicationController
 		end
 	end
 
+	def show
+		@sales_reps = SalesRep.all
+		@tsms = Tsm.all
+		@customers = Customer.all
+		@img_request_purpose = ["Advertisement", "System Brochure", "Single Product Brochure", "Website", "Other"]
+    @file_formats = ["JPEG", "PNG", "TIFF", "GIF"]
+		@image_request = ImageRequest.find(params[:id])
+
+	end
+
 	private
 
 	def image_params

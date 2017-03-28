@@ -1,0 +1,19 @@
+<%= form_for :report, url: report_index_path, method: :post do |f| %>
+<table class="table">
+	<thead>
+		<tr>
+			<th colspan=2 class="text-muted text-center">Please enter the date range you want to run the report for.</th>
+		</tr>
+		<tr>
+			<th style="text-align:right;">Start Date: <%= f.text_field :start_date, id: 'date' %></th>
+			<th>End Date: <%= f.text_field :end_date, id: 'deadline' %></th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><%= f.submit 'All approved/rejected orders', class: 'btn btn-primary' %></td>
+			<td><%= f.submit 'Fund Tracking', class: 'btn btn-primary' %></td>
+		</tr>
+	</tbody>
+</table>
+<% end %>

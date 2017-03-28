@@ -1,6 +1,10 @@
 class OrderController < ApplicationController
 	def index
-		@orders = current_user.admin? ? Order.all.includes(:order_items) : current_user.orders.includes(:order_items)
+		if params[:overview]
+			@orders = current_user.admin? ? Order.all.includes(:order_items) : current_user.orders.includes(:order_items)
+		else
+			@orders = current_user.orders.current
+		end
 	end
 
 	def show
@@ -46,7 +50,7 @@ class OrderController < ApplicationController
 			else
 			end
 		rescue => error
-			p flash[:error] = error
+			flash[:error] = error
 		end
 
 		redirect_to order_index_path
