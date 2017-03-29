@@ -10,14 +10,14 @@ set :use_sudo, false
 
 set :deploy_via, :remote_cache
 
-set :ssh_options,     { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
+set :ssh_options, { forward_agent: true, user: fetch(:user), keys: %w(~/.ssh/id_rsa.pub) }
 
 ## Defaults:
 set :scm,           :git
+set :keep_releases, 5
+#et :assets_roles, [:web, :app]
 # set :format,        :pretty
 # set :log_level,     :debug
-set :keep_releases, 5
-set :assets_roles, [:web, :app]
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
@@ -46,7 +46,7 @@ set :assets_roles, [:web, :app]
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-set :linked_files, %w{config/database.yml}
+#set :linked_files, %w{config/database.yml}
 
 namespace :deploy do
 
@@ -58,15 +58,13 @@ namespace :deploy do
     end
   end
 
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
-  end
-
-  after "deploy:restart"
+  # after :restart, :clear_cache do
+  #   on roles(:web), in: :groups, limit: 3, wait: 10 do
+  #     # Here we can do anything such as:
+  #     # within release_path do
+  #     #   execute :rake, 'cache:clear'
+  #     # end
+  #   end
+  # end
 
 end
