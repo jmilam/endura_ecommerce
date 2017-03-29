@@ -109,6 +109,10 @@
 									<%= link_to catalog_request_path(item.reference_id)  do %>
 										<span class="glyphicon glyphicon-eye-open text-primary right" title='Click for details'></span> 
 									<% end %>
+								<% elsif item.product_name_by_product_type == "Tradeshow Support Request" %>
+									<%= link_to tradeshow_support_request_path(item.reference_id)  do %>
+										<span class="glyphicon glyphicon-eye-open text-primary right" title='Click for details'></span> 
+									<% end %>
 								<% end %>
 							<% else %>
 								<span class="glyphicon glyphicon-info-sign text-primary right" title='<%= item.note %>'></span> 

@@ -1,0 +1,238 @@
+<div class="row">
+	<div class="centered">
+		<%= image_tag 'powered_by.png' %>
+		<h1>Tradeshow Support Request Form</h1>
+	</div>
+</div>
+
+<%= form_for :tradeshow_request, url: tradeshow_support_request_index_path, method: :post do |f| %>
+	<div class="row">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'First Name*' %>
+				<%= f.text_field :first_name, class: 'form-control' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<%= f.label 'Last Name*' %>
+			<%= f.text_field :last_name, class: 'form-control' %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Phone Number*' %>
+				<%= f.text_field :phone_number, class: 'form-control' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<%= f.label 'Email*' %>
+			<%= f.text_field :email, class: 'form-control' %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Show Name' %>
+				<%= f.text_field :show_name, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Show Start Date*' %>
+				<%= f.text_field :start_date, class: 'form-control', id: 'date' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<%= f.label 'Show End Date*' %>
+			<%= f.text_field :end_date, class: 'form-control', id: 'deadline' %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Street Address*' %>
+				<%= f.text_field :address, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-2 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'City*' %>
+				<%= f.text_field :city, class: 'form-control' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<%= f.label 'State*' %>
+			<%= f.text_field :state, class: 'form-control' %>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<%= f.label 'Zipcode*' %>
+			<%= f.text_field :zipcode, class: 'form-control' %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Booth Number*' %>
+				<%= f.text_field :booth_num, class: 'form-control' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<%= f.label 'Booth Dimensions*' %>
+			<%= f.text_field :booth_dimensions, class: 'form-control' %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Size of Show*' %>
+				<%= f.select :show_size, @show_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control'} %>
+				<%= f.label 'Please select an option from the dropdown', class: 'text-muted' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-3">
+			<%= f.label 'Target Market*' %>
+			<%= f.select :target_market, @target_markets.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control'} %>
+			<%= f.label 'Please select an option from the dropdown', class: 'text-muted' %>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-2 col-md-offset-3">
+			<div class="form-group">
+					<%= f.check_box :z_cap_sill %>
+					<%= f.label "Z-Articulating Cap Sill" %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="form-group">
+				<%= f.check_box :ada_sills %>
+				<%= f.label "ADA Sills" %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-2 col-md-offset-3">
+			<div class="form-group">
+					<%= f.check_box :zai_sills %>
+					<%= f.label "ZAI Sills" %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="form-group">
+				<%= f.check_box :trilennium_multi_point_locking %>
+				<%= f.label "Trilennium Multi-Point Locking System" %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-2 col-md-offset-3">
+			<div class="form-group">
+					<%= f.check_box :multi_point_astragal %>
+					<%= f.label "Multi-Point Astragal" %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="form-group">
+				<%= f.check_box :ultimate_astragal %>
+				<%= f.label "Ultimate Astragal" %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-2 col-md-offset-3">
+			<div class="form-group">
+				<%= f.check_box :weathersealing %>
+				<%= f.label "Weathersealing" %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4">
+			<div class="form-group">
+				<%= f.check_box :framesaver %>
+				<%= f.label "Framesaver" %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
+			<div class="form-group">
+				<%= f.check_box :ultimate_flip_lever_astragal %>
+				<%= f.label "Ultimate Flip Lever Astragal" %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label "Please select at least one option", class: "text-muted" %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Number of Endura Attendees*' %>
+				<%= f.select :number_of_attendees, @attendees_count.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control'}  %>
+				<%= f.label "Please select an option from the dropdown", class: "text-muted" %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Do you need registration assistance?*' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<%= f.radio_button :registration_assistance, class: 'form-control' %><div class="text-muted">Yes</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'If YES above, please upload full attendee list*' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<%= f.file_field :attendee_list %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Do you need registration assistance?*' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<%= f.radio_button :credit_issued, class: 'form-control' %><div class="text-muted">Yes</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'If YES above, please upload show credit documentation*' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<%= f.file_field :credit_documentation %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= link_to 'Print', '#', class: 'btn btn-block btn-danger' %>
+			</div>
+		</div>
+	</div>
+<% end %>

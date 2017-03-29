@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170328162928) do
+ActiveRecord::Schema.define(version: 20170329184304) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -131,6 +131,40 @@ ActiveRecord::Schema.define(version: 20170328162928) do
     t.datetime "updated_at", null: false
     t.string   "email"
     t.index ["tsm_id"], name: "index_sales_reps_on_tsm_id", using: :btree
+  end
+
+  create_table "tradeshow_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "phone_number"
+    t.string   "email"
+    t.string   "show_name"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zipcode"
+    t.string   "booth_num"
+    t.string   "booth_dimensions"
+    t.string   "show_size"
+    t.string   "target_market"
+    t.boolean  "z_cap_sill",                                   default: false
+    t.boolean  "ada_sills",                                    default: false
+    t.boolean  "zai_sills",                                    default: false
+    t.boolean  "trilennium_multi_point_locking",               default: false
+    t.boolean  "multi_point_astragal",                         default: false
+    t.boolean  "ultimate_astragal",                            default: false
+    t.boolean  "ultimate_flip_lever_astragal",                 default: false
+    t.boolean  "framesaver",                                   default: false
+    t.boolean  "weathersealing",                               default: false
+    t.integer  "number_of_attendees",                          default: 0
+    t.boolean  "registration_assistance",                      default: false
+    t.boolean  "credit_issued",                                default: false
+    t.binary   "attendee_list",                  limit: 65535
+    t.binary   "credit_documentation",           limit: 65535
+    t.datetime "created_at",                                                   null: false
+    t.datetime "updated_at",                                                   null: false
   end
 
   create_table "tsms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

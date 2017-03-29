@@ -1,0 +1,2 @@
+class TradeshowRequest < ApplicationRecord
+end

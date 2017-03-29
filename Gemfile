@@ -63,6 +63,8 @@ gem 'autoprefixer-rails'
 gem 'passenger'
 gem 'spreadsheet'
 gem 'jquery-ui-rails'
+gem 'prawn'
+gem 'prawn-table'
 
 gem 'city-state'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

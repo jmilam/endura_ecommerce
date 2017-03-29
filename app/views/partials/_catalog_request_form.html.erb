@@ -162,7 +162,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Other*' %>
-				<%= f.label 'If selected, please include the requested product in the description box below' %>
+				<%= f.label 'If selected, please include the requested product in the description box below', class: 'text-muted' %>
 				<%= f.select :other, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
@@ -171,7 +171,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Description*' %>
-				<%= f.label 'Please describe the specific catalogue details - How will this be used?' %>
+				<%= f.label 'Please describe the specific catalogue details - How will this be used?', class: 'text-muted' %>
 				<%= f.text_area :other_desc, class: 'form-control' %>
 			</div>
 		</div>

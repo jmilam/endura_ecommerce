@@ -7,6 +7,9 @@ class UserPortalController < ApplicationController
     @customers = Customer.all
     @img_request_purpose = ["Advertisement", "System Brochure", "Single Product Brochure", "Website", "Other"]
     @file_formats = ["JPEG", "PNG", "TIFF", "GIF"]
+    @attendees_count = (1..20).to_a
+    @show_sizes = ["Small (Tabletops)", "Medium (Tabletops and Door Displays)", "Large (Full show display)"]
+    @target_markets = ["Endura Customers", "Builders", "Dealers"]
     
     @groups = Hash.new
     @products.map {|product| @groups[product.group] = Array.new }.uniq

@@ -10,6 +10,8 @@ class OrderItem < ApplicationRecord
 			Product.find(self.reference_id).name
 		when "image_request"
 			"Image Request"
+		when "tradeshow_request"
+			"Tradeshow Support Request"
 		else
 			"Product not defined"
 		end
