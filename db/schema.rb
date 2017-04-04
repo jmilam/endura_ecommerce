@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329184304) do
+ActiveRecord::Schema.define(version: 20170404200925) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -87,6 +87,15 @@ ActiveRecord::Schema.define(version: 20170329184304) do
     t.datetime "updated_at",                        null: false
   end
 
+  create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.float    "price",      limit: 24
+    t.string   "group"
+    t.string   "file_name"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
   create_table "order_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_id"
     t.string   "item_type"
@@ -122,6 +131,7 @@ ActiveRecord::Schema.define(version: 20170329184304) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.text     "group",      limit: 65535
+    t.string   "file_name"
   end
 
   create_table "sales_reps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

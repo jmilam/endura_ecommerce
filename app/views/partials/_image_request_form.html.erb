@@ -1,10 +1,35 @@
-<div class="row">
+ <div class="row">
 	<div class="centered">
-		<%= image_tag 'powered_by.png' %>
+		<%#= image_tag 'powered_by.png' %>
 		<h1>Image Request Form</h1>
 	</div>
 </div>
 
+<div class="row" style="margin-top:10px;">
+	<% @images.each do |image| %>
+  	<div class="col-sm-6 col-md-4">
+    	<div class="thumbnail">
+      	<%= image_tag image.show_image, size: 70 %>
+      	<p class="text-center product_name_container"><%= image.name %></p>
+      	<p><div class="text-center item_cost"><%= number_to_currency(image.price) %></div></p>
+      	<div class="col-md-10 col-md-offset-1 item_qty"><p class="text-center">Qty: <%= text_field_tag :qty, 0, class: "form-control text-center item_qty_input"%></p></div>
+      	<div class="text-center"><%= label_tag 'Total Cost:' %></div>
+      	<div class='total_cost text-center'><%= label_tag '$0.00'%></div>
+      	<div class="form-group notes col-md-10 col-md-offset-1">
+      		<%= label_tag 'Image Type:' %>
+      		<%= select :notes, nil, @file_formats.map {|file_format| file_format}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+      	</div>
+      	<p class="text-center"><%= link_to 'Add to Cart', nil, remote: true, class: 'btn btn-danger add_to_cart' %></p>
+      	<div class="update_response text-center text-success"></div>
+		  </div>
+		</div>
+		
+	<% end %>
+</div>
+
+
+
+<!--
 <%= form_for :image_request, url: image_request_index_path, method: :post do |f| %>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">

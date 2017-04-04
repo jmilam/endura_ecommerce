@@ -31,7 +31,7 @@
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 set :stage, :staging
-set :deploy_to, "var/www/endura_ecommerce/staging"
+set :deploy_to, "/var/www/endura_ecommerce/staging"
 set :branch, :staging
 set :rails_env, "development"
 

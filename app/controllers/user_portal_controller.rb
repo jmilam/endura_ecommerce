@@ -5,6 +5,7 @@ class UserPortalController < ApplicationController
     @sales_reps = SalesRep.all
     @tsms = Tsm.all
     @customers = Customer.all
+    @images = Image.all
     @img_request_purpose = ["Advertisement", "System Brochure", "Single Product Brochure", "Website", "Other"]
     @file_formats = ["JPEG", "PNG", "TIFF", "GIF"]
     @attendees_count = (1..20).to_a

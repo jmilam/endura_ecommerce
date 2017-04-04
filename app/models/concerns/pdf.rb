@@ -6,7 +6,7 @@ class Pdf
 		@pdf = Prawn::Document.new
 	end
 
-	def image_requests(requests)
+	def tradeshow_requests(requests)
 		page_count = requests.count
 		left_start = 80
 		right_start = 350
@@ -15,27 +15,33 @@ class Pdf
 		requests.each do |request|
 			page_count -= 1
 			curr_cursor = @pdf.cursor
-			draw_header "Image Request", [right_start, @pdf.cursor ], 180, :right
+			draw_header "Tradeshow Request", [right_start, @pdf.cursor ], 180, :right
 			@pdf.move_down 20
 
 
 			draw_text_box "Contact Info:", [0, @pdf.cursor], default_width, :left, 8
 			@pdf.move_down 10
-			draw_text_box "#{request.company_name}", [50, @pdf.cursor] , default_width, :left, 8
-			draw_text_box "#{request.company_contact}\n #{request.email}\n #{request.phone_number}", [50, @pdf.cursor], default_width, :left, 8
+			draw_text_box "#{request.first_name} #{request.last_name}", [50, @pdf.cursor] , default_width, :left, 8
+			@pdf.move_down 10
+			#draw_text_box "#{request.address}\n #{request.city} #{request.state}, #{request.zipcode}\n", [50, @pdf.cursor] , default_width, :left, 8
+			@pdf.move_down 10
+			draw_text_box "#{request.email}\n #{request.phone_number}", [50, @pdf.cursor], default_width, :left, 8
 			@pdf.move_down 35
 			@pdf.stroke_horizontal_rule
 			@pdf.move_down 20
 
-			@pdf.text "Order Details", align: :center, size: 14
-			@pdf.table [["Date", "Deadline", "Sales Rep", "TSM"], ["#{request.date}", "#{request.deadline}", "#{request.sales_rep}", "#{request.tsm}"]], width: 540 do
+			@pdf.text "#{request.show_name}", align: :center, size: 14
+			@pdf.table [["Start Date", "End Date", "Booth Number", "Booth Dimensions"], ["#{request.start_date}", "#{request.end_date}", "#{request.booth_num}", "#{request.booth_dimensions}"]], width: 540 do
 				row(0).style background_color: 'd9534f'
 			end
 
 			@pdf.move_down 20
 			
-			@pdf.table [["Purpose of Request", "#{request.request_purpose}"], ["Other Entry", "#{request.other_entry}"], ["Total # of Images", "#{request.total_number_images}"], ["Images needed", "#{request.images_needed}"], ["File Format", "#{request.file_format}"]], width: 540 do
-				row(0).style background_color: 'd9534f'
+			@pdf.table [["Show Size", "#{request.show_size}"], ["Target Market", "#{request.target_market}"], ["Number of Attendees", "#{request.number_of_attendees}"], ["Z Cap Sill", "ADA Sills"], ["#{request.z_cap_sill}","#{request.ada_sills}"], ["ZAI Sills", "Trilennium Multi Point Locking"], ["#{request.zai_sills}","#{request.trilennium_multi_point_locking}"], ["Multi Point Astragal", "Ultimate Astragal"], ["#{request.multi_point_astragal}", "#{request.ultimate_astragal}"], ["Ultimate Flip Lever Astragal", "Framesaver"], ["#{request.ultimate_flip_lever_astragal}", "#{request.framesaver}"], ["Weathersealing", "Registration Assistance"], ["#{request.weathersealing}", "#{request.registration_assistance}"]], width: 540 do
+				
+				[3,5,7,9,11].each do |num|
+					row(num).style background_color: 'd9534f'
+				end
 			end
 
 			@pdf.start_new_page unless page_count == 0
@@ -91,4 +97,5 @@ class Pdf
 	def draw_text_box(text, location, width, align=:left, size=12)
 		@pdf.text_box text, at: location, width: width, align: align, size: size
 	end
+
 end

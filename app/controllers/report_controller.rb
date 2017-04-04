@@ -23,9 +23,10 @@ class ReportController < ApplicationController
 			when 'catalog requests'
 			  @export = Pdf.new
 				send_data @export.catalog_requests(CatalogRequest.from_date_range(params[:report][:start_date], params[:report][:end_date])).render, type: "application/pdf"
-			when 'image requests'
+			when 'tradeshow requests'
 				@export = Pdf.new
-				send_data @export.image_requests(ImageRequest.from_date_range(params[:report][:start_date], params[:report][:end_date])).render, type: "application/pdf"
+				p TradeshowRequest.from_date_range(params[:report][:start_date], params[:report][:end_date])
+				send_data @export.tradeshow_requests(TradeshowRequest.from_date_range(params[:report][:start_date], params[:report][:end_date])).render, type: "application/pdf"
 			end
 
 		rescue => error

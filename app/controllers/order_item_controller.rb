@@ -29,6 +29,7 @@ class OrderItemController < ApplicationController
 						if @item.save
 							@result = {success: true}
 						else	
+							p @item.errors
 							@result = {success: false, message: @item.errors}
 						end
 					end

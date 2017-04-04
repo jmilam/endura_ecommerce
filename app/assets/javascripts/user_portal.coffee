@@ -3,6 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on "turbolinks:load", ->
+  $('select').on 'change', ->
+    $('div').attr 'hidden', false
+    $('input').not('.' + $(this).val()).parent().attr 'hidden', true
+
   $('.update_response').css 'height', '20px'
 
   $('#date').datepicker
@@ -13,21 +17,22 @@ $(document).on "turbolinks:load", ->
     ajaxCompanyRequest $(this).val(), '/customer/1', 'GET'
 
   $('.add_to_cart').on 'click', ->
-    qty = $(this).parent().siblings('.item_qty').children('.item_qty_input').val()
-    item_desc = $(this).parent().siblings('.product_name_container').text()
-    item_note = $(this).parent().siblings('.notes').children('textarea').val()
+    qty = $(this).parent().parent().parent().children('.thumbnail').children('.item_qty').children().children('.item_qty_input').val()
+
+    item_desc = $(this).parent().parent().parent().children('.thumbnail').children('.product_name_container').text()
+    item_note = $(this).parent().parent().parent().children('.thumbnail').children('.notes').children().eq(1).val()
     ajaxCartRequest $(this).val(), '/order_item', 'POST', item_desc, qty, $(this), item_note
 
   $('.item_qty_input').on 'keyup', ->
     if $(this).val() == ''
 
     else
-      item_cost = parseFloat $(this).parent().siblings('.item_cost').text().match(/[^$]+/)[0]
+      item_cost = parseFloat $(this).parent().parent().siblings('.item_cost').text().match(/[^$]+/)[0]
       qty = parseInt $(this).val()
       if item_cost * qty == 0
-        $(this).parent().siblings('.total_cost').text("$0.00")
+        $(this).parent().parent().siblings('.total_cost').text("$0.00")
       else
-        $(this).parent().siblings('.total_cost').text("$" + item_cost * qty)
+        $(this).parent().parent().siblings('.total_cost').text("$" + item_cost * qty)
 
   ajaxCartRequest = (company_name, url, request_type, item_desc, qty, object, note) ->
     $.ajaxSetup headers: 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
