@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on "turbolinks:load", ->
-  $('select').on 'change', ->
+  $('select#types_product_type').on 'change', ->
     $('div').attr 'hidden', false
     $('input').not('.' + $(this).val()).parent().attr 'hidden', true
 

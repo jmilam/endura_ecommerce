@@ -8,7 +8,7 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <b>Item Type</b>
-    <%= select :types, "Product Type", ["Credits", "Literature", "Samples", "Services"].map {|file_format| file_format}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+    <%= select :types, "product_type", ["Credits", "Literature", "Samples", "Services"].map {|file_format| file_format}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
   </div>
 </div>
 
