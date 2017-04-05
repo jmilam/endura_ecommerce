@@ -90,7 +90,7 @@
         <h4 class="modal-title">Upload Products</h4>
         <p class="text-muted">You will want to upload an excel file here. This function is for bulk product upload.</p>
       </div>
-      <%= form_for 'product/upload', as: :post, url: :product_upload, remote: true do |f| %>
+      <%= form_for 'product', as: :post, url: :product_upload, remote: true do |f| %>
         <div class="modal-body">
           <p>
             <%= f.file_field :upload_file %>

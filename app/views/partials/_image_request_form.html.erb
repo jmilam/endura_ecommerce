@@ -5,9 +5,18 @@
 	</div>
 </div>
 
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <b>Item Type</b>
+    <%= select :types, "Product Type", ["Credits", "Literature", "Samples", "Services"].map {|file_format| file_format}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+  </div>
+</div>
+
 <div class="row" style="margin-top:10px;">
-	<% @images.each do |image| %>
+	<%# @images.each do |image| %>
+	<% @products.each do |image| %>
   	<div class="col-sm-6 col-md-4">
+  		<%= hidden_field_tag "#{image.group}", "#{image.group}", class: "#{image.group}" %>
     	<div class="thumbnail">
       	<%= image_tag image.show_image, size: 70 %>
       	<p class="text-center product_name_container"><%= image.name %></p>
