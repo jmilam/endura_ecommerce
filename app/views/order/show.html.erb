@@ -4,7 +4,7 @@
 <div class="row">
 	<div class="text-center"><h3>Order #<%= @order.id %> Summary</h3></div>
 </div>
-<%= form_for :order, url: order_path(@order.id, job: "checkout"), method: :put do |f| %>
+<%= form_for @order, url: order_path(@order.id, job: "checkout"), method: :put do |f| %>
 	<% if @order.current_order == true && @order.order_complete == false %>
 		<div class="row">
 			<div class="row">

@@ -35,14 +35,16 @@ class OrderController < ApplicationController
 				if @order.update(address: params[:address], city: params[:city], state: params[:state], zipcode: params[:zipcode], order_complete: true, current_order: false)
 					@api.send_tsm_email(@tsm.email, current_user.email, current_user.name, @order.id)
 					flash[:notice] = "Your order was placed!"
+					redirect_to order_index_path
 				else
 					flash[:error] = @order.errors
+					redirect_to order_path(@order.id)
 				end
 			elsif params[:job] == "approve"
 				if @order.update(accepted: params[:accepted])
-					if @order.payment_method == "Rebate/Marketing Funds" && @order.accepted
-						FundsBank.deduct_from_customer(@order.company_id, @order.id)
-					end
+					# if @order.payment_method == "Rebate/Marketing Funds" && @order.accepted
+					# 	FundsBank.deduct_from_customer(@order.company_id, @order.id)
+					# end
 					@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id)
 				else
 					flash[:error] = @order.errors
@@ -51,9 +53,10 @@ class OrderController < ApplicationController
 			end
 		rescue => error
 			flash[:error] = error
+			redirect_to order_path(@order.id)
 		end
 
-		redirect_to order_index_path
+		
 	end
 
 	def destroy

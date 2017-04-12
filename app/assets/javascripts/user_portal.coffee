@@ -3,6 +3,10 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on "turbolinks:load", ->
+  current_date = new Date()
+  current_date.setDate(current_date.getDate() + 14)
+  min_date = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate())
+
   $('select#types_product_type').on 'change', ->
     $('div').attr 'hidden', false
     $('input').not('.' + $(this).val()).parent().attr 'hidden', true
@@ -13,6 +17,7 @@ $(document).on "turbolinks:load", ->
     dateFormat: 'yy-mm-dd'
   $('#deadline').datepicker
     dateFormat: 'yy-mm-dd'
+    minDate: min_date
   $("#image_request_company_name, #catalog_request_company_name, #order_company_name").on 'change', ->
     ajaxCompanyRequest $(this).val(), '/customer/1', 'GET'
 
@@ -33,6 +38,12 @@ $(document).on "turbolinks:load", ->
         $(this).parent().parent().siblings('.total_cost').text("$0.00")
       else
         $(this).parent().parent().siblings('.total_cost').text("$" + item_cost * qty)
+
+  $('.registration_assistance, .credit_issued').on 'click', ->
+    if $(this).val() == "true"
+      $(this).parents('.row:eq(0)').next().removeClass('hide')
+    else
+      $(this).parents('.row:eq(0)').next().addClass('hide')
 
   ajaxCartRequest = (company_name, url, request_type, item_desc, qty, object, note) ->
     $.ajaxSetup headers: 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')

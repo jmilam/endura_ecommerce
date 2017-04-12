@@ -1,5 +1,5 @@
 class Order < ApplicationRecord
-	validates :address, :city, :state, :zipcode, :deadline, :deadline_reason, :payment_method, presence: true, on: :updat
+	validates :address, :city, :state, :zipcode, :deadline, :deadline_reason, :payment_method, :email, presence: true, on: :update
 	belongs_to :user
 	has_many :order_items
 	scope :current_order?, -> (user) {where(current_order: true, user_id: user.id)}

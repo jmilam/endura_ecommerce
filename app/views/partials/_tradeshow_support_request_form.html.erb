@@ -188,11 +188,14 @@
 		</div>
 		<div class="col-sm-6 col-md-2">
 			<div class="form-group">
-				<%= f.radio_button :registration_assistance, class: 'form-control' %><div class="text-muted">Yes</div>
+				<ul class="list-inline">
+					<li><%= f.radio_button :registration_assistance, true, class: 'form-control registration_assistance' %><div class="text-muted">Yes</div></li>
+					<li><%= f.radio_button :registration_assistance, false,  {checked: true, class: 'form-control registration_assistance'} %><div class="text-muted">No</div></li>
+				</ul>
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row hide">
 		<div class="col-sm-6 col-md-4 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'If YES above, please upload full attendee list*' %>
@@ -207,16 +210,19 @@
 	<div class="row">
 		<div class="col-sm-6 col-md-4 col-md-offset-3">
 			<div class="form-group">
-				<%= f.label 'Do you need registration assistance?*' %>
+				<%= f.label 'Do you need issue credit?*' %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-2">
 			<div class="form-group">
-				<%= f.radio_button :credit_issued, class: 'form-control' %><div class="text-muted">Yes</div>
+				<ul class="list-inline">
+					<li><%= f.radio_button :credit_issued, true, class: 'form-control credit_issued' %><div class="text-muted">Yes</div></li>
+					<li><%= f.radio_button :credit_issued, false, {checked: true, class: 'form-control credit_issued'} %><div class="text-muted">No</div></li>
+				</ul>
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row hide">
 		<div class="col-sm-6 col-md-4 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'If YES above, please upload show credit documentation*' %>

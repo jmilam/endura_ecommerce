@@ -65,10 +65,28 @@ class ProductController < ApplicationController
 		Product.transaction do
 			begin
 				count = 0
+				subgroup = nil
 				book = Spreadsheet.open(params[:product][:upload_file].tempfile)
-				sheet = book.worksheet(0)
+				products = book.worksheet(0)
+				images = book.worksheet(1)
 
-				sheet.each 3 do |row|
+				images.each 4 do |row|
+
+					if row[2].class == Float
+						p row[2]
+						p subgroup
+						image = Image.find_by_name(row[0])
+						if image.nil?
+							count += 1
+							Image.create(name: row[0], price: row[2], group: row[3], sub_group: subgroup, file_name: row[4])
+						end
+					else
+						subgroup = row[0]
+					end
+					
+				end
+
+				products.each 3 do |row|
 					price = row[2].class == Float ? row[2] : nil
 					product = Product.find_by_name(row[0])
 					

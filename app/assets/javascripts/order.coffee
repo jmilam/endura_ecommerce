@@ -1,4 +1,9 @@
 $(document).on "turbolinks:load", ->
+  
+  current_date = new Date()
+  current_date.setDate(current_date.getDate() + 14)
+  min_date = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate())
+
   $('.update_response').css 'height', '20px'
 
   $('#date').datepicker
@@ -6,6 +11,7 @@ $(document).on "turbolinks:load", ->
   
   $('#deadline').datepicker
     dateFormat: 'yy-mm-dd'
+    minDate: min_date
   
   $('.right').tooltip
     placehment: 'right'
