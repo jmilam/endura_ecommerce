@@ -12,14 +12,14 @@ class CatalogRequestController < ApplicationController
 				end
 
 				flash[:notice] = "Request Form successfully created"
-				redirect_to :back
+				redirect_to user_portal_index_path(partial: 'catalog_request_form')
 			else
-				flash[:errors] = @catalog.errors
-				redirect_to :back
+				flash[:error] = @catalog.errors
+				render user_portal_index_path(partial: 'catalog_request_form')
 			end
 		rescue 
-			flash[:errors] = @catalog.errors
-			redirect_to :back
+			flash[:error] = @catalog.errors
+			rendirect_to user_portal_index_path(partial: 'catalog_request_form')
 		end
 	end
 

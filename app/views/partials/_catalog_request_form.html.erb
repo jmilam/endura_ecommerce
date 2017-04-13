@@ -5,16 +5,16 @@
 	</div>
 </div>
 
-<%= form_for :catalog_request, url: catalog_request_index_path, method: :post do |f| %>
+<%= form_for @catalog, url: catalog_request_index_path, method: :post do |f| %>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
-				<%= f.label :date %>
+				<%= f.label 'Date*' %>
 				<%= f.text_field :date, class: 'form-control', id: 'date' %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
-			<%= f.label :deadline %>
+			<%= f.label 'Deadline*' %>
 			<%= f.text_field :deadline, class: 'form-control', id: 'deadline' %>
 		</div>
 	</div>
@@ -161,7 +161,7 @@
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
-				<%= f.label 'Other*' %>
+				<%= f.label 'Other' %>
 				<%= f.label 'If selected, please include the requested product in the description box below', class: 'text-muted' %>
 				<%= f.select :other, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 			</div>

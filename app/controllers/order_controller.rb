@@ -32,7 +32,7 @@ class OrderController < ApplicationController
 		begin
 			if params[:job] == "checkout"
 				@order.update(update_params)
-				if @order.update(address: params[:address], city: params[:city], state: params[:state], zipcode: params[:zipcode], order_complete: true, current_order: false)
+				if @order.update(address: params[:address], city: params[:city], state: params[:state], zipcode: params[:zipcode], email: params[:email], order_complete: true, current_order: false)
 					@api.send_tsm_email(@tsm.email, current_user.email, current_user.name, @order.id)
 					flash[:notice] = "Your order was placed!"
 					redirect_to order_index_path

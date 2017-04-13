@@ -7,9 +7,9 @@ $(document).on "turbolinks:load", ->
   current_date.setDate(current_date.getDate() + 14)
   min_date = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate())
 
-  $('select#types_product_type').on 'change', ->
+  $('#item_product_type, #image_group, #image_sub_group').on 'change', ->
     $('div').attr 'hidden', false
-    $('input').not('.' + $(this).val()).parent().attr 'hidden', true
+    $('input').not('.' + $(this).val().toLowerCase()).parent().attr 'hidden', true
 
   $('.update_response').css 'height', '20px'
 
@@ -26,7 +26,7 @@ $(document).on "turbolinks:load", ->
 
     item_desc = $(this).parent().parent().parent().children('.thumbnail').children('.product_name_container').text()
     item_note = $(this).parent().parent().parent().children('.thumbnail').children('.notes').children().eq(1).val()
-    ajaxCartRequest $(this).val(), '/order_item', 'POST', item_desc, qty, $(this), item_note
+    ajaxCartRequest $(this).val(), '/order_item', 'POST', item_desc, qty, $(this), item_note, window.location.search.match(/[^=]+/g)[1]
 
   $('.item_qty_input').on 'keyup', ->
     if $(this).val() == ''
@@ -45,13 +45,13 @@ $(document).on "turbolinks:load", ->
     else
       $(this).parents('.row:eq(0)').next().addClass('hide')
 
-  ajaxCartRequest = (company_name, url, request_type, item_desc, qty, object, note) ->
+  ajaxCartRequest = (company_name, url, request_type, item_desc, qty, object, note, item_type) ->
     $.ajaxSetup headers: 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
     $.ajax
       url: url
       type: request_type
       dataType: 'json'
-      data: qty: qty, item_desc: item_desc, note: note
+      data: qty: qty, item_desc: item_desc, note: note, item_type: item_type
       success: (response) ->
         response = JSON.stringify response
         response = JSON.parse response

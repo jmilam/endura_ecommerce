@@ -2,10 +2,17 @@ class UserPortalController < ApplicationController
   def index
     #@product = Product.new
     @products = Product.group(:group, :price, :id).order('name ASC')
+    @catalog = CatalogRequest.new(params[:form_params])
     @sales_reps = SalesRep.all
     @tsms = Tsm.all
     @customers = Customer.all
     @images = Image.order('name ASC')
+    @image_groups = {groups: [], sub_groups: []}
+    Image.all.each do |image| 
+      @image_groups[:groups] << image.group unless @image_groups[:groups].include?(image.group)
+      @image_groups[:sub_groups] << image.sub_group unless @image_groups[:sub_groups].include?(image.sub_group)
+    end
+    
     @img_request_purpose = ["Advertisement", "System Brochure", "Single Product Brochure", "Website", "Other"]
     @file_formats = ["PNG", "JPEG", "TIFF", "GIF"]
     @attendees_count = (1..20).to_a

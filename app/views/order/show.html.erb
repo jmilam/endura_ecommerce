@@ -118,7 +118,7 @@
 								<span class="glyphicon glyphicon-info-sign text-primary right" title='<%= item.note %>'></span> 
 							<% end %>
 						</td>
-						<td><%= link_to "Delete", order_item_path(item.id), method: :delete, data: {confirm: "Are you sure you want to remove this item from your cart?"} if @order.current_order == true && @order.order_complete == false %></td>
+						<td><%= link_to "Delete", order_item_path(item.id), method: :delete, class: 'order_item_delete' if @order.current_order == true && @order.order_complete == false %></td>
 					</tr>
 				<% end %>
 				<tr class="success">

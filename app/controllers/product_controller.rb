@@ -69,12 +69,22 @@ class ProductController < ApplicationController
 				book = Spreadsheet.open(params[:product][:upload_file].tempfile)
 				products = book.worksheet(0)
 				images = book.worksheet(1)
+				product_images = book.worksheet(2)
 
 				images.each 4 do |row|
-
 					if row[2].class == Float
-						p row[2]
-						p subgroup
+						image = Image.find_by_name(row[0])
+						if image.nil?
+							count += 1
+							Image.create(name: row[0], price: row[2], group: row[3], sub_group: subgroup, file_name: row[4])
+						end
+					else
+						subgroup = row[0]
+					end
+				end
+
+				product_images.each 4 do |row|
+					if row[2].class == Float
 						image = Image.find_by_name(row[0])
 						if image.nil?
 							count += 1

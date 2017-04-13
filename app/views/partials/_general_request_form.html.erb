@@ -8,7 +8,7 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <b>Item Type</b>
-    <%= select :types, "Product Type", ["Credits", "Literature", "Samples", "Services"].map {|file_format| file_format}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+    <%= select :types, "Product Type", ["Credits", "Literature", "Samples", "Services"].map {|file_format| [file_format, file_format.downcase.gsub(" ", "_")]}, {prompt: '- Please Select -'}, {class: 'form-control ', id: 'item_product_type'} %>
   </div>
 </div>
 
@@ -16,7 +16,7 @@
 	<% @products.each do |product| %>
 
   	<div class="col-sm-6 col-md-4">
-      <%= hidden_field_tag "#{product.group}", "#{product.group}", class: "#{product.group}" %>
+      <%= hidden_field_tag "#{product.group}", "#{product.group}", class: "#{product.group.downcase.gsub(" ", "_")}" %>
     	<div class="thumbnail">
       	<%= image_tag product.show_image, size: 70 %>
       	<p class="text-center product_name_container"><%= product.name %></p>

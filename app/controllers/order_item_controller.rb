@@ -1,7 +1,14 @@
 class OrderItemController < ApplicationController
 
 	def create
-		@product = Product.find_by_name(params[:item_desc])
+		if params[:item_type] == "image_request"
+			@product = Image.find_by_name(params[:item_desc])
+		else
+			@product = Product.find_by_name(params[:item_desc])
+		end
+
+		type = @product.class == Image ? "image_request" : "product"
+
 		@user = current_user
 		@order = @user.orders.current.last
 		@result = nil
@@ -12,7 +19,7 @@ class OrderItemController < ApplicationController
 					@order = @user.orders.new(current_order: true)
 
 					if @order.save
-						@item = @order.order_items.new(item_type: "product", reference_id: @product.id, quantity: params[:qty], item_total: params[:qty].to_i * @product.price, note: para∂ms[:note])
+						@item = @order.order_items.new(item_type: "#{type}", reference_id: @product.id, quantity: params[:qty], item_total: params[:qty].to_i * @product.price, note: para∂ms[:note])
 						if @item.save
 							@result = {success: true}
 						else	
@@ -25,11 +32,11 @@ class OrderItemController < ApplicationController
 					if @product.nil?
 						@result = {success: false, message: "Product doesn't exist"}
 					else
-						@item = @order.order_items.new(item_type: "product", reference_id: @product.id, quantity: params[:qty], item_total: params[:qty].to_i * @product.price, note: params[:note])
+						@item = @order.order_items.new(item_type: "#{type}", reference_id: @product.id, quantity: params[:qty], item_total: params[:qty].to_i * @product.price, note: params[:note])
 						if @item.save
 							@result = {success: true}
 						else	
-							p @item.errors
+							@item.errors
 							@result = {success: false, message: @item.errors}
 						end
 					end
@@ -51,13 +58,15 @@ class OrderItemController < ApplicationController
 		@order = @item.order
 
 		if @item.delete
-			flash[:notice] =  "Item was successfully removed from cart."
+			@success = true
 		else
 			flash[:error] = @item.errors
+			@success = false
 		end
 
 		respond_to do |format|
 			format.html { redirect_to order_path(@order.id)}
+			format.json {render json: {success: @success}}
 		end
 	end
 end

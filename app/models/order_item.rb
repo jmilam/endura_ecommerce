@@ -9,7 +9,7 @@ class OrderItem < ApplicationRecord
 		when "product"
 			Product.find(self.reference_id).name
 		when "image_request"
-			"Image Request"
+			Image.find(self.reference_id).name + " - image"
 		when "tradeshow_request"
 			"Tradeshow Support Request"
 		else
