@@ -14,7 +14,7 @@ class FundsBankController < ApplicationController
 
 	def create
 		@customer = Customer.find(params[:funds_bank][:customer_id])
-		@funds_bank = @customer.build_funds_bank(funds_bank_params)
+		@funds_bank = @customer.association(:funds_bank).build(funds_bank_params)
 		@funds_bank.created_at = Date.today
 		begin
 			if @funds_bank.save
