@@ -19,7 +19,7 @@ class CatalogRequestController < ApplicationController
 			end
 		rescue 
 			flash[:error] = @catalog.errors
-			rendirect_to user_portal_index_path(partial: 'catalog_request_form')
+			redirect_to user_portal_index_path(partial: 'catalog_request_form')
 		end
 	end
 

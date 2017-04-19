@@ -26,11 +26,17 @@ class ProductController < ApplicationController
 	
 	def create
 		@product = Product.new(product_params)
-		if @product.save
-			flash[:notice] = "Product successfully created"
-			redirect_to :back
-		else
-			flash[:error] = @product.errors
+		@product.created_at = Date.today
+		begin
+			if @product.save
+				flash[:notice] = "Product successfully created"
+				redirect_to :back
+			else
+				flash[:error] = @product.errors
+				redirect_to :back
+			end
+		rescue Exception => e
+			flash[:error] => e
 			redirect_to :back
 		end
 	end

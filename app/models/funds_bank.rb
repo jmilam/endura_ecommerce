@@ -4,7 +4,8 @@ class FundsBank < ApplicationRecord
 	
 
 	def self.get_customer(customer_id)
-		Customer.find_by_id(customer_id).company_name
+		customer = Customer.find_by_id(customer_id)
+		customer.company_name unless customer.nil?
 	end
 
 	def self.deduct_from_customer(customer_id, order_id)

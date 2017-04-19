@@ -28,7 +28,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                      <%= link_to order_index_path do %>
+                      <%= link_to order_path("nil") do %>
                       <div id="cart_count"><%= @cart_count %></div>
                         <%= image_tag "cart_light.png", height: "50", data: {title: "5"} %>
                       <% end %>

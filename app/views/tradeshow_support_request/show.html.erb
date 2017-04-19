@@ -231,6 +231,14 @@
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
+				<%= f.label 'Additional Notes' %>
+				<%= f.text_area :note, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
 				<%= link_to 'Print', '#', class: 'btn btn-block btn-danger' %>
 			</div>
 		</div>

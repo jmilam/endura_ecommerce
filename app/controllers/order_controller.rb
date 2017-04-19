@@ -9,13 +9,23 @@ class OrderController < ApplicationController
 
 	def show
 		begin
-			@order = Order.find_by_id(params[:id])
-			@items = @order.order_items
-			@total_sum = @items.inject(0) {|sum, item| sum += item.item_total}
-			@total_qty = @items.inject(0) {|sum, item| sum += item.quantity}
-			@products = Product.all
-			@customers = Customer.all
-			@payment_methods = ["Customer PO", "Sales Rep", "Rebate/Marketing Funds"]
+			#@order = Order.find_by_id(params[:id])
+			if params[:id] == "nil"
+				@order = current_user.orders.where(current_order: true).last
+			else
+				@order = Order.find_by_id(params[:id])
+			end
+
+			if @order.nil?
+				redirect_to order_index_path
+			else
+				@items = @order.order_items
+				@total_sum = @items.inject(0) {|sum, item| sum += item.item_total}
+				@total_qty = @items.inject(0) {|sum, item| sum += item.quantity}
+				@products = Product.all
+				@customers = Customer.all
+				@payment_methods = ["Customer PO", "Sales Rep", "Rebate/Marketing Funds"]
+			end
 		rescue => error
 			flash[:error] = "Order cannot be found"
 			redirect_to order_index_path

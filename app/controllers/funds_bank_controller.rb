@@ -15,12 +15,17 @@ class FundsBankController < ApplicationController
 	def create
 		@customer = Customer.find(params[:funds_bank][:customer_id])
 		@funds_bank = @customer.build_funds_bank(funds_bank_params)
-
-		if @funds_bank.save
-			flash[:notice] = "Customer successfully received funds"
-			redirect_to :back
-		else
-			flash[:error] = @funds_bank.errors
+		@funds_bank.created_at = Date.today
+		begin
+			if @funds_bank.save
+				flash[:notice] = "Customer successfully received funds"
+				redirect_to :back
+			else
+				flash[:error] = @funds_bank.errors
+				redirect_to :back
+			end
+		rescue Exception => e
+			flash[:error] = e
 			redirect_to :back
 		end
 	end
@@ -49,6 +54,16 @@ class FundsBankController < ApplicationController
 
 		respond_to do |format|
 			format.json { render json: @response}
+		end
+	end
+
+	def destroy
+		@funds = FundsBank.find(params[:id])
+
+		if @funds.delete
+			redirect_to(:root)
+		else
+			redirect_to(:root)
 		end
 	end
 

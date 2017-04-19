@@ -4,6 +4,7 @@ class Tsm < ApplicationRecord
 	validates :name, presence: true, uniqueness: true
 
 	def self.get_name(tsm_id)
-		Tsm.find_by_id(tsm_id).name
+		tsm = Tsm.find_by_id(tsm_id)
+		tsm.name unless tsm.nil?
 	end
 end

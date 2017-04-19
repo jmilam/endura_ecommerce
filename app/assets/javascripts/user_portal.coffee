@@ -10,7 +10,7 @@ $(document).on "turbolinks:load", ->
   $('#item_product_type, #image_group, #image_sub_group').on 'change', ->
     $('div').attr 'hidden', false
     $('input').not('.' + $(this).val().toLowerCase()).parent().attr 'hidden', true
-
+    $('.item_qty_input').parent().attr 'hidden', false
   $('.update_response').css 'height', '20px'
 
   $('#date').datepicker
@@ -37,7 +37,7 @@ $(document).on "turbolinks:load", ->
       if item_cost * qty == 0
         $(this).parent().parent().siblings('.total_cost').text("$0.00")
       else
-        $(this).parent().parent().siblings('.total_cost').text("$" + item_cost * qty)
+        $(this).parent().parent().siblings('.total_cost').text("$" + (item_cost * qty).toFixed(2))
 
   $('.registration_assistance, .credit_issued').on 'click', ->
     if $(this).val() == "true"
@@ -55,7 +55,6 @@ $(document).on "turbolinks:load", ->
       success: (response) ->
         response = JSON.stringify response
         response = JSON.parse response
-        console.log response
         if response.success
           sum = parseInt $('#cart_count').text()
           $('#cart_count').text sum + 1

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170412195225) do
+ActiveRecord::Schema.define(version: 20170419182854) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(version: 20170412195225) do
     t.binary   "credit_documentation",           limit: 65535
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
+    t.text     "note",                           limit: 65535
   end
 
   create_table "tsms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

@@ -19,7 +19,7 @@ RSpec.describe API, type: :model do
 
 	describe "initialize" do
   	it "Should initialize variables" do	
-  		expect(@api.url).to eq("http://localhost:3000/api/endura")
+  		expect(@api.url).to eq("http://webapi.enduraproducts.com/api/endura")
 	  end
 	end
 

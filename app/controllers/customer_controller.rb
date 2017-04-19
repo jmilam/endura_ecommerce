@@ -15,13 +15,18 @@ class CustomerController < ApplicationController
 	def create
 		@sales_rep = SalesRep.find_by_id(params[:customer][:sales_rep_id])
 		@customer = @sales_rep.customers.new(customer_params)
+		@customer.created_at = Date.today
+		begin
+			if @customer.save
+				flash[:notice] = "Customer successfully created"
+				redirect_to :back
+			else
 
-		if @customer.save
-			flash[:notice] = "Customer successfully created"
-			redirect_to :back
-		else
-
-			flash[:error] = @customer.errors
+				flash[:error] = @customer.errors
+				redirect_to :back
+			end
+		rescue Exception => e
+			flash[:error] = e
 			redirect_to :back
 		end
 	end

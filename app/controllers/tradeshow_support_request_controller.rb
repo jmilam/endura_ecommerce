@@ -38,6 +38,6 @@ class TradeshowSupportRequestController < ApplicationController
 	private
 
 	def tradeshow_params
-		params.require(:tradeshow_request).permit(:first_name, :last_name, :phone_number, :email, :show_name, :start_date, :end_date, :address, :city, :state, :zipcode, :booth_num,:booth_dimensions, :show_size, :target_market, :z_cap_sill, :ada_sills, :zai_sills, :trilennium_multi_point_locking,:multi_point_astragal, :ultimate_astragal, :ultimate_flip_lever_astragal, :framesaver, :weathersealing, :number_of_attendees, :registration_assistance, :credit_issued, :attendee_list, :credit_documentation)
+		params.require(:tradeshow_request).permit(:first_name, :last_name, :phone_number, :email, :show_name, :start_date, :end_date, :address, :city, :state, :zipcode, :booth_num,:booth_dimensions, :show_size, :target_market, :z_cap_sill, :ada_sills, :zai_sills, :trilennium_multi_point_locking,:multi_point_astragal, :ultimate_astragal, :ultimate_flip_lever_astragal, :framesaver, :weathersealing, :number_of_attendees, :registration_assistance, :credit_issued, :attendee_list, :credit_documentation, :note)
 	end
 end
