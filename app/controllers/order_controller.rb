@@ -92,6 +92,6 @@ class OrderController < ApplicationController
 	private
 
 	def update_params
-		params.require(:order).permit(:deadline, :deadline_reason, :order_reason, :payment_method, :company_id, :accepted)
+		params.require(:order).permit(:deadline, :deadline_reason, :order_reason, :payment_method, :customer_id, :accepted)
 	end
 end
