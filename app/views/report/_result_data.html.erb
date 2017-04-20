@@ -5,7 +5,7 @@
 		  <p class="lead">It looks like there are no <%= @title %> between <%= @start_date %> - <%= @end_date %></p>
 		</div>
 	</div>
-<% end %>
+<% else %>
 	<% if @title.downcase.match(/funds/).nil? %>
 		<table class="table table-bordered">
 			<thead>
