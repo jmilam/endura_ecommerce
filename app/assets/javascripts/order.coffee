@@ -16,7 +16,7 @@ $(document).on "turbolinks:load", ->
   $('.right').tooltip
     placehment: 'right'
 
-  $("#image_request_company_name, #catalog_request_company_name, #order_company_id").on 'change', ->
+  $("#image_request_company_name, #catalog_request_company_name, #order_customer_id").on 'change', ->
     ajaxCompanyRequest $(this).find('option:selected').text(), '/customer/1', 'GET'
 
   $('.order_item_delete').on 'click', (e) ->
@@ -24,9 +24,6 @@ $(document).on "turbolinks:load", ->
     e.stopPropagation()
     
     ajaxOrderItemDelete $(this), 'DELETE'
-    
-    
-
 
   ajaxCompanyRequest = (company_name, url, request_type) ->
   	$.ajax

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419182854) do
+ActiveRecord::Schema.define(version: 20170419204727) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -117,7 +117,7 @@ ActiveRecord::Schema.define(version: 20170419182854) do
     t.date     "deadline"
     t.string   "deadline_reason"
     t.text     "payment_method",  limit: 65535
-    t.integer  "company_id"
+    t.integer  "customer_id"
     t.text     "order_reason",    limit: 65535
     t.string   "address"
     t.string   "city"

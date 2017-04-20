@@ -42,7 +42,7 @@
 			<div class="row">
 				<div class="col-sm-6 col-md-6 col-md-offset-3">
 					<%= f.label 'Company Name' %>
-					<%= f.select :company_id, @customers.map {|customer| [customer.company_name, customer.id]}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+					<%= f.select :customer_id, @customers.map {|customer| [customer.company_name, customer.id]}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
 				</div>
 			</div>
 			<div class="row">

@@ -1,26 +1,36 @@
-<%= form_for :report, url: report_index_path, method: :post do |f| %>
+
 <table class="table">
 	<thead>
 		<tr>
-			<th colspan=3 class="text-muted text-center">Please enter the date range you want to run the report for.</th>
+			<th colspan=3 class="text-center"><div class="text-muted">Please enter the date range you want to run the report for.</div><b><i> Default range is <%= Date.today.strftime("%B") %>.</i></b></th>
 		</tr>
 		<tr>
-			<th style="text-align:right;">Start Date: <%= f.text_field :start_date, id: 'date' %></th>
-			<th>End Date: <%= f.text_field :end_date, id: 'deadline' %></th>
+			<th style="text-align:right;">Start Date: <%= text_field_tag :start_date,nil, id: 'date' %></th>
+			<th>End Date: <%= text_field_tag :end_date, nil, id: 'end_date' %></th>
 			<th/>
 		</tr>
 	</thead>
 	<tbody>
+		</tr> 
 		<tr>
-			<td><%= f.submit 'All approved/rejected orders', class: 'btn btn-primary' %></td>
-			<td><%= f.submit 'Fund Tracking', class: 'btn btn-primary' %></td>
-			<td><%= f.submit 'Export Customer Details', class: 'btn btn-primary' %></td>
+			<td colspan=3><%= link_to "All approved/rejected orders", "#", remote: true, class: "report_link", id: "all_approved/rejected_orders" %></td>
 		</tr>
 		<tr>
-			<td><%= f.submit 'Catalog Requests', class: 'btn btn-primary' %></td>
-			<td><%= f.submit 'Tradeshow Requests', class: 'btn btn-primary' %></td>
-			<td></td>
+			<td colspan=3><%= link_to "Export Customer Details", "#", remote: true, class: "report_link", id: "export_customer_details" %></td>
+		</tr>
+		<tr>
+			<td colspan=3><%= link_to "Used Funds vs. Remaining Funds", "#", remote: true, class: "report_link", id: "funds_details_by_customer" %></td>
+		</tr>
+		<tr>
+			<td colspan=3><%= link_to "Image Requests Approved", "#", remote: true, class: "report_link", id: "image_requests_approved" %></td>
+		</tr>
+		<tr>
+			<td colspan=3><%= link_to "Catalog Requests Approved", "#", remote: true, class: "report_link", id: "catalog_requests_approved" %></td>
+		</tr>
+		<tr>
+			<td colspan=3><%= link_to "Tradeshow Requests Approved", "#", remote: true, class: "report_link", id: "tradeshow_requests_approved" %></td>
 		</tr>
 	</tbody>
 </table>
-<% end %>
+
+<div id="report_view"></div>

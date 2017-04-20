@@ -1,0 +1,82 @@
+<% if @title.downcase.match(/funds/).nil? %>
+	<table class="table table-bordered">
+		<thead>
+			<tr style="background-color:darkgrey;"><th class="text-center" colspan="<%= @column_count %>"><%= @title %> - <%= link_to "Export Data", report_index_path(start_date: @start_date, end_date: @end_date, report_type: @report_type), method: :post %></th></tr>
+		</thead>
+			<tbody>
+				<tr class="danger">
+					<th>
+						<% @results.first.attributes.each do |key, value| %>
+							<% unless key == "id" || key == "current_order" %>
+								<td><%= @formatter.table_header_data(key) %></td>
+							<% end %>
+						<% end %>
+					</th>
+				</tr>
+				<% @results.each do |result| %>
+					<tr>
+						<td/>
+						<% result %>
+						<% result.attributes.each do |key, value| %>
+							<% unless key == "id"  || key == "current_order" %>
+								<td class="text-center"><%= raw @formatter.report_data(key, value) %></td>
+							<% end %>
+						<% end unless result.nil?%>
+					</tr>
+				<% end %>
+			</tbody>
+	</table>
+<% else %>
+	<table class="table table-bordered">
+		<thead>
+			<tr style="background-color:darkgrey;"><th class="text-center" colspan="<%= @column_count %>"><%= @title %> <%#= link_to "Export Data", report_index_path(start_date: @start_date, end_date: @end_date, report_type: @report_type), method: :post %></th></tr>
+		</thead>
+	</table>
+	<% @customers.each do |customer| %>
+		<table class="table table-bordered">
+			<tbody>
+				<tr class="active">
+					<th>
+						<td>Company Name</td>
+						<td>Allocated Amount</td>
+						<td>Current Balance</td>
+					</th>
+				</tr>
+				
+					<tr class="danger">
+						<% unless customer.nil? %>
+							<td/>
+							<td><%= customer.company_name %></td>
+							<td><%= number_to_currency(customer.funds_bank.allocated_amt) %></td>
+							<td class="text-right"><%= number_to_currency(customer.funds_bank.current_bal) %></td>
+						<% end %>
+					</tr>
+
+					<tr class="info">
+						<td/>
+						<td colspan=2>Order Item Total</td>
+						<td colspan=2>Order Item Amt.</td>
+					</tr>
+
+					<% @orders.where(customer_id: customer.id).each do |order| %>
+						<tr>
+							<td/>
+							<td colspan=2><%= order.order_items.count %></td>
+							<td colspan=2 class="text-right"><%= number_to_currency(order.order_items.inject(0) {|sum, item| sum += item.item_total}) %></td>
+						</tr> 
+					<% end %>
+
+					<tr class="active">
+						<td>Total</td>
+						<td colspan=2></td>
+						<td class="text-right"><%= number_to_currency(@orders.where(customer_id: customer.id).inject(0) {|sum, order| sum += order.order_items.inject(0) {|sum, item| sum += item.item_total}}) %></td>
+					</tr>
+					<tr class="active">
+						<td>Starting Funds Total</td>
+						<td colspan=2></td>
+						<td colspan=2 class="text-right"><%= number_to_currency(customer.funds_bank.current_bal + @orders.where(customer_id: customer.id).inject(0) {|sum, order| sum += order.order_items.inject(0) {|sum, item| sum += item.item_total}}) %></td>
+					</tr>
+			</tbody>
+		</table>
+	<% end %>
+<% end %>

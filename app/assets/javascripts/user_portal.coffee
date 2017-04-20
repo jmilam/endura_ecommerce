@@ -18,6 +18,8 @@ $(document).on "turbolinks:load", ->
   $('#deadline').datepicker
     dateFormat: 'yy-mm-dd'
     minDate: min_date
+  $('#end_date').datepicker
+    dateFormat: 'yy-mm-dd'
   $("#image_request_company_name, #catalog_request_company_name, #order_company_name").on 'change', ->
     ajaxCompanyRequest $(this).val(), '/customer/1', 'GET'
 

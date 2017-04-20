@@ -68,3 +68,9 @@ html, body {
 .glyph-danger {
     color: #d9534f;
 }
+
+table tbody {
+
+    max-width:100%;
+    white-space:nowrap;
+}

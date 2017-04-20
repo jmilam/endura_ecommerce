@@ -53,7 +53,7 @@ class OrderController < ApplicationController
 			elsif params[:job] == "approve"
 				if @order.update(accepted: params[:accepted])
 					# if @order.payment_method == "Rebate/Marketing Funds" && @order.accepted
-					# 	FundsBank.deduct_from_customer(@order.company_id, @order.id)
+					# 	FundsBank.deduct_from_customer(@order.customer_id, @order.id)
 					# end
 					@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id)
 				else

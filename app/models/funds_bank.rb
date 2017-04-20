@@ -19,4 +19,19 @@ class FundsBank < ApplicationRecord
 		end
 
 	end
+
+	def self.calculate_used(orders)
+		funds_summary = Hash.new
+		orders.each do |order|
+			sum = order.order_items.inject(0) {|sum, item| sum + item.item_total}
+			if funds_summary.keys.include?("#{order.customer_id}")
+				#Add to current array value
+				funds_summary["#{order.customer_id}"][:order_ids] << order.id
+				funds_summary["#{order.customer_id}"][:order_sum] << sum
+			else	
+				funds_summary["#{order.customer_id}"] = {order_ids: [order.id], order_sum: [sum]}
+			end
+		end
+		funds_summary
+	end
 end

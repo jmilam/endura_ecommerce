@@ -38,7 +38,7 @@ class MySpreadsheet
 		
 		orders.each do |o|
 			row_count = next_row(row_count)
-			customer = customers.find_by_id(o.company_id)
+			customer = customers.find_by_id(o.customer_id)
 			customer = customer.nil? ? "" : customer.company_name
 			@sheet1.row(row_count).concat ["#{o.id}", "#{o.user.name}", "#{o.deadline}", "#{o.deadline_reason}", "#{o.payment_method}", "#{customer}", "#{o.order_reason}", "#{o.accepted}"]
 		end
