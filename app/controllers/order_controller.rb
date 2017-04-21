@@ -56,6 +56,7 @@ class OrderController < ApplicationController
 					# 	FundsBank.deduct_from_customer(@order.customer_id, @order.id)
 					# end
 					@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id)
+					redirect_to order_index_path
 				else
 					flash[:error] = @order.errors
 				end

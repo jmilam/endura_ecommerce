@@ -12,11 +12,17 @@ class UserController < ApplicationController
 
 	def create
 		@user = User.new(user_params)
-		if @user.save
-			flash[:notice] = "User successfully created"
-			redirect_to :back
-		else
-			flash[:error] = @user.errors
+		@user.created_at = Date.today
+		begin
+			if @user.save
+				flash[:notice] = "User successfully created"
+				redirect_to :back
+			else
+				flash[:error] = @user.errors
+				redirect_to :back
+			end
+		rescue Exception => e
+			flash[:error] = e
 			redirect_to :back
 		end
 	end

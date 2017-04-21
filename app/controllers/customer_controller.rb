@@ -44,6 +44,7 @@ class CustomerController < ApplicationController
 		end
 
 		respond_to do |format|
+			format.html { redirect_to user_portal_index_path}
 			format.json { render json: @response}
 		end
 	end

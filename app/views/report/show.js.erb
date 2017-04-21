@@ -1,1 +1,10 @@
 $('#report_view').html("<%= escape_javascript render(:partial => 'result_data') %>")
+
+$('.order_header').on('click', function(){
+	if ($(this).next().css('display') == 'none') {		
+		$(this).nextAll().show();
+	} else {
+		$(this).nextAll().hide();
+	}
+});
+	

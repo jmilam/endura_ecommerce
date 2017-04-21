@@ -7,13 +7,13 @@ class ReportController < ApplicationController
 			@fund_summary = Array.new
 			@title = params[:commit].gsub("_", " ").titlecase
 			@report_type = params[:commit]
-			p @start_date = params[:report][:start_date].empty? ? Date.today.beginning_of_month.strftime("%Y-%m-%d") : params[:report][:start_date]
-			p @end_date = params[:report][:end_date].empty? ? Date.today.end_of_month.strftime("%Y-%m-%d") : params[:report][:end_date]
+			@start_date = params[:report][:start_date].empty? ? Date.today.beginning_of_month.strftime("%Y-%m-%d") : params[:report][:start_date]
+			@end_date = params[:report][:end_date].empty? ? Date.today.end_of_month.strftime("%Y-%m-%d") : params[:report][:end_date]
 			@formatter = Formatter.new
 
 			case params[:commit].downcase
 			when "all_approved/rejected_orders"
-				p @orders = Order.no_nil_accepted.from_date_range(@start_date, @end_date).includes(:order_items).sort_by {|order| order.accepted ? 0 : 1}
+				@orders = Order.no_nil_accepted.from_date_range(@start_date, @end_date).includes(:order_items).sort_by {|order| order.accepted ? 0 : 1}
 				@results = @orders
 			when 'export_customer_details'
 				@results = Customer.all
@@ -29,6 +29,7 @@ class ReportController < ApplicationController
 					@fund_summary << FundsBank.find_by_customer_id(customer_id)
 				end
 				@results = @fund_summary
+				@customers = @customers.sort_by {|customer| customer.company_name}
 			when 'image_requests_approved'
 				approved_images = Array.new
 				images = OrderItem.from_date_range(@start_date, @end_date).includes(:order).images

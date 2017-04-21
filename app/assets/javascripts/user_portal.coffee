@@ -41,7 +41,7 @@ $(document).on "turbolinks:load", ->
       else
         $(this).parent().parent().siblings('.total_cost').text("$" + (item_cost * qty).toFixed(2))
 
-  $('.registration_assistance, .credit_issued').on 'click', ->
+  $('.registration_assistance, .credit_issued, .additional_notes').on 'click', ->
     if $(this).val() == "true"
       $(this).parents('.row:eq(0)').next().removeClass('hide')
     else
@@ -81,7 +81,5 @@ $(document).on "turbolinks:load", ->
         $('.state').val response.state
         $('.zipcode').val response.zipcode
         return
-
-
 
   return

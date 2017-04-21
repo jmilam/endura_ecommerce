@@ -183,6 +183,24 @@
 	<div class="row">
 		<div class="col-sm-6 col-md-4 col-md-offset-3">
 			<div class="form-group">
+				<%= f.label 'Add additional Notes:' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<%= f.radio_button :additional_notes, true, class: 'additional_notes' %><div class="text-muted">Yes</div>
+		</div>
+	</div>
+	<div class="row hide">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Additional Notes' %>
+				<%= f.text_area :note, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
 				<%= f.label 'Do you need registration assistance?*' %>
 			</div>
 		</div>
@@ -231,14 +249,6 @@
 		<div class="col-sm-6 col-md-2">
 			<div class="form-group">
 				<%= f.file_field :credit_documentation %>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-6 col-md-6 col-md-offset-3">
-			<div class="form-group">
-				<%= f.label 'Additional Notes' %>
-				<%= f.text_area :note, class: 'form-control' %>
 			</div>
 		</div>
 	</div>

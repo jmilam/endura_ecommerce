@@ -6,7 +6,6 @@ $(document).on "turbolinks:load", ->
 	$('.report_link').on 'click', ->
 	  ajaxReportRequest $('#date').val() , $('#end_date').val(), $(this).attr 'id'
 
-
 	ajaxReportRequest = (start_date, end_date, report_type) ->
   	$.ajax
       url: '/report/1'

@@ -181,6 +181,14 @@
 		</div>
 	</div>
 	<div class="row">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Additional Notes' %>
+				<%= f.text_area :note, class: 'form-control' %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
 		<div class="col-sm-6 col-md-4 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Do you need registration assistance?*' %>
@@ -228,14 +236,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-sm-6 col-md-6 col-md-offset-3">
-			<div class="form-group">
-				<%= f.label 'Additional Notes' %>
-				<%= f.text_area :note, class: 'form-control' %>
-			</div>
-		</div>
-	</div>
+	
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
