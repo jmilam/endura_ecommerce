@@ -1,9 +1,25 @@
 class CatalogRequestController < ApplicationController
 	def create
-		@catalog = CatalogRequest.new(catalog_params)
 		@user = current_user
 
 		begin
+			@catalog = CatalogRequest.new(catalog_params)
+
+			[params[:catalog_request][:file_1], params[:catalog_request][:file_2]].each_with_index do |doc, index|
+				unless doc.nil?
+					file_path = "/media/z/Marketing/Marketing Portal files/#{doc.original_filename}"
+					# file_path = "/Users/jmilam/Desktop/#{doc.original_filename}"
+					File.open("#{file_path}", 'wb') do |file|
+						file.write(doc.read)
+					end
+
+					if index == 0
+						@catalog.file_1 = file_path
+					elsif index == 1
+						@catalog.file_2 = file_path
+					end
+				end
+			end
 			if @catalog.save
 				if Order.current_order?(@user).empty?
 					create_new_order("catalog_request", @catalog.id, 1)
@@ -12,14 +28,14 @@ class CatalogRequestController < ApplicationController
 				end
 
 				flash[:notice] = "Request Form successfully created"
-				redirect_to user_portal_index_path(partial: 'catalog_request_form')
+				redirect_to user_portal_index_path(partial: 'catalog_request')
 			else
 				flash[:error] = @catalog.errors
-				render user_portal_index_path(partial: 'catalog_request_form')
+				render user_portal_index_path(partial: 'catalog_request')
 			end
 		rescue 
 			flash[:error] = @catalog.errors
-			redirect_to user_portal_index_path(partial: 'catalog_request_form')
+			redirect_to user_portal_index_path(partial: 'catalog_request')
 		end
 	end
 

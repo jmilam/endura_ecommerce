@@ -12,10 +12,29 @@ class TradeshowSupportRequestController < ApplicationController
 	end
 
 	def create
-		@tradeshow = TradeshowRequest.new(tradeshow_params)
 		@user = current_user
 
 		begin
+			@tradeshow = TradeshowRequest.new(tradeshow_params)
+
+			attendee_list = params[:tradeshow_request][:attendee_list]
+			credit_doc = params[:tradeshow_request][:credit_documentation]
+			
+			[attendee_list, credit_doc].each_with_index do |doc, index|
+				unless doc.nil?
+					file_path = "/media/z/Marketing/Marketing Portal files/#{doc.original_filename}"
+					# file_path = "/Users/jmilam/Desktop/#{doc.original_filename}"
+					File.open("#{file_path}", 'wb') do |file|
+						file.write(doc.read)
+					end
+
+					if index == 0
+						@tradeshow.attendee_list = file_path
+					elsif index == 1
+						@tradeshow.credit_documentation = file_path
+					end
+				end
+			end
 			if @tradeshow.save
 				if Order.current_order?(@user).empty?
 					create_new_order("tradeshow_request", @tradeshow.id, 1)

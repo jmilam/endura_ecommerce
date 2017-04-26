@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419204727) do
+ActiveRecord::Schema.define(version: 20170426131027) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 20170419204727) do
     t.string   "weathersealing"
     t.string   "other"
     t.text     "other_desc",             limit: 65535
-    t.binary   "file_1",                 limit: 65535
-    t.binary   "file_2",                 limit: 65535
+    t.string   "file_1"
+    t.string   "file_2"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
   end
@@ -173,8 +173,8 @@ ActiveRecord::Schema.define(version: 20170419204727) do
     t.integer  "number_of_attendees",                          default: 0
     t.boolean  "registration_assistance",                      default: false
     t.boolean  "credit_issued",                                default: false
-    t.binary   "attendee_list",                  limit: 65535
-    t.binary   "credit_documentation",           limit: 65535
+    t.string   "attendee_list"
+    t.string   "credit_documentation"
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
     t.text     "note",                           limit: 65535
