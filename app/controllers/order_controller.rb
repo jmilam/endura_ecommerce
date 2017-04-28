@@ -113,7 +113,7 @@ class OrderController < ApplicationController
 	def need_verification
 		@product = Product.find_by_name("Other Samples")
 		@order_items = OrderItem.other_samples(@product.id).includes(:order) unless @product.nil?
-		@orders = @order_items.map {|item| item.order if item.order.accepted == true && item.admin_verified.nil?}
+		@orders = @order_items.map {|item| item.order if item.order.accepted == true && item.admin_verified.nil?} unless @order_items.nil?
 		@orders = @orders.include?(nil) ? [] : @orders
 	end
 

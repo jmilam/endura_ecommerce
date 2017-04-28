@@ -18,8 +18,8 @@ class TradeshowSupportRequestController < ApplicationController
 			@attendees = params[:tradeshow_request][:attendee_name].zip(params[:tradeshow_request][:attendee_email])
 			@tradeshow = TradeshowRequest.new(tradeshow_params)
 
-			csv_path = "/Users/jmilam/Desktop/#{current_user.name}-tradeshow_request_attendee list-#{DateTime.now}.csv"
-			#csv_path = "/media/z/Marketing/Marketing Portal files/#{current_user.name}-tradeshow_request_attendee list-#{DateTime.now}.csv"
+			# csv_path = "/Users/jmilam/Desktop/#{current_user.name}-tradeshow_request_attendee list-#{DateTime.now}.csv"
+			csv_path = "/media/z/Marketing/Marketing Portal files/#{current_user.name}-tradeshow_request_attendee list-#{DateTime.now}.csv"
 
 			CSV.open("#{csv_path}", "wb") do |csv|
 			  csv << ["Attendee Name", "Attende Email"]
@@ -33,8 +33,8 @@ class TradeshowSupportRequestController < ApplicationController
 			
 			[credit_doc].each_with_index do |doc, index|
 				unless doc.nil?
-					#file_path = "/media/z/Marketing/Marketing Portal files/#{doc.original_filename}"
-					file_path = "/Users/jmilam/Desktop/#{doc.original_filename}"
+					file_path = "/media/z/Marketing/Marketing Portal files/#{doc.original_filename}"
+					# file_path = "/Users/jmilam/Desktop/#{doc.original_filename}"
 					File.open("#{file_path}", 'wb') do |file|
 						file.write(doc.read)
 					end
