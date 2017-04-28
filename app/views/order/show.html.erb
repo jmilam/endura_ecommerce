@@ -36,7 +36,7 @@
 			<div class="row">
 				<div class="col-sm-6 col-md-6 col-md-offset-3">
 					<%= f.label 'Payment Method' %>
-					<%= f.select :payment_method, @payment_methods.map {|payment| payment}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+					<%= f.select :payment_method, @payment_methods.map {|payment| payment}, {}, {class: 'form-control '} %>
 				</div>
 			</div>
 			<div class="row">

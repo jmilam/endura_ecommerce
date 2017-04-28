@@ -5,7 +5,7 @@
 	</div>
 </div>
 
-<%= form_for :tradeshow_request, url: tradeshow_support_request_index_path, method: :post do |f| %>
+<%= form_for :tradeshow_request, url: tradeshow_support_request_path, method: :put do |f| %>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
@@ -180,6 +180,96 @@
 			</div>
 		</div>
 	</div>
+		<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Do you need booth registration and payment assistance?*' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<ul class="list-inline">
+					<li><%= f.radio_button :booth_assistance, true, class: 'form-control' %><div class="text-muted">Yes</div></li>
+					<li><%= f.radio_button :booth_assistance, false, {class: 'form-control'} %><div class="text-muted">No</div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Do you need attendee registration assistance?*' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<ul class="list-inline">
+					<li><%= f.radio_button :registration_assistance, true, class: 'form-control registration_assistance' %><div class="text-muted">Yes</div></li>
+					<li><%= f.radio_button :registration_assistance, false,  {class: 'form-control registration_assistance'} %><div class="text-muted">No</div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="row ">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'If YES above, attendee list is located at:' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-6 col-md-offset-3 user_group">
+			<div class="form-group">
+				<div class="form-inline">
+					<b><i><%=  @tradeshow_request.attendee_list %></i></b>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Do you need a credit issued for the show?*' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<ul class="list-inline">
+					<li><%= f.radio_button :credit_issued, true, class: 'form-control credit_issued' %><div class="text-muted">Yes</div></li>
+					<li><%= f.radio_button :credit_issued, false, {class: 'form-control credit_issued'} %><div class="text-muted">No</div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'If No, you can upload the file below.If YES above, file is located at:' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<% if @tradeshow_request.credit_documentation.nil? %>
+					<%= f.file_field :credit_documentation %>
+				<% else %>
+					<b><i><%= @tradeshow_request.credit_documentation %></i></b>
+				<% end %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Do you need hotel reservation assistance?*' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<ul class="list-inline">
+					<li><%= f.radio_button :hotel_assistance, true, class: 'form-control' %><div class="text-muted">Yes</div></li>
+					<li><%= f.radio_button :hotel_assistance, false, {class: 'form-control'} %><div class="text-muted">No</div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
@@ -189,58 +279,14 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-6 col-md-4 col-md-offset-3">
+		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
-				<%= f.label 'Do you need registration assistance?*' %>
+				<%= f.submit 'Update', class: 'btn btn-block btn-success' %>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-2">
+		<div class="col-sm-6 col-md-3">
 			<div class="form-group">
-				<%= f.radio_button :registration_assistance, class: 'form-control' %><div class="text-muted">Yes</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-6 col-md-4 col-md-offset-3">
-			<div class="form-group">
-				<%= f.label 'If YES above, please upload full attendee list*' %>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-2">
-			<div class="form-group">
-				<%= f.file_field :attendee_list %>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-6 col-md-4 col-md-offset-3">
-			<div class="form-group">
-				<%= f.label 'Do you need registration assistance?*' %>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-2">
-			<div class="form-group">
-				<%= f.radio_button :credit_issued, class: 'form-control' %><div class="text-muted">Yes</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-sm-6 col-md-4 col-md-offset-3">
-			<div class="form-group">
-				<%= f.label 'If YES above, please upload show credit documentation*' %>
-			</div>
-		</div>
-		<div class="col-sm-6 col-md-2">
-			<div class="form-group">
-				<%= f.file_field :credit_documentation %>
-			</div>
-		</div>
-	</div>
-	
-	<div class="row">
-		<div class="col-sm-6 col-md-6 col-md-offset-3">
-			<div class="form-group">
-				<%= link_to 'Print', '#', class: 'btn btn-block btn-danger' %>
+				<%= link_to 'Print', '#', onclick:"window.print();return false;",class: 'btn btn-block btn-danger' %>
 			</div>
 		</div>
 	</div>

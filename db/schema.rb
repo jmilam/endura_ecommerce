@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170426131027) do
+ActiveRecord::Schema.define(version: 20170428130552) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20170426131027) do
     t.float    "allocated_amt", limit: 24, default: 0.0
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.integer  "current_bal",              default: 0
+    t.float    "current_bal",   limit: 24, default: 0.0
     t.index ["customer_id"], name: "index_funds_banks_on_customer_id", using: :btree
   end
 
@@ -102,10 +102,11 @@ ActiveRecord::Schema.define(version: 20170426131027) do
     t.string   "item_type"
     t.integer  "reference_id"
     t.integer  "quantity"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.float    "item_total",   limit: 24, default: 0.0
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.float    "item_total",     limit: 24, default: 0.0
     t.string   "note"
+    t.boolean  "admin_verified"
   end
 
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -178,6 +179,8 @@ ActiveRecord::Schema.define(version: 20170426131027) do
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
     t.text     "note",                           limit: 65535
+    t.string   "booth_assistance"
+    t.string   "hotel_assistance"
   end
 
   create_table "tsms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

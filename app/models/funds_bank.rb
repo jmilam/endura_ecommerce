@@ -15,7 +15,7 @@ class FundsBank < ApplicationRecord
 		
 		unless @customer.nil? || @total == 0.0
 			@funds = @customer.funds_bank
-			@funds.update(current_bal: @funds.current_bal - @total)
+			@funds.update_attributes(current_bal: @funds.current_bal - @total)
 		end
 
 	end
