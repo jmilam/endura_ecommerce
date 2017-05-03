@@ -68,3 +68,17 @@ html, body {
 .glyph-danger {
     color: #d9534f;
 }
+
+.order_item_details {
+    display: none;
+}
+
+.order_item_details ~ tr {
+    display: none;
+}
+
+/*table tbody {
+
+    max-width:100%;
+    white-space:nowrap;
+}*/

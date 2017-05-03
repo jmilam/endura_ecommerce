@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
   </head>
 
   <body>
@@ -28,7 +29,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                      <%= link_to order_index_path do %>
+                      <%= link_to order_path("nil") do %>
                       <div id="cart_count"><%= @cart_count %></div>
                         <%= image_tag "cart_light.png", height: "50", data: {title: "5"} %>
                       <% end %>
@@ -51,7 +52,7 @@
         		<li><%= link_to "Endura Catalog Request Form", user_portal_index_path(partial: "catalog_request")%></li>
         		<li><%= link_to "Endura Marketing Request Form", user_portal_index_path(partial: "general_request")%></li>
              <li><%= link_to "Tradeshow Support Request Form", user_portal_index_path(partial: "tradeshow_support_request") %></li>
-        		<li><%= link_to "Endura Image Requst Form", user_portal_index_path(partial: "image_request")%></li>
+        		<li><%= link_to "Endura Image Request Form", user_portal_index_path(partial: "image_request")%></li>
         		<li><%= link_to "Products And Offering list",user_portal_index_path(partial: "offering_list")%></li>
         	</ul> 
         </div>

@@ -4,7 +4,8 @@ class FundsBank < ApplicationRecord
 	
 
 	def self.get_customer(customer_id)
-		Customer.find_by_id(customer_id).company_name
+		customer = Customer.find_by_id(customer_id)
+		customer.company_name unless customer.nil?
 	end
 
 	def self.deduct_from_customer(customer_id, order_id)
@@ -14,8 +15,23 @@ class FundsBank < ApplicationRecord
 		
 		unless @customer.nil? || @total == 0.0
 			@funds = @customer.funds_bank
-			@funds.update(current_bal: @funds.current_bal - @total)
+			@funds.update_attributes(current_bal: @funds.current_bal - @total)
 		end
 
+	end
+
+	def self.calculate_used(orders)
+		funds_summary = Hash.new
+		orders.each do |order|
+			sum = order.order_items.inject(0) {|sum, item| sum + item.item_total}
+			if funds_summary.keys.include?("#{order.customer_id}")
+				#Add to current array value
+				funds_summary["#{order.customer_id}"][:order_ids] << order.id
+				funds_summary["#{order.customer_id}"][:order_sum] << sum
+			else	
+				funds_summary["#{order.customer_id}"] = {order_ids: [order.id], order_sum: [sum]}
+			end
+		end
+		funds_summary
 	end
 end

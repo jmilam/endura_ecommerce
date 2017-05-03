@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329184304) do
+ActiveRecord::Schema.define(version: 20170428130552) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -37,8 +37,8 @@ ActiveRecord::Schema.define(version: 20170329184304) do
     t.string   "weathersealing"
     t.string   "other"
     t.text     "other_desc",             limit: 65535
-    t.binary   "file_1",                 limit: 65535
-    t.binary   "file_2",                 limit: 65535
+    t.string   "file_1"
+    t.string   "file_2"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
   end
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20170329184304) do
     t.float    "allocated_amt", limit: 24, default: 0.0
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
-    t.integer  "current_bal",              default: 0
+    t.float    "current_bal",   limit: 24, default: 0.0
     t.index ["customer_id"], name: "index_funds_banks_on_customer_id", using: :btree
   end
 
@@ -87,15 +87,26 @@ ActiveRecord::Schema.define(version: 20170329184304) do
     t.datetime "updated_at",                        null: false
   end
 
+  create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "name"
+    t.float    "price",      limit: 24
+    t.string   "group"
+    t.string   "file_name"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.string   "sub_group"
+  end
+
   create_table "order_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "order_id"
     t.string   "item_type"
     t.integer  "reference_id"
     t.integer  "quantity"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.float    "item_total",   limit: 24, default: 0.0
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.float    "item_total",     limit: 24, default: 0.0
     t.string   "note"
+    t.boolean  "admin_verified"
   end
 
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -107,13 +118,14 @@ ActiveRecord::Schema.define(version: 20170329184304) do
     t.date     "deadline"
     t.string   "deadline_reason"
     t.text     "payment_method",  limit: 65535
-    t.integer  "company_id"
+    t.integer  "customer_id"
     t.text     "order_reason",    limit: 65535
     t.string   "address"
     t.string   "city"
     t.string   "state"
     t.string   "zipcode"
     t.boolean  "accepted"
+    t.string   "email"
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -122,6 +134,7 @@ ActiveRecord::Schema.define(version: 20170329184304) do
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.text     "group",      limit: 65535
+    t.string   "file_name"
   end
 
   create_table "sales_reps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -161,10 +174,13 @@ ActiveRecord::Schema.define(version: 20170329184304) do
     t.integer  "number_of_attendees",                          default: 0
     t.boolean  "registration_assistance",                      default: false
     t.boolean  "credit_issued",                                default: false
-    t.binary   "attendee_list",                  limit: 65535
-    t.binary   "credit_documentation",           limit: 65535
+    t.string   "attendee_list"
+    t.string   "credit_documentation"
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
+    t.text     "note",                           limit: 65535
+    t.string   "booth_assistance"
+    t.string   "hotel_assistance"
   end
 
   create_table "tsms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

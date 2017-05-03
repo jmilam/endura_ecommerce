@@ -15,11 +15,17 @@ class SalesRepController < ApplicationController
 
 	def create
 		@sales_rep = Tsm.find_by_id(params[:sales_rep][:tsm_id]).sales_reps.new(sales_rep_params)
-		if @sales_rep.save
-			flash[:notice] = "User successfully created"
-			redirect_to :back
-		else
-			flash[:error] = @sales_rep.errors
+		@sales_rep.created_at = Date.today
+		begin
+			if @sales_rep.save
+				flash[:notice] = "User successfully created"
+				redirect_to :back
+			else
+				flash[:error] = @sales_rep.errors
+				redirect_to :back
+			end
+		rescue Exception => e
+			flash[:error] = e
 			redirect_to :back
 		end
 	end

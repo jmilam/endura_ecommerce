@@ -1,0 +1,40 @@
+<% if @orders.empty? %>
+	<div class="jumbotron">
+		<div class="container text-center">
+		  <h2>No Current Orders!</h2>
+		  <p class="lead">There are no orders that need to be verified.</p>
+		</div>
+	</div>
+<% else %>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Order #</th>
+				<th>Order Item Count</th>
+				<th>Order Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @orders.each do |order| %>
+				<% if order.class == Array %>
+					<% order.each do |o| %>
+						<% unless o.nil? %>
+							<tr>
+								<td><%= link_to "#{o.id}", edit_order_path(o.id) %></td>
+								<td><%= o.order_items.count %></td>
+								<td><%= number_to_currency(o.sum) %></td>
+							</tr>
+						<% end %>
+					<% end %>
+				<% else %>
+					<tr>
+						<td><%= link_to "#{order.id}", edit_order_path(order.id) %></td>
+						<td><%= order.order_items.count %></td>
+						<td><%= number_to_currency(order.sum) %></td>
+					</tr>
+				<% end %>
+			<% end %>
+		</tbody>
+	</table>
+<% end %>
+

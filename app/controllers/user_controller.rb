@@ -4,7 +4,7 @@ class UserController < ApplicationController
 		@table_headers = ["Email", "Actions"]
 		@data_variable = User.new
 		@path = user_index_path
-		@column_names = [:email, :password, :password_confirmation]
+		@column_names = [:email, :password, :password_confirmation, :admin]
 		respond_to do |format|
 			format.js { render :template => "/partials/new" }
 		end
@@ -12,11 +12,17 @@ class UserController < ApplicationController
 
 	def create
 		@user = User.new(user_params)
-		if @user.save
-			flash[:notice] = "User successfully created"
-			redirect_to :back
-		else
-			flash[:error] = @user.errors
+		@user.created_at = Date.today
+		begin
+			if @user.save
+				flash[:notice] = "User successfully created"
+				redirect_to :back
+			else
+				flash[:error] = @user.errors
+				redirect_to :back
+			end
+		rescue Exception => e
+			flash[:error] = e
 			redirect_to :back
 		end
 	end
@@ -67,7 +73,7 @@ class UserController < ApplicationController
 	private
 
 	def user_params
-		params.require(:user).permit(:email, :password, :password_confirmation, :name, :checkbox, :created_at)
+		params.require(:user).permit(:email, :password, :password_confirmation, :name, :checkbox, :created_at, :admin)
 	end
 
 end

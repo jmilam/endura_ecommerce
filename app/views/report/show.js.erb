@@ -1,0 +1,14 @@
+$('#report_view').html("<%= escape_javascript render(:partial => 'result_data') %>")
+
+$('.order_header').on('click', function(){
+	if ($(this).next().css('display') == 'none') {		
+		$(this).nextAll().show();
+		$(this).children('td:eq(0)').children().removeClass('glyphicon-chevron-up')
+		$(this).children('td:eq(0)').children().addClass('glyphicon-chevron-down')
+	} else {
+		$(this).nextAll().hide();
+		$(this).children('td:eq(0)').children().removeClass('glyphicon-chevron-down')
+		$(this).children('td:eq(0)').children().addClass('glyphicon-chevron-up')
+	}
+});
+	

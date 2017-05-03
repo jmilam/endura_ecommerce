@@ -3,6 +3,7 @@ class SalesRep < ApplicationRecord
 	has_many :customers
 
 	def self.get_name(rep_id)
-		SalesRep.find_by_id(rep_id).name
+		rep = SalesRep.find_by_id(rep_id)
+		rep.name unless rep.nil?
 	end
 end

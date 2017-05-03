@@ -17,7 +17,7 @@ set :scm,           :git
 set :keep_releases, 5
 #et :assets_roles, [:web, :app]
 # set :format,        :pretty
-# set :log_level,     :debug
+set :log_level,     :debug
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 

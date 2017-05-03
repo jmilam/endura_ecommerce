@@ -12,11 +12,17 @@ class TsmController < ApplicationController
 
 	def create
 		@tsm = Tsm.new(tsm_params)
-		if @tsm.save
-			flash[:notice] = "TSM successfully created"
-			redirect_to :back
-		else
-			flash[:error] = @tsm.errors
+		@tsm.created_at = Date.today
+		begin
+			if @tsm.save
+				flash[:notice] = "TSM successfully created"
+				redirect_to :back
+			else
+				flash[:error] = @tsm.errors
+				redirect_to :back
+			end
+		rescue Exception => e
+			flash[:error] = e
 			redirect_to :back
 		end
 	end

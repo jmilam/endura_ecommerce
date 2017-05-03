@@ -3,43 +3,65 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on "turbolinks:load", ->
+  current_date = new Date()
+  current_date.setDate(current_date.getDate() + 14)
+  min_date = new Date(current_date.getFullYear(), current_date.getMonth(), current_date.getDate())
+
+  $('#item_product_type, #image_group, #image_sub_group').on 'change', ->
+    $('div').attr 'hidden', false
+    $('input').not('.' + $(this).val().toLowerCase()).parent().attr 'hidden', true
+    $('.item_qty_input').parent().attr 'hidden', false
+
   $('.update_response').css 'height', '20px'
+
+  $('.add_user').on 'click', ->
+    $('.user_group').append '<div class="form-group"><div class="form-inline"><input placeholder="Name" class="form-control" type="text" name="tradeshow_request[attendee_name][]" id="tradeshow_request_attendee_name[]"> <input placeholder="Email" class="form-control" type="text" name="tradeshow_request[attendee_email][]" id="tradeshow_request_attendee_email[]"></div></div>'
+
 
   $('#date').datepicker
     dateFormat: 'yy-mm-dd'
   $('#deadline').datepicker
     dateFormat: 'yy-mm-dd'
+    minDate: min_date
+  $('#end_date').datepicker
+    dateFormat: 'yy-mm-dd'
   $("#image_request_company_name, #catalog_request_company_name, #order_company_name").on 'change', ->
     ajaxCompanyRequest $(this).val(), '/customer/1', 'GET'
 
   $('.add_to_cart').on 'click', ->
-    qty = $(this).parent().siblings('.item_qty').children('.item_qty_input').val()
-    item_desc = $(this).parent().siblings('.product_name_container').text()
-    item_note = $(this).parent().siblings('.notes').children('textarea').val()
-    ajaxCartRequest $(this).val(), '/order_item', 'POST', item_desc, qty, $(this), item_note
+    qty = $(this).parent().parent().parent().children('.thumbnail').children('.item_qty').children().children('.item_qty_input').val()
+
+    item_desc = $(this).parent().parent().parent().children('.thumbnail').children('.product_name_container').text()
+    item_note = $(this).parent().parent().parent().children('.thumbnail').children('.notes').children().eq(1).val()
+    ajaxCartRequest $(this).val(), '/order_item', 'POST', item_desc, qty, $(this), item_note, window.location.search.match(/[^=]+/g)[1]
 
   $('.item_qty_input').on 'keyup', ->
     if $(this).val() == ''
 
     else
-      item_cost = parseFloat $(this).parent().siblings('.item_cost').text().match(/[^$]+/)[0]
+      item_cost = parseFloat $(this).parent().parent().siblings('.item_cost').text().match(/[^$]+/)[0]
       qty = parseInt $(this).val()
       if item_cost * qty == 0
-        $(this).parent().siblings('.total_cost').text("$0.00")
+        $(this).parent().parent().siblings('.total_cost').text("$0.00")
       else
-        $(this).parent().siblings('.total_cost').text("$" + item_cost * qty)
+        $(this).parent().parent().siblings('.total_cost').text("$" + (item_cost * qty).toFixed(2))
 
-  ajaxCartRequest = (company_name, url, request_type, item_desc, qty, object, note) ->
+  $('.registration_assistance, .credit_issued, .additional_notes').on 'click', ->
+    if $(this).val() == "true"
+      $(this).parents('.row:eq(0)').next().removeClass('hide')
+    else
+      $(this).parents('.row:eq(0)').next().addClass('hide')
+
+  ajaxCartRequest = (company_name, url, request_type, item_desc, qty, object, note, item_type) ->
     $.ajaxSetup headers: 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
     $.ajax
       url: url
       type: request_type
       dataType: 'json'
-      data: qty: qty, item_desc: item_desc, note: note
+      data: qty: qty, item_desc: item_desc, note: note, item_type: item_type
       success: (response) ->
         response = JSON.stringify response
         response = JSON.parse response
-        console.log response
         if response.success
           sum = parseInt $('#cart_count').text()
           $('#cart_count').text sum + 1
@@ -64,7 +86,5 @@ $(document).on "turbolinks:load", ->
         $('.state').val response.state
         $('.zipcode').val response.zipcode
         return
-
-
 
   return

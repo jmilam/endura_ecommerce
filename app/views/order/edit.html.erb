@@ -1,0 +1,24 @@
+<%= form_for @order,url: order_path(@order.id, job: "admin_verify"), method: :put do |f| %>	
+	<table class="table table">
+		<thead>
+			<tr>
+				<th>Item Description</th>
+				<th>Item Qty</th>
+				<th>Item Cost</th>
+				<th>Notes</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @order_items.each do |item| %>
+				<tr>
+					<td><%= item.product_name_by_product_type %></td>
+					<td><%= item.quantity %></td>
+					<td><%= text_field_tag "item_total[#{item.id}][]", "#{item.item_total}",  class: 'form-control' %></td>
+					<td><%= text_area_tag "item_note[#{item.note}][]", "#{item.note}", class: 'form-control' %></td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<%= f.submit "Verify Order", class: "btn btn-block btn-primary" %>
+<% end %>
+

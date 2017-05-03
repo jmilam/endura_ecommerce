@@ -5,11 +5,12 @@ FactoryGirl.define do
     deadline				'2012-12-25'
     deadline_reason		    'Test Order'
     payment_method		    'Rebate/Marketing Funds'
-    company_id				nil
+    customer_id				nil
     order_reason			'To test order functions'
     address					'8817 W Market St'
     city					'Colfax'
     state					'NC'
     zipcode					27235
+    email                   'jmilam@enduraproducts.com'
   end
 end

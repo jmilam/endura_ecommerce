@@ -183,40 +183,65 @@
 	<div class="row">
 		<div class="col-sm-6 col-md-4 col-md-offset-3">
 			<div class="form-group">
-				<%= f.label 'Do you need registration assistance?*' %>
+				<%= f.label 'Do you need booth registration and payment assistance?*' %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-2">
 			<div class="form-group">
-				<%= f.radio_button :registration_assistance, class: 'form-control' %><div class="text-muted">Yes</div>
+				<ul class="list-inline">
+					<li><%= f.radio_button :booth_assistance, true, class: 'form-control' %><div class="text-muted">Yes</div></li>
+					<li><%= f.radio_button :booth_assistance, false, {checked: true, class: 'form-control'} %><div class="text-muted">No</div></li>
+				</ul>
 			</div>
 		</div>
 	</div>
 	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Do you need attendee registration assistance?*' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<ul class="list-inline">
+					<li><%= f.radio_button :registration_assistance, true, class: 'form-control registration_assistance' %><div class="text-muted">Yes</div></li>
+					<li><%= f.radio_button :registration_assistance, false,  {checked: true, class: 'form-control registration_assistance'} %><div class="text-muted">No</div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="row hide">
 		<div class="col-sm-6 col-md-4 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'If YES above, please upload full attendee list*' %>
 			</div>
 		</div>
-		<div class="col-sm-6 col-md-2">
+		<div class="col-sm-6 col-md-6 col-md-offset-3 user_group">
 			<div class="form-group">
-				<%= f.file_field :attendee_list %>
+				<%#= f.file_field :attendee_list %>
+				<div class="form-inline">
+					<%= f.text_field :attendee_name, :multiple => true , placeholder: 'Name', class: 'form-control' %> <%= f.text_field :attendee_email, multiple: true, placeholder: 'Email', class: 'form-control' %>
+					<span class="glyphicon glyphicon-plus-sign add_user" style="color: #5cb85c"></span>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-4 col-md-offset-3">
 			<div class="form-group">
-				<%= f.label 'Do you need registration assistance?*' %>
+				<%= f.label 'Do you need a credit issued for the show?*' %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-2">
 			<div class="form-group">
-				<%= f.radio_button :credit_issued, class: 'form-control' %><div class="text-muted">Yes</div>
+				<ul class="list-inline">
+					<li><%= f.radio_button :credit_issued, true, class: 'form-control credit_issued' %><div class="text-muted">Yes</div></li>
+					<li><%= f.radio_button :credit_issued, false, {checked: true, class: 'form-control credit_issued'} %><div class="text-muted">No</div></li>
+				</ul>
 			</div>
 		</div>
 	</div>
-	<div class="row">
+	<div class="row hide">
 		<div class="col-sm-6 col-md-4 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'If YES above, please upload show credit documentation*' %>
@@ -225,6 +250,39 @@
 		<div class="col-sm-6 col-md-2">
 			<div class="form-group">
 				<%= f.file_field :credit_documentation %>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Do you need hotel reservation assistance?*' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<div class="form-group">
+				<ul class="list-inline">
+					<li><%= f.radio_button :hotel_assistance, true, class: 'form-control' %><div class="text-muted">Yes</div></li>
+					<li><%= f.radio_button :hotel_assistance, false, {checked: true, class: 'form-control'} %><div class="text-muted">No</div></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-6 col-md-4 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Add additional Notes:' %>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-2">
+			<%= f.radio_button :additional_notes, true, class: 'additional_notes' %><div class="text-muted">Yes</div>
+		</div>
+	</div>
+	<div class="row hide">
+		<div class="col-sm-6 col-md-6 col-md-offset-3">
+			<div class="form-group">
+				<%= f.label 'Additional Notes' %>
+				<%= f.text_area :note, class: 'form-control' %>
 			</div>
 		</div>
 	</div>

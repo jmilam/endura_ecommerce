@@ -1,21 +1,30 @@
 <div class="row">
 	<div class="centered">
 		<%#= image_tag 'powered_by.png' %>
-		<h1>Endura Marketing Literature Order Form</h1>
+		<h1>Endura Marketing Request Form</h1>
 	</div>
+</div>
+
+<div class="row">
+  <div class="col-md-8 col-md-offset-2">
+    <b>Item Type</b>
+    <%= select :types, "Product Type", ["Credits", "Literature", "Samples", "Services"].map {|file_format| [file_format, file_format.downcase.gsub(" ", "_")]}, {prompt: '- Please Select -'}, {class: 'form-control ', id: 'item_product_type'} %>
+  </div>
 </div>
 
 <div class="row" style="margin-top:10px;">
 	<% @products.each do |product| %>
+
   	<div class="col-sm-6 col-md-4">
+      <%= hidden_field_tag "#{product.group}", "#{product.group}", class: "#{product.group.downcase.gsub(" ", "_")}" %>
     	<div class="thumbnail">
-      	<%= image_tag 'endura-check.svg' %>
+      	<%= image_tag product.show_image, size: 70 %>
       	<p class="text-center product_name_container"><%= product.name %></p>
       	<p><div class="text-center item_cost"><%= number_to_currency(product.price) %></div></p>
-      	<p class="text-center item_qty">Qty: <%= text_field_tag :qty, 0, class: "form-control text-center item_qty_input"%></p>
-      		<%= label_tag 'Total Cost: ' %>
-      		<div class='total_cost'><%= label_tag '$0.00'%></div>
-      	<div class="form-group notes">
+      	<div class="col-md-10 col-md-offset-1 item_qty"><p class="text-center">Qty: <%= text_field_tag :qty, 0, class: "form-control text-center item_qty_input"%></p></div>
+      		<div class="text-center"><%= label_tag 'Total Cost: ' %></div>
+      		<div class='total_cost text-center'><%= label_tag '$0.00'%></div>
+      	<div class="form-group notes col-md-10 col-md-offset-1">
       		<%= label_tag 'Notes:' %>
       		<%= text_area_tag :notes, nil , class: "form-control", placeholder: "Type any notes you have here.." %>
       	</div>
