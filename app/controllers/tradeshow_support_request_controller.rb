@@ -13,14 +13,15 @@ class TradeshowSupportRequestController < ApplicationController
 
 	def create
 		@user = current_user
+		@file_paths = Array.new
 
 		begin
 			@attendees = params[:tradeshow_request][:attendee_name].zip(params[:tradeshow_request][:attendee_email])
 			@tradeshow = TradeshowRequest.new(tradeshow_params)
-
-			# csv_path = "/Users/jmilam/Desktop/#{current_user.name}-tradeshow_request_attendee list-#{DateTime.now}.csv"
+			#csv_path = "/Users/jmilam/Desktop/#{current_user.name}-tradeshow_request_attendee list-#{DateTime.now}.csv"
 			csv_path = "/media/z/Marketing/Marketing Portal files/#{current_user.name}-tradeshow_request_attendee list-#{DateTime.now}.csv"
 
+			@file_paths << csv_path
 			CSV.open("#{csv_path}", "wb") do |csv|
 			  csv << ["Attendee Name", "Attende Email"]
 			  @attendees.each do |data|
@@ -34,7 +35,8 @@ class TradeshowSupportRequestController < ApplicationController
 			[credit_doc].each_with_index do |doc, index|
 				unless doc.nil?
 					file_path = "/media/z/Marketing/Marketing Portal files/#{doc.original_filename}"
-					# file_path = "/Users/jmilam/Desktop/#{doc.original_filename}"
+					#file_path = "/Users/jmilam/Desktop/#{doc.original_filename}"
+					@file_paths << file_path
 					File.open("#{file_path}", 'wb') do |file|
 						file.write(doc.read)
 					end
@@ -54,11 +56,15 @@ class TradeshowSupportRequestController < ApplicationController
 				flash[:notice] = "Request Form successfully created"
 				redirect_to :back
 			else
-				flash[:errors] = @tradeshow.errors
+				@file_paths.each do |file|
+					File.delete(file)
+				end
+
+				flash[:error] = @tradeshow.errors
 				redirect_to :back
 			end
-		rescue 
-			flash[:error] = @tradeshow.errors
+		rescue Exception => e
+			flash[:error] = e
 			redirect_to :back
 		end
 	end

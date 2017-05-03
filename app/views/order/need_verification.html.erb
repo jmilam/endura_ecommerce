@@ -16,11 +16,23 @@
 		</thead>
 		<tbody>
 			<% @orders.each do |order| %>
-				<tr>
-					<td><%= link_to "#{order.id}", edit_order_path(order.id) %></td>
-					<td><%= order.order_items.count %></td>
-					<td><%= number_to_currency(order.sum) %></td>
-				</tr>
+				<% if order.class == Array %>
+					<% order.each do |o| %>
+						<% unless o.nil? %>
+							<tr>
+								<td><%= link_to "#{o.id}", edit_order_path(o.id) %></td>
+								<td><%= o.order_items.count %></td>
+								<td><%= number_to_currency(o.sum) %></td>
+							</tr>
+						<% end %>
+					<% end %>
+				<% else %>
+					<tr>
+						<td><%= link_to "#{order.id}", edit_order_path(order.id) %></td>
+						<td><%= order.order_items.count %></td>
+						<td><%= number_to_currency(order.sum) %></td>
+					</tr>
+				<% end %>
 			<% end %>
 		</tbody>
 	</table>

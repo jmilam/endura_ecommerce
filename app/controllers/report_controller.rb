@@ -4,6 +4,7 @@ class ReportController < ApplicationController
 
 	def show
 		begin
+			admin = current_user.admin
 			@fund_summary = Array.new
 			@title = params[:commit].gsub("_", " ").titlecase
 			@report_type = params[:commit]
@@ -13,7 +14,7 @@ class ReportController < ApplicationController
 
 			case params[:commit].downcase
 			when "all_approved/rejected_orders"
-				@orders = Order.no_nil_accepted.from_date_range(@start_date, @end_date).includes(:order_items).sort_by {|order| order.accepted ? 0 : 1}
+				@orders = admin ? Order.no_nil_accepted.from_date_range(@start_date, @end_date).includes(:order_items).sort_by {|order| order.accepted ? 0 : 1} : Order.no_nil_accepted.from_date_range(@start_date, @end_date).includes(:order_items).individual(current_user.id).sort_by {|order| order.accepted ? 0 : 1}
 				@results = @orders
 			when 'export_customer_details'
 				@results = Customer.all
@@ -23,10 +24,21 @@ class ReportController < ApplicationController
 				@results = TradeshowRequest.from_date_range(@start_date, @end_date)
 			when 'funds_details_by_customer'
 				@customers = Array.new
-				@orders = Order.from_date_range(@start_date, @end_date).includes(:order_items)
+				@customer_chart_data = Array.new
+				@orders = admin ? Order.from_date_range(@start_date, @end_date).includes(:order_items) : Order.from_date_range(@start_date, @end_date).includes(:order_items).individual(current_user.id)
 				FundsBank.calculate_used(@orders).keys.each do |customer_id|
-					@customers << Customer.find_by_id(customer_id)
-					@fund_summary << FundsBank.find_by_customer_id(customer_id)
+					customer = Customer.find_by_id(customer_id)
+					@customers << customer
+
+					funds = FundsBank.find_by_customer_id(customer_id)
+					@fund_summary << funds
+
+					@customer_chart_data << [
+													          ['Task', 'Hours per Day'],
+													          ['Used Amt',   (funds.allocated_amt - funds.current_bal).abs],
+													          ['Available Amt',     funds.current_bal]
+													        ]
+					
 				end
 				@results = @fund_summary
 				@customers = @customers.sort_by {|customer| customer.company_name}

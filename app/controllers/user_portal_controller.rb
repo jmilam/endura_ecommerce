@@ -1,5 +1,6 @@
 class UserPortalController < ApplicationController
   def index
+    @user = current_user
     #@product = Product.new
     @products = Product.group(:group, :price, :id).order('name ASC')
     @catalog = CatalogRequest.new(params[:form_params])

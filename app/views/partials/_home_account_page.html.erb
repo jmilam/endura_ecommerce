@@ -1,95 +1,118 @@
-<div class="row">
-  <div id="account_management_view"></div>
-</div>
+<% if @user.admin %>
+  <div class="row">
+    <div id="account_management_view"></div>
+  </div>
 
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail centered">
-      <div class="caption">
-        <h3>Mangage Users</h3>
-        <p>Add, Edit, or Delete Users.</p>
-        <p><%= link_to "New", new_user_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_user_path(1), remote: true, class: "btn btn-warning" %></p>
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Mangage Users</h3>
+          <p>Add, Edit, or Delete Users.</p>
+          <p><%= link_to "New", new_user_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_user_path(1), remote: true, class: "btn btn-warning" %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Mangage TSM</h3>
+          <p>Add, Edit, or Delete Tsm's.</p>
+          <p><%= link_to "New", new_tsm_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_tsm_path(1), remote: true, class: "btn btn-warning" %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Mangage Sales Reps</h3>
+          <p>Add, Edit, or Delete Sales Reps.</p>
+          <p><%= link_to "New", new_sales_rep_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_sales_rep_path(1), remote: true, class: "btn btn-warning" %></p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail centered">
-      <div class="caption">
-        <h3>Mangage TSM</h3>
-        <p>Add, Edit, or Delete Tsm's.</p>
-        <p><%= link_to "New", new_tsm_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_tsm_path(1), remote: true, class: "btn btn-warning" %></p>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail centered">
-      <div class="caption">
-        <h3>Mangage Sales Reps</h3>
-        <p>Add, Edit, or Delete Sales Reps.</p>
-        <p><%= link_to "New", new_sales_rep_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_sales_rep_path(1), remote: true, class: "btn btn-warning" %></p>
-      </div>
-    </div>
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail centered">
-      <div class="caption">
-        <h3>Mangage Customers</h3>
-        <p>Add, Edit, or Delete Users.</p>
-        <p><%= link_to "New", new_customer_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_customer_path(1), remote: true, class: "btn btn-warning" %></p>
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Mangage Customers</h3>
+          <p>Add, Edit, or Delete Users.</p>
+          <p><%= link_to "New", new_customer_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_customer_path(1), remote: true, class: "btn btn-warning" %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Mangage Funds</h3>
+          <p>Add, Edit, or Refund Allocated Funds</p>
+          <p><%= link_to "New", new_funds_bank_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_funds_bank_path(1), remote: true, class: "btn btn-warning" %> <%= link_to "Refund", refund_new_path, remote: true, class: "btn btn-primary" %> </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Admin Verification</h3>
+          <p>Orders that need Admin attention.</p>
+          <p><%= link_to "View", need_verification_path, class: "btn btn-primary" %></p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail centered">
-      <div class="caption">
-        <h3>Mangage Funds</h3>
-        <p>Add, Edit, or Refund Allocated Funds</p>
-        <p><%= link_to "New", new_funds_bank_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_funds_bank_path(1), remote: true, class: "btn btn-warning" %> <%= link_to "Refund", refund_new_path, remote: true, class: "btn btn-primary" %> </p>
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Mangage Items</h3>
+          <p>Add, Edit, or Delete Users.</p>
+          <p><%= link_to "New",new_product_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_product_path(1), remote: true, class: "btn btn-warning" %> <%= link_to "Upload", nil, remote: true, class: "btn btn-primary", data: {toggle: "modal", target:"#myModal"} %> </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Previous Orders</h3>
+          <p>View Previous Orders.</p>
+          <p><%= link_to "View", order_index_path(overview: true), class: "btn btn-primary" %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Reports</h3>
+          <p>Run Reports.</p>
+          <p><%= link_to "View",report_index_path, class: "btn btn-primary" %></p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail centered">
-      <div class="caption">
-        <h3>Previous Orders</h3>
-        <p>View Previous Orders.</p>
-        <p><%= link_to "View", order_index_path(overview: true), class: "btn btn-primary" %></p>
+<% else %>
+  <div class="row">
+    <div class="col-sm-6 col-md-6">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Previous Orders</h3>
+          <p>View Previous Orders.</p>
+          <p><%= link_to "View", order_index_path(overview: true), class: "btn btn-info" %></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-6">
+      <div class="thumbnail centered">
+        <div class="caption">
+          <h3>Reports</h3>
+          <p>Run Reports.</p>
+          <p><%= link_to "View",report_index_path, class: "btn btn-warning" %></p>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail centered">
-      <div class="caption">
-        <h3>Mangage Items</h3>
-        <p>Add, Edit, or Delete Users.</p>
-        <p><%= link_to "New",new_product_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_product_path(1), remote: true, class: "btn btn-warning" %> <%= link_to "Upload", nil, remote: true, class: "btn btn-primary", data: {toggle: "modal", target:"#myModal"} %> </p>
-      </div>
-    </div>
-  </div>
-   <div class="col-sm-6 col-md-4">
-    <div class="thumbnail centered">
-      <div class="caption">
-        <h3>Reports</h3>
-        <p>Run Reports.</p>
-        <p><%= link_to "View",report_index_path, class: "btn btn-primary" %></p>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-6 col-md-4">
-    <div class="thumbnail centered">
-      <div class="caption">
-        <h3>Admin Verification</h3>
-        <p>Orders that need Admin attention.</p>
-        <p><%= link_to "View", need_verification_path, class: "btn btn-primary" %></p>
-      </div>
-    </div>
-  </div>
-</div>
+<% end %>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">

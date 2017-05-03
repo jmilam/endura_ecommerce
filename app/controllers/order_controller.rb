@@ -57,11 +57,13 @@ class OrderController < ApplicationController
 							redirect_to order_path(@order.id)
 						end
 					elsif params[:job] == "approve"
+						p params
 						if @order.update(accepted: params[:accepted])
 							if @order.payment_method == "Rebate/Marketing Funds" && @order.accepted
 								includes_other_samples = false
 								other_sample = Product.find_by_name("Other Samples")
-								order.order_items.each {|item| item.reference_id == other_sample.id ? includes_other_samples = true : next} unless other_sample.nil?
+								other_literature = Product.find_by_name("Other Literature")
+								@order.order_items.each {|item| item.reference_id == other_sample.id || item.reference_id == other_literature.id ? includes_other_samples = true : next} unless other_sample.nil?
 								FundsBank.deduct_from_customer(@order.customer_id, @order.id) if includes_other_samples == false
 							end
 							@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id)
@@ -71,22 +73,30 @@ class OrderController < ApplicationController
 						end
 					elsif params[:job] == "admin_verify"
 						order = nil
+						counter = 0
+						
 						params[:item_total].each do |key, value|
+							if params[:item_note].class == Array
+								note = params[:item_note][counter][0]
+							else
+								note = params[:item_note].values[counter][0]
+							end
 							order = OrderItem.find_by_id(key).order if order.nil?
-							OrderItem.find_by_id(key).update(item_total: value.last.to_f, admin_verified: true)
+							OrderItem.find_by_id(key).update(item_total: value.last.to_f, note: note,  admin_verified: true)
+							counter += 1
 						end
 				
 						FundsBank.deduct_from_customer(order.customer_id, order.id)
 
 						flash[:notice] = "Your order has been verified!"
-						redirect_to order_index_path
+						redirect_to need_verification_path
 					else
 					end
-			rescue => error
+			rescue Exception => error
 				flash[:error] = error
 				redirect_to order_path(@order.id)
 			end
-	end
+		end
 		
 	end
 
@@ -111,10 +121,28 @@ class OrderController < ApplicationController
 	end
 
 	def need_verification
+		@orders = Array.new
+		order_ids = Array.new
 		@product = Product.find_by_name("Other Samples")
+		@literature = Product.find_by_name("Other Literature")
 		@order_items = OrderItem.other_samples(@product.id).includes(:order) unless @product.nil?
+		@order_literatures = OrderItem.other_literature(@literature.id) unless @literature.nil?
+
 		@orders = @order_items.map {|item| item.order if item.order.accepted == true && item.admin_verified.nil?} unless @order_items.nil?
-		@orders = @orders.include?(nil) ? [] : @orders
+		@orders << @order_literatures.map {|item| item.order if item.order.accepted == true && item.admin_verified.nil?} unless @order_literatures.nil?
+		@orders.delete_if {|order| order.nil? || order == [nil]}
+		@orders.each do |order| 
+			if order.class == Array
+				order.each do |o|
+					unless o.nil?
+						order_ids.include?(o.id) ? order.delete(o) : order_ids << o.id
+					end
+				end
+			else
+				order_ids.include?(order.id) ? @orders.delete(order) : order_ids << order.id
+			end
+		end
+		@orders = @orders.empty? ? [] : @orders
 	end
 
 	private

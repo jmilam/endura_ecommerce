@@ -4,6 +4,7 @@ class OrderItem < ApplicationRecord
 	scope :from_date_range, -> (start_date, end_date) {where("DATE_FORMAT(created_at,'%Y-%m-%d') >= ? AND DATE_FORMAT(created_at,'%Y-%m-%d') <= ?", start_date, end_date)}
 	scope :images, -> {where(item_type: "image_request")}
 	scope :other_samples, -> (product_id) {where("reference_id = ?", product_id)}
+	scope :other_literature, -> (product_id) {where("reference_id = ?", product_id)}
 	def product_name_by_product_type
 		case self.item_type
 		when "catalog_request"

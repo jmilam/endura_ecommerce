@@ -7,7 +7,7 @@ class Order < ApplicationRecord
 	scope :current, -> {where(current_order: true)}
 	scope :no_nil_accepted, -> {where('accepted = ? OR accepted = ?', true, false)}
 	scope :from_date_range, -> (start_date, end_date) {where("DATE_FORMAT(created_at,'%Y-%m-%d') >= ? AND DATE_FORMAT(created_at,'%Y-%m-%d') <= ?", start_date, end_date)}
-
+	scope :individual, -> (user_id) {where('user_id = ?', user_id)}
 	def sum
 		self.order_items.inject(0.0) {|sum, item| sum += item.item_total }
 	end

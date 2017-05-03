@@ -4,7 +4,7 @@ class UserController < ApplicationController
 		@table_headers = ["Email", "Actions"]
 		@data_variable = User.new
 		@path = user_index_path
-		@column_names = [:email, :password, :password_confirmation]
+		@column_names = [:email, :password, :password_confirmation, :admin]
 		respond_to do |format|
 			format.js { render :template => "/partials/new" }
 		end
@@ -73,7 +73,7 @@ class UserController < ApplicationController
 	private
 
 	def user_params
-		params.require(:user).permit(:email, :password, :password_confirmation, :name, :checkbox, :created_at)
+		params.require(:user).permit(:email, :password, :password_confirmation, :name, :checkbox, :created_at, :admin)
 	end
 
 end
