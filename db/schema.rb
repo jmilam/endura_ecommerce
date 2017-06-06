@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170428130552) do
+ActiveRecord::Schema.define(version: 20170606130421) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20170428130552) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.text     "company_contact", limit: 65535
+    t.string   "rep_group"
     t.index ["sales_rep_id"], name: "index_customers_on_sales_rep_id", using: :btree
   end
 
@@ -143,6 +144,7 @@ ActiveRecord::Schema.define(version: 20170428130552) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "email"
+    t.string   "rep_group"
     t.index ["tsm_id"], name: "index_sales_reps_on_tsm_id", using: :btree
   end
 

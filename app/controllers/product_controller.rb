@@ -36,7 +36,7 @@ class ProductController < ApplicationController
 				redirect_to :back
 			end
 		rescue Exception => e
-			flash[:error] => e
+			flash[:error] = e
 			redirect_to :back
 		end
 	end
