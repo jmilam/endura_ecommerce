@@ -23,7 +23,7 @@ class OrderController < ApplicationController
 				@total_sum = @items.inject(0) {|sum, item| sum += item.item_total}
 				@total_qty = @items.inject(0) {|sum, item| sum += item.quantity}
 				@products = Product.all
-				@customers = Customer.all
+				@customers = Customer.all.order('company_name ASC')
 				@payment_methods = ["Rebate/Marketing Funds", "Sales Rep", "Customer PO"]
 			end
 		rescue => error

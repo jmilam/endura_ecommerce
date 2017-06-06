@@ -6,7 +6,7 @@ class UserPortalController < ApplicationController
     @catalog = CatalogRequest.new(params[:form_params])
     @sales_reps = SalesRep.all
     @tsms = Tsm.all
-    @customers = Customer.all
+    @customers = Customer.all.order('company_name ASC')
     @images = Image.order('name ASC')
     @image_groups = {groups: [], sub_groups: []}
     Image.all.each do |image| 

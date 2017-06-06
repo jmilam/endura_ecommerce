@@ -74,7 +74,22 @@
 		    row.children('td:eq(2)').append("<input class=form-control value='" + field_3 + "'></input>");
 		    row.children('td:eq(3)').empty();
 		    row.children('td:eq(3)').append("<a data-remote='true' class='btn btn-sm btn-warning update_edit' href='#'>Update</a> <a class='cancel_edit' href='#' style='vertical-align:bottom;'>Cancel</a>");
-	    } else if (row.children().length == 10) {
+	    } else if (row.children().length == 6) {
+	    	field_1 = row.children('td:eq(0)').text();
+		    field_2 = row.children('td:eq(1)').text();
+		    field_3 = row.children('td:eq(2)').text();  
+		    field_4 = row.children('td:eq(3)').text();
+		    row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append("<input class=form-control value='" + field_1 + "'></input>");
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append("<input class=form-control value='" + field_2 + "'></input>");
+		    row.children('td:eq(2)').empty();
+		    row.children('td:eq(2)').append("<input class=form-control value='" + field_3 + "'></input>");
+		    row.children('td:eq(3)').empty();
+		    row.children('td:eq(3)').append("<input class=form-control value='" + field_4 + "'></input>");
+		    row.children('td:eq(4)').empty();
+		    row.children('td:eq(4)').append("<a data-remote='true' class='btn btn-sm btn-warning update_edit' href='#'>Update</a> <a class='cancel_edit' href='#' style='vertical-align:bottom;'>Cancel</a>");
+	    } else if (row.children().length == 12) {
 	    	field_1 = row.children('td:eq(0)').text();
 		    field_2 = row.children('td:eq(1)').text();
 		    field_3 = row.children('td:eq(2)').text();  
@@ -83,6 +98,8 @@
 		    field_6 = row.children('td:eq(5)').text();  
 		    field_7 = row.children('td:eq(6)').text();  
 		    field_8 = row.children('td:eq(7)').text();  
+		    field_9 = row.children('td:eq(8)').text();  
+		    field_10 = row.children('td:eq(9)').text();  
 		    row.children('td:eq(0)').empty();
 		    row.children('td:eq(0)').append("<input class=form-control value='" + field_1 + "'></input>");
 		    row.children('td:eq(1)').empty();
@@ -100,7 +117,11 @@
 		    row.children('td:eq(7)').empty();
 		    row.children('td:eq(7)').append("<input class=form-control value='" + field_8 + "'></input>");
 		    row.children('td:eq(8)').empty();
-		    row.children('td:eq(8)').append("<a data-remote='true' class='btn btn-sm btn-warning update_edit' href='#'>Update</a> <a class='cancel_edit' href='#' style='vertical-align:bottom;'>Cancel</a>");
+		    row.children('td:eq(8)').append("<input class=form-control value='" + field_9 + "'></input>");
+		    row.children('td:eq(9)').empty();
+		    row.children('td:eq(9)').append("<input class=form-control value='" + field_10 + "'></input>");
+		    row.children('td:eq(10)').empty();
+		    row.children('td:eq(10)').append("<a data-remote='true' class='btn btn-sm btn-warning update_edit' href='#'>Update</a> <a class='cancel_edit' href='#' style='vertical-align:bottom;'>Cancel</a>");
 	    } else {
 	    	alert("This amount of edit fields isn't setup.Please set it up, and try again");
 	    }
@@ -143,7 +164,22 @@
 		    row.children('td:eq(2)').append(field_3);
 		    row.children('td:eq(3)').empty();
 		    row.children('td:eq(3)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
-	    } else if (row.children().length == 10){
+		  } else if (row.children().length == 6) {
+	    	field_1 = row.children('td:eq(0)').children().val();
+		    field_2 = row.children('td:eq(1)').children().val();
+		    field_3 = row.children('td:eq(2)').children().val();  
+		    field_4 = row.children('td:eq(3)').children().val();
+		    row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append(field_1);
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append(field_2);
+		    row.children('td:eq(2)').empty();
+		    row.children('td:eq(2)').append(field_3);
+		    row.children('td:eq(3)').empty();
+		    row.children('td:eq(3)').append(field_4);
+		    row.children('td:eq(4)').empty();
+		    row.children('td:eq(4)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
+	    } else if (row.children().length == 12){
 	    	field_1 = row.children('td:eq(0)').children().val();
 		    field_2 = row.children('td:eq(1)').children().val();
 		    field_3 = row.children('td:eq(2)').children().val();  
@@ -152,6 +188,8 @@
 		    field_6 = row.children('td:eq(5)').children().val();  
 		    field_7 = row.children('td:eq(6)').children().val();  
 		    field_8 = row.children('td:eq(7)').children().val();  
+		    field_9 = row.children('td:eq(8)').children().val();  
+		    field_10 = row.children('td:eq(9)').children().val();  
 		    row.children('td:eq(0)').empty();
 		    row.children('td:eq(0)').append(field_1);
 		    row.children('td:eq(1)').empty();
@@ -169,7 +207,11 @@
 		    row.children('td:eq(7)').empty();
 		    row.children('td:eq(7)').append(field_8);
 		    row.children('td:eq(8)').empty();
-		    row.children('td:eq(8)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>");
+		    row.children('td:eq(8)').append(field_9);
+		    row.children('td:eq(9)').empty();
+		    row.children('td:eq(9)').append(field_10);
+		    row.children('td:eq(10)').empty();
+		    row.children('td:eq(10)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>");
 	    }
 	    editForm();
   	});
@@ -222,7 +264,28 @@
 		    } else {
 		    	params = {name: field_1, price: field_2, group: field_3}		    	
 		    }
-  		} else if (row.children().length == 10){
+  		} else if (row.children().length == 6) {
+	    	field_1 = row.children('td:eq(0)').children().val();
+		    field_2 = row.children('td:eq(1)').children().val();
+		    field_3 = row.children('td:eq(2)').children().val();  
+		    field_4 = row.children('td:eq(3)').children().val();
+		    row.children('td:eq(0)').empty();
+		    row.children('td:eq(0)').append(field_1);
+		    row.children('td:eq(1)').empty();
+		    row.children('td:eq(1)').append(field_2);
+		    row.children('td:eq(2)').empty();
+		    row.children('td:eq(2)').append(field_3);
+		    row.children('td:eq(3)').empty();
+		    row.children('td:eq(3)').append(field_4);
+		    row.children('td:eq(4)').empty();
+		    row.children('td:eq(4)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>")
+
+		    if (table_name == "sales"){
+		    	params = {tsm: field_1, name: field_2, email: field_3, rep_group: field_4}
+		    } else {
+
+		    }
+  		} else if (row.children().length == 12){
 	    	field_1 = row.children('td:eq(0)').children().val();
 		    field_2 = row.children('td:eq(1)').children().val();
 		    field_3 = row.children('td:eq(2)').children().val();  
@@ -231,6 +294,8 @@
 		    field_6 = row.children('td:eq(5)').children().val();  
 		    field_7 = row.children('td:eq(6)').children().val();  
 		    field_8 = row.children('td:eq(7)').children().val();  
+		    field_9 = row.children('td:eq(8)').children().val();  
+		    field_10 = row.children('td:eq(9)').children().val(); 
 		    row.children('td:eq(0)').empty();
 		    row.children('td:eq(0)').append(field_1);
 		    row.children('td:eq(1)').empty();
@@ -248,8 +313,12 @@
 		    row.children('td:eq(7)').empty();
 		    row.children('td:eq(7)').append(field_8);
 		    row.children('td:eq(8)').empty();
-		    row.children('td:eq(8)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>");
-		    params = {sales_rep: field_1, company_name: field_2, contact_email: field_3, phone_number: field_4, address: field_5, city: field_6, state: field_7, zipcode: field_8}
+		    row.children('td:eq(8)').append(field_9);
+		    row.children('td:eq(9)').empty();
+		    row.children('td:eq(9)').append(field_10);
+		    row.children('td:eq(10)').empty();
+		    row.children('td:eq(10)').append("<a class='" + edit_link + "' href='#'>Edit</a> | <a data-remote='true' data-confirm='Are you sure?' data-method='delete' href='" + path + "'>Delete</a>");
+		    params = {sales_rep: field_1, company_name: field_2, contact_email: field_3, phone_number: field_4, address: field_5, city: field_6, state: field_7, zipcode: field_8, company_contact: field_9, rep_group: field_10}
 	    }
 	  	
 	    if (path == undefined) {

@@ -20,6 +20,8 @@
 				    		<%= f.password_field :password, autocomplete: "off", class: "form-control" %>
 				    	<% elsif /tsm/.match(name.downcase) %>
 				    		<%= f.select @select_id.to_sym, @select_box_data.map {|data| [data.name,data.id]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				    	<% elsif /rep_group/.match(name.downcase) %>
+				    		<%= f.select @select_id.to_sym, @select_box_data.map {|data| [data.sales_reps.last.rep_group,data.sales_reps.last.rep_group]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 				    	<% elsif /group/.match(name.downcase) %>
 				    	  <%= f.select @select_id.to_sym, @select_box_data.map {|data| [data,data]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 				    	<% elsif /sales_rep_id/.match(name.downcase) %>
