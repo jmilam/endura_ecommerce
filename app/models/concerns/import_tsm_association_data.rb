@@ -4,7 +4,7 @@ class ImportTsmAssociationData
 	def import
 		ActiveRecord::Base.transaction do
 			begin
-				book = Spreadsheet.open('/Users/jmilam/Desktop/marketing_user_import.xls')
+				book = Spreadsheet.open('/home/itadmin/marketing_user_import.xls')
 				data = book.worksheet(0)
 			  
 			  tsm = false
