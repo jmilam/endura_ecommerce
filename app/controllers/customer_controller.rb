@@ -63,8 +63,8 @@ class CustomerController < ApplicationController
 
 	def edit
 		@type = "customer"
-		@table_headers = ["Sales Rep", "Company Name", "Contact Email", "Phone Number", "Address", "City", "State", "Zipcode", "Company Contact", "Rep Group", "Actions"]
-		@data_variable = Customer.all
+		@table_headers = ["Company Name", "Contact Email", "Phone Number", "Address", "City", "State", "Zipcode", "Company Contact", "Rep Group", "Actions"]
+		@data_variable = Customer.all.order 'rep_group ASC'
 		@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
 			format.js { render :template => "/partials/edit" }
