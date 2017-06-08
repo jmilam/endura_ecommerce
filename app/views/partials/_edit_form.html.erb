@@ -12,7 +12,7 @@
 					<% if column_name == "tsm_id" %>
 						<td><%= Tsm.get_name(data[column_name]) %></td>
 					<% elsif column_name == "sales_rep_id" %>
-						<td><%= SalesRep.get_name(data[column_name]) %></td>
+						<td class="hidden"><%= SalesRep.get_name(data[column_name]) %></td>
 					<% elsif column_name == "customer_id" %>
 						<td><%= FundsBank.get_customer(data[column_name]) %></td>
 					<% else %>
@@ -101,7 +101,7 @@
 		    field_9 = row.children('td:eq(8)').text();  
 		    field_10 = row.children('td:eq(9)').text();  
 		    row.children('td:eq(0)').empty();
-		    row.children('td:eq(0)').append("<input class=form-control value='" + field_1 + "'></input>");
+		    row.children('td:eq(0)').append("<input class=form-control  type= 'hidden' value='" + field_1 + "'></input>");
 		    row.children('td:eq(1)').empty();
 		    row.children('td:eq(1)').append("<input class=form-control value='" + field_2 + "'></input>");
 		    row.children('td:eq(2)').empty();
