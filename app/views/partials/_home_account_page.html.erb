@@ -75,12 +75,24 @@
     <div class="col-sm-6 col-md-4">
       <div class="thumbnail centered">
         <div class="caption">
+          <h3>Mangage Images</h3>
+          <p>Add, Edit, or Delete Users.</p>
+          <p><%= link_to "New",new_image_path, remote: true, class: "btn btn-success" %> <%= link_to "Edit",edit_image_path(1), remote: true, class: "btn btn-warning" %> <%#= link_to "Upload", nil, remote: true, class: "btn btn-primary", data: {toggle: "modal", target:"#myModal"} %> </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail centered">
+        <div class="caption">
           <h3>Previous Orders</h3>
           <p>View Previous Orders.</p>
           <p><%= link_to "View", order_index_path(overview: true), class: "btn btn-primary" %></p>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="row">
     <div class="col-sm-6 col-md-4">
       <div class="thumbnail centered">
         <div class="caption">

@@ -66,6 +66,6 @@ class TsmController < ApplicationController
   private
 
   def tsm_params
-  	params.require(:tsm).permit(:name, :email)
+  	params.require(:tsm).permit(:name, :email, :created_at)
   end
 end

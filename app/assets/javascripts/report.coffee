@@ -16,4 +16,4 @@ $(document).on "turbolinks:load", ->
         return
       error: (response) ->
 
-        alert response.body
+        console.log response.responseText

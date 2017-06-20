@@ -49,7 +49,7 @@ class OrderController < ApplicationController
 					if params[:job] == "checkout"
 						@order.update(update_params)
 						if @order.update(address: params[:address], city: params[:city], state: params[:state], zipcode: params[:zipcode], email: params[:email], order_complete: true, current_order: false)
-							@api.send_tsm_email(@tsm.email, current_user.email, current_user.name, @order.id)
+							@api.send_tsm_email(@tsm.email, current_user.email, current_user.name, @order.id) unless @tsm.class == String
 							flash[:notice] = "Your order was placed!"
 							redirect_to order_index_path
 						else
@@ -57,7 +57,6 @@ class OrderController < ApplicationController
 							redirect_to order_path(@order.id)
 						end
 					elsif params[:job] == "approve"
-						p params
 						if @order.update(accepted: params[:accepted])
 							if @order.payment_method == "Rebate/Marketing Funds" && @order.accepted
 								includes_other_samples = false
@@ -66,7 +65,7 @@ class OrderController < ApplicationController
 								@order.order_items.each {|item| item.reference_id == other_sample.id || item.reference_id == other_literature.id ? includes_other_samples = true : next} unless other_sample.nil?
 								FundsBank.deduct_from_customer(@order.customer_id, @order.id) if includes_other_samples == false
 							end
-							@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id)
+							@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id) unless @rep.nil?
 							redirect_to order_index_path(overview: true)
 						else
 							flash[:error] = @order.errors

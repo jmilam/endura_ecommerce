@@ -1,1 +1,6 @@
 $('#account_management_view').html("<%= escape_javascript render(:partial => 'partials/edit_form') %>")
+
+$('#rep_group').on('change', function(){	
+	$('tbody tr').attr('hidden', false)
+	$('tbody tr').not('.' + $(this).val()).attr('hidden',true)
+});

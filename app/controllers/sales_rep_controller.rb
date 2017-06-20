@@ -49,6 +49,7 @@ class SalesRepController < ApplicationController
 
 	def edit
 		@type = "sales_rep"
+		@rep_group = Customer.all.map {|customer| customer.rep_group}.uniq!.delete_if {|r| r.nil?}
   	@table_headers = ["TSM", "Name", "Email", "Rep Group", "Actions"]
   	@data_variable = SalesRep.all
   	@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}

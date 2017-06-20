@@ -104,8 +104,8 @@
 									<% unless customer.nil? %>
 										<td class="text-center"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></td>
 										<td><%= customer.company_name %></td>
-										<td><%= number_to_currency(customer.funds_bank.allocated_amt) %></td>
-										<td class="text-right"><%= number_to_currency(customer.funds_bank.current_bal) %></td>
+										<td><%= number_to_currency(customer.funds_bank.allocated_amt) unless customer.funds_bank.nil? %></td>
+										<td class="text-right"><%= number_to_currency(customer.funds_bank.current_bal) unless customer.funds_bank.nil? %></td>
 									<% end %>
 								</tr>
 								<tr class="info order_item_details">

@@ -23,7 +23,11 @@
 				    	<% elsif /rep_group/.match(name.downcase) %>
 				    		<%= f.select @select_id.to_sym, @select_box_data.map {|data| [data.sales_reps.last.rep_group,data.sales_reps.last.rep_group]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 				    	<% elsif /group/.match(name.downcase) %>
-				    	  <%= f.select @select_id.to_sym, @select_box_data.map {|data| [data,data]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				    		<% if @select_id.nil? %>
+				    			<%= f.text_field name, autofocus: true, class: "form-control" %>
+				    		<% else %>
+				    	  	<%= f.select @select_id.to_sym, @select_box_data.map {|data| [data,data]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				    	  <% end %>
 				    	<% elsif /sales_rep_id/.match(name.downcase) %>
 				    		<%= f.select @select_id.to_sym, @select_box_data.map {|data| [data.name,data.id]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 				    	<% elsif /customer_id/.match(name.downcase) %>

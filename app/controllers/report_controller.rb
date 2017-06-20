@@ -23,12 +23,10 @@ class ReportController < ApplicationController
 			when 'tradeshow_requests_approved'
 				@results = TradeshowRequest.from_date_range(@start_date, @end_date)
 			when 'funds_details_by_customer'
-				@customers = Array.new
 				@customer_chart_data = Array.new
 				@orders = admin ? Order.from_date_range(@start_date, @end_date).includes(:order_items) : Order.from_date_range(@start_date, @end_date).includes(:order_items).individual(current_user.id)
+				@customers = Customer.all
 				FundsBank.calculate_used(@orders).keys.each do |customer_id|
-					customer = Customer.find_by_id(customer_id)
-					@customers << customer
 
 					funds = FundsBank.find_by_customer_id(customer_id)
 					@fund_summary << funds
@@ -40,7 +38,8 @@ class ReportController < ApplicationController
 													        ]
 					
 				end
-				@results = @fund_summary
+				@results = @customers
+				# @results = @fund_summary
 				@customers = @customers.sort_by {|customer| customer.company_name}
 			when 'image_requests_approved'
 				approved_images = Array.new
