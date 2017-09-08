@@ -14,6 +14,7 @@ class SalesRepController < ApplicationController
 	end
 
 	def create
+		Tsm.find_by_id(params[:sales_rep][:tsm_id])
 		@sales_rep = Tsm.find_by_id(params[:sales_rep][:tsm_id]).sales_reps.new(sales_rep_params)
 		@sales_rep.created_at = Date.today
 		begin
@@ -69,6 +70,6 @@ class SalesRepController < ApplicationController
 	private
 
 	def sales_rep_params
-		params.require(:sales_rep).permit(:name, :email, :rep_group)
+		params.require(:sales_rep).permit(:name, :email, :rep_group, :created_at, :updated_at)
 	end
 end

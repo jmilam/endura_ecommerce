@@ -8,7 +8,8 @@ class Report < ApplicationRecord
 		when "All Approved/Rejected Orders", "Image Requests Approved"
 			"order_path(#{id})"
 		when "Export Customer Details"
-			"customer_path(company_name: '#{Customer.find(id).company_name}')"
+			company_name = Customer.find(id).company_name.gsub("'", "")
+			"customer_path(company_name: '#{company_name}')"
 		else
 			p link_text
 		end

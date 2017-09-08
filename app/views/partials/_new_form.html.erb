@@ -19,9 +19,15 @@
 				    	<% if /password/.match(name.downcase) %>
 				    		<%= f.password_field :password, autocomplete: "off", class: "form-control" %>
 				    	<% elsif /tsm/.match(name.downcase) %>
+				    		<% p @select_id %>
 				    		<%= f.select @select_id.to_sym, @select_box_data.map {|data| [data.name,data.id]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
 				    	<% elsif /rep_group/.match(name.downcase) %>
-				    		<%= f.select @select_id.to_sym, @select_box_data.map {|data| [data.sales_reps.last.rep_group,data.sales_reps.last.rep_group]}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				    		<% if @select_box_data.first.class == SalesRep %>
+				    			<%= f.text_field :rep_group,  class: "form-control"  %>
+				    		<% else %>
+				    			<% p @select_id %>
+				    			<%= f.select :rep_group, @select_box_data.map {|data| [data.sales_reps.last.rep_group,data.sales_reps.last.rep_group] unless data.sales_reps.last.nil? }, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				    		<% end %>
 				    	<% elsif /group/.match(name.downcase) %>
 				    		<% if @select_id.nil? %>
 				    			<%= f.text_field name, autofocus: true, class: "form-control" %>

@@ -15,7 +15,7 @@
 	</thead>
 	<tbody>
 		<% @data_variable.each do |data| %>
-			<tr class="<%= data.rep_group %>">
+			<tr class="<%= data.rep_group if data.class == SalesRep || data.class == Customer %>">
 				<% @column_names.each do |column_name| %>
 					<% if column_name == "tsm_id" %>
 						<td><%= Tsm.get_name(data[column_name]) %></td>
