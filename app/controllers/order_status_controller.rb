@@ -1,4 +1,5 @@
 class OrderStatusController < ApplicationController
+	before_action :authenticate_user!, except: [:index]
 	def index
 		@api = API.new(Rails.env)
 
@@ -7,7 +8,7 @@ class OrderStatusController < ApplicationController
 		unless open_orders.count == 0
 			open_orders.each do |order|
 				customer = Customer.find(order.customer_id)
-				@api.send_tsm_past_due(customer.sales_rep.tsm.email, customer.sales_rep.email, current_user.name, order.id)
+				@api.send_tsm_past_due(customer.sales_rep.tsm.email, customer.sales_rep.email, nil, order.id)
 			end
 		end
 		
