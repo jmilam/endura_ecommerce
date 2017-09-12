@@ -23,4 +23,13 @@ class API
 		response = Net::HTTP.post_form(uri, {to_email: rep_email, from_email: tsm_email, user: user, order: Order.find(order_id).to_json})
 		JSON.parse(response.body)["success"]
 	end
+
+	def send_tsm_past_due(tsm_email, rep_email, user, order_id)
+		@order = Order.find(order_id)
+		@items = @order.order_items
+		uri = URI("#{@url}/email/marketing/tsm_past_due_notification")
+
+		response = Net::HTTP.post_form(uri, {to_email: tsm_email, from_email: rep_email, user: user, order: Order.find(order_id).to_json, items: @items.to_json})
+		JSON.parse(response.body)["success"]
+	end
 end
