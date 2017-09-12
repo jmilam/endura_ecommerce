@@ -1,0 +1,18 @@
+class OrderStatusController < ApplicationController
+	def index
+		@api = API.new(Rails.env)
+
+		open_orders = Order.all.where("date(created_at) < ? && accepted = ?", (Date.today - 2.days), false)
+
+		unless open_orders.count == 0
+			open_orders.each do |order|
+				customer = Customer.find(order.customer_id)
+				@api.send_tsm_email(customer.sales_rep.tsm.email, customer.sales_rep.email, current_user.name, order.id)
+			end
+		end
+		
+		respond_to do |format|
+			format.json { render json: {success: true} }
+		end
+	end
+end
