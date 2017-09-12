@@ -3,7 +3,7 @@ class API
 	attr_reader :url
 
 	def initialize(rails_env)
-    @url = "http://webapi.enduraproducts.com/api/endura"
+    @url = rails_env == "production" ? "http://webapi.enduraproducts.com/api/endura" : "http://webapidev.enduraproducts.com/api/endura"
   end
 
 	def send_tsm_email(tsm_email, rep_email, user, order_id)
