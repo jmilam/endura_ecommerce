@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170907220914) do
+ActiveRecord::Schema.define(version: 20170914032652) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20170907220914) do
     t.string   "state"
     t.string   "zipcode"
     t.datetime "created_at",                    default: '2017-09-07 00:00:00', null: false
-    t.datetime "updated_at",                                                    null: false
+    t.datetime "updated_at",                    default: '2017-09-13 00:00:00', null: false
     t.text     "company_contact", limit: 65535
     t.string   "rep_group"
     t.index ["sales_rep_id"], name: "index_customers_on_sales_rep_id", using: :btree
@@ -63,7 +63,7 @@ ActiveRecord::Schema.define(version: 20170907220914) do
     t.integer  "customer_id"
     t.float    "allocated_amt", limit: 24, default: 0.0
     t.datetime "created_at",               default: '2017-09-07 00:00:00', null: false
-    t.datetime "updated_at",                                               null: false
+    t.datetime "updated_at",               default: '2017-09-13 00:00:00', null: false
     t.float    "current_bal",   limit: 24, default: 0.0
     t.index ["customer_id"], name: "index_funds_banks_on_customer_id", using: :btree
   end
@@ -142,7 +142,7 @@ ActiveRecord::Schema.define(version: 20170907220914) do
     t.integer  "tsm_id"
     t.string   "name"
     t.datetime "created_at", default: '2017-09-07 00:00:00', null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "updated_at", default: '2017-09-13 00:00:00', null: false
     t.string   "email"
     t.string   "rep_group"
     t.index ["tsm_id"], name: "index_sales_reps_on_tsm_id", using: :btree
@@ -188,7 +188,7 @@ ActiveRecord::Schema.define(version: 20170907220914) do
   create_table "tsms", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.datetime "created_at", default: '2017-09-07 00:00:00', null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "updated_at", default: '2017-09-13 00:00:00', null: false
     t.string   "email"
   end
 
@@ -204,7 +204,7 @@ ActiveRecord::Schema.define(version: 20170907220914) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                           default: '2017-09-07 00:00:00', null: false
-    t.datetime "updated_at",                                                           null: false
+    t.datetime "updated_at",                           default: '2017-09-13 00:00:00', null: false
     t.text     "name",                   limit: 65535
     t.boolean  "admin",                                default: false
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree

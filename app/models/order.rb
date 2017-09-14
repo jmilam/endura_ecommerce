@@ -1,7 +1,7 @@
 class Order < ApplicationRecord
 	validates :address, :city, :state, :zipcode, :deadline, :deadline_reason, :payment_method, :email, presence: true, on: :update
 	belongs_to :user
-	#belongs_to :customer
+	belongs_to :customer
 	has_many :order_items
 	scope :current_order?, -> (user) {where(current_order: true, user_id: user.id)}
 	scope :current, -> {where(current_order: true)}

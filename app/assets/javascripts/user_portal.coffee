@@ -20,6 +20,8 @@ $(document).on "turbolinks:load", ->
 
   $('#date').datepicker
     dateFormat: 'yy-mm-dd'
+  $('.date').datepicker
+    dateFormat: 'yy-mm-dd'
   $('#deadline').datepicker
     dateFormat: 'yy-mm-dd'
     minDate: min_date

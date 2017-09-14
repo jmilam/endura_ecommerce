@@ -11,7 +11,7 @@ class UserController < ApplicationController
 	end
 
 	def create
-		p @user = User.new(user_params)
+		@user = User.new(user_params)
 		@user.created_at = Date.today
 		begin
 			if @user.save

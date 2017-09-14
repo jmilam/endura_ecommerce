@@ -19,6 +19,7 @@ class OrderController < ApplicationController
 			if @order.nil?
 				redirect_to order_index_path
 			else
+				@customer = @order.customer
 				@items = @order.order_items
 				@total_sum = @items.inject(0) {|sum, item| sum += item.item_total}
 				@total_qty = @items.inject(0) {|sum, item| sum += item.quantity}
