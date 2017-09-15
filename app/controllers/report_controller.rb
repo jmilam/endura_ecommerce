@@ -79,22 +79,20 @@ class ReportController < ApplicationController
 			when 'export_customer_details'
 				@export = @export.customers
 				send_data @export, filename: "#{params[:report_type]}.xls", type: "application/vnd.ms-excel"
-			when 'catalog_equests_approved'
+			when 'catalog_requests_approved'
 			  @export = Pdf.new
 				send_data @export.catalog_requests(CatalogRequest.from_date_range(params[:start_date], params[:end_date])).render, type: "application/pdf"
 			when 'tradeshow_requests_approved'
 				@export = Pdf.new
-				TradeshowRequest.from_date_range(params[:start_date], params[:end_date])
 				send_data @export.tradeshow_requests(TradeshowRequest.from_date_range(params[:start_date], params[:end_date])).render, type: "application/pdf"
 			when 'funds_details_by_customer'
 				customers = Customer.all
 				orders = Order.from_date_range(params[:start_date], params[:end_date]).includes(:order_items)
 				@funds_summary = FundsBank.calculate_used(orders)
 			when 'image_requests_approved'
-				images = OrderItem.from_date_range(params[:start_date], params[:end_date]).includes(:order).images
-				images.each do |image|
-					p image if image.order.accepted
-				end
+				@export = Pdf.new
+
+				send_data @export.image_requests(OrderItem.from_date_range(params[:start_date], params[:end_date]).includes(:order).images).render, type: "application/pdf"
 			else
 			end
 		rescue => error

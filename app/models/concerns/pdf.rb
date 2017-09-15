@@ -89,6 +89,38 @@ class Pdf
 		@pdf
 	end
 
+	def image_requests(requests)
+		page_count = requests.count
+		left_start = 80
+		right_start = 350
+		default_width = 250
+
+		requests.each do |request|
+			page_count -= 1
+			curr_cursor = @pdf.cursor
+
+			draw_header "Image Request", [right_start, @pdf.cursor ], 180, :right
+			@pdf.move_down 20
+
+			@pdf.text "Order Details", align: :center, size: 14
+			@pdf.table [["Deadline", "Company Name", "Contact Email", "Phone Number"], ["#{request.order.deadline}", "#{request.order.customer.company_name}", "#{request.order.customer.contact_email}", "#{request.order.customer.phone_number}"]], width: 540 do
+				row(0).style background_color: 'd9534f'
+			end
+			@pdf.move_down 20
+
+			image = Image.find(request.reference_id)
+
+			@pdf.table [["Image Description", "#{image.name}"], ["Price", "#{image.price}"], ["File Name", "#{image.file_name}"], ["Quantity", "#{request.quantity}"],
+									["Group", "#{image.group}"], ["Sub-Group", "#{image.sub_group}"], ["Note", "#{request.note}"]], width: 540 do
+			end
+
+			@pdf.start_new_page unless page_count == 0
+
+		end
+
+		@pdf
+	end
+
 	def draw_header (text, location, width, align)
 		@pdf.image "#{Rails.root}/public/images/endura-pdf.jpeg", height: 40
 		draw_text_box text, location, width, align
