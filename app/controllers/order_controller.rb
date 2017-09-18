@@ -13,13 +13,13 @@ class OrderController < ApplicationController
 			if params[:id] == "nil"
 				@order = current_user.orders.where(current_order: true).last
 			else
-				@order = Order.find_by_id(params[:id])
+				p @order = Order.find_by_id(params[:id])
 			end
 
 			if @order.nil?
 				redirect_to order_index_path
 			else
-				@customer = @order.customer
+				@customer = Customer.find_by_id(@order.customer_id)
 				@items = @order.order_items
 				@total_sum = @items.inject(0) {|sum, item| sum += item.item_total}
 				@total_qty = @items.inject(0) {|sum, item| sum += item.quantity}
@@ -28,7 +28,7 @@ class OrderController < ApplicationController
 				@payment_methods = ["Rebate/Marketing Funds", "Sales Rep", "Customer PO"]
 			end
 		rescue => error
-			flash[:error] = "Order cannot be found"
+			flash[:error] = "There was an error when trying to find your order, #{error}"
 			redirect_to order_index_path
 		end
 

@@ -44,7 +44,6 @@ class ImageController < ApplicationController
 	end
 
 	def update
-		p params
 		begin
 			if Image.update(params[:id], name: params[:name], price: params[:price], group: params[:group], file_name: params[:file_name], sub_group: params[:sub_group])
 				@response = {response: {success: true}}

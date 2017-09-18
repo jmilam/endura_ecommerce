@@ -4,29 +4,32 @@
 <div class="row">
 	<div class="text-center"><h3>Order #<%= @order.id %> Summary</h3></div>
 </div>
-<div class="row">
-	<div class="col-md-3 col-md-offset-2">
-		<b>Customer Information:</b>
-		<p>
-			<%= @customer.company_name %><br/>
-			<%= @customer.company_contact %><br/>
-			<%= @customer.contact_email %><br/>
-			<%= @customer.phone_number %><br/>
-			<br/>
-			<%= @customer.address %><br/>
-			<%= @customer.city %>, <%= @customer.state %> <%= @customer.zipcode %><br/>
-		</p>
-	</div>
 
-	<div class="col-md-3 col-md-offset-3">
-		<b>Sales Rep Information:</b>
-		<p>
-			<%= @customer.sales_rep.name %><br/>
-			<%= @customer.sales_rep.email %><br/>
-			<%= @customer.sales_rep.rep_group %><br/>
-		</p>
+<% unless @customer.nil? %>
+	<div class="row">
+		<div class="col-md-3 col-md-offset-2">
+			<b>Customer Information:</b>
+			<p>
+				<%= @customer.company_name %><br/>
+				<%= @customer.company_contact %><br/>
+				<%= @customer.contact_email %><br/>
+				<%= @customer.phone_number %><br/>
+				<br/>
+				<%= @customer.address %><br/>
+				<%= @customer.city %>, <%= @customer.state %> <%= @customer.zipcode %><br/>
+			</p>
+		</div>
+
+		<div class="col-md-3 col-md-offset-3">
+			<b>Sales Rep Information:</b>
+			<p>
+				<%= @customer.sales_rep.name %><br/>
+				<%= @customer.sales_rep.email %><br/>
+				<%= @customer.sales_rep.rep_group %><br/>
+			</p>
+		</div>
 	</div>
-</div>
+<% end %>
 
 <%= form_for @order, url: order_path(@order.id, job: "checkout"), method: :put do |f| %>
 	<% if @order.current_order == true && @order.order_complete == false %>

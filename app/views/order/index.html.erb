@@ -20,10 +20,11 @@
 		</thead>
 		<tbody>
 			<% @orders.each_with_index do |order, idx| %>
+				<% customer = Customer.find_by_id(order.customer_id) %>
 			  <tr>
 			  	<td><%= idx + 1 %></td>
-			  	<td><%= order.customer.company_name %></td>
-			  	<td><%= order.customer.sales_rep.name %></td>
+			  	<td><%= customer.company_name unless customer.nil? %></td>
+			  	<td><%= customer.sales_rep.name unless customer.nil? %></td>
 			  	<td class="text-center"><%= order.order_items.count %></td>
 			  	<td><%= number_to_currency(order.sum) %></td>
 			  	<td class="text-center"><span class="<%= Order.show_glyph(order.order_complete) %>"></span></td>
