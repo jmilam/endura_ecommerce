@@ -2,6 +2,7 @@ class UserPortalController < ApplicationController
   def index
     @user = current_user
     #@product = Product.new
+    p @form_params = params[:redirected_form_params].nil? ? Hash.new : URI.decode_www_form(params[:redirected_form_params]).to_h
     @products = Product.group(:group, :price, :id).order('name ASC')
     @catalog = CatalogRequest.new(params[:form_params])
     @sales_reps = SalesRep.all

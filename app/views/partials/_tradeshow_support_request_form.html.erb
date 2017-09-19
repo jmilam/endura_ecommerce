@@ -4,37 +4,36 @@
 		<h1>Tradeshow Support Request Form</h1>
 	</div>
 </div>
-
 <%= form_for :tradeshow_request, url: tradeshow_support_request_index_path, method: :post do |f| %>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'First Name*' %>
-				<%= f.text_field :first_name, class: 'form-control' %>
+				<%= f.text_field :first_name, {value: @form_params['first_name'], class: 'form-control'} %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label 'Last Name*' %>
-			<%= f.text_field :last_name, class: 'form-control' %>
+			<%= f.text_field :last_name, {value: @form_params['last_name'], class: 'form-control'} %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Phone Number*' %>
-				<%= f.text_field :phone_number, class: 'form-control' %>
+				<%= f.text_field :phone_number, {value: @form_params['phone_number'], class: 'form-control'} %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label 'Email*' %>
-			<%= f.text_field :email, class: 'form-control' %>
+			<%= f.text_field :email, {value: @form_params['email'], class: 'form-control'} %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Show Name' %>
-				<%= f.text_field :show_name, class: 'form-control' %>
+				<%= f.text_field :show_name, {value: @form_params['show_name'], class: 'form-control'} %>
 			</div>
 		</div>
 	</div>
@@ -42,19 +41,19 @@
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Show Start Date*' %>
-				<%= f.text_field :start_date, class: 'form-control date', id: 'date' %>
+				<%= f.text_field :start_date, {value: @form_params['start_date'], class: 'form-control', id: 'date'} %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label 'Show End Date*' %>
-			<%= f.text_field :end_date, class: 'form-control date' %>
+			<%= f.text_field :end_date, {value: @form_params['end_date'], class: 'form-control'} %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Street Address*' %>
-				<%= f.text_field :address, class: 'form-control' %>
+				<%= f.text_field :address, {value: @form_params['address'], class: 'form-control'} %>
 			</div>
 		</div>
 	</div>
@@ -62,54 +61,54 @@
 		<div class="col-sm-6 col-md-2 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'City*' %>
-				<%= f.text_field :city, class: 'form-control' %>
+				<%= f.text_field :city, {value: @form_params['city'], class: 'form-control'} %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-2">
 			<%= f.label 'State*' %>
-			<%= f.text_field :state, class: 'form-control' %>
+			<%= f.text_field :state, {value: @form_params['state'], class: 'form-control'} %>
 		</div>
 		<div class="col-sm-6 col-md-2">
 			<%= f.label 'Zipcode*' %>
-			<%= f.text_field :zipcode, class: 'form-control' %>
+			<%= f.text_field :zipcode, {value: @form_params['zipcode'], class: 'form-control'} %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Booth Number*' %>
-				<%= f.text_field :booth_num, class: 'form-control' %>
+				<%= f.text_field :booth_num, {value: @form_params['booth_num'], class: 'form-control'} %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label 'Booth Dimensions*' %>
-			<%= f.text_field :booth_dimensions, class: 'form-control' %>
+			<%= f.text_field :booth_dimensions, {value: @form_params['booth_dimensions'], class: 'form-control'} %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Size of Show*' %>
-				<%= f.select :show_size, @show_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control'} %>
+				<%= f.select :show_size, @show_sizes.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['show_size']}, { class: 'form-control'} %>
 				<%= f.label 'Please select an option from the dropdown', class: 'text-muted' %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label 'Target Market*' %>
-			<%= f.select :target_market, @target_markets.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control'} %>
+			<%= f.select :target_market, @target_markets.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['target_market']}, {class: 'form-control'} %>
 			<%= f.label 'Please select an option from the dropdown', class: 'text-muted' %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-2 col-md-offset-3">
 			<div class="form-group">
-					<%= f.check_box :z_cap_sill %>
+					<%= f.check_box :z_cap_sill,  {checked: @form_params['z_cap_sill']}, true, false %>
 					<b style="font-size: 13px;">Z-Articulating Cap Sill&#8482</b>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-4">
 			<div class="form-group">
-				<%= f.check_box :ada_sills %>
+				<%= f.check_box :ada_sills, {checked: @form_params['ada_sills']}, true, false %>
 				<b>ADA Sills</b>
 			</div>
 		</div>
@@ -117,13 +116,13 @@
 	<div class="row">
 		<div class="col-sm-6 col-md-2 col-md-offset-3">
 			<div class="form-group">
-					<%= f.check_box :zai_sills %>
+					<%= f.check_box :zai_sills, {checked: @form_params['zai_sills']}, true, false %>
 					<b>ZAI Sills</b>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-4">
 			<div class="form-group">
-				<%= f.check_box :trilennium_multi_point_locking %>
+				<%= f.check_box :trilennium_multi_point_locking, {checked: @form_params['trilennium_multi_point_locking']}, true, false %>
 				<b>Trilennium&#174 Multi-Point Locking System</b>
 			</div>
 		</div>
@@ -131,13 +130,13 @@
 	<div class="row">
 		<div class="col-sm-6 col-md-2 col-md-offset-3">
 			<div class="form-group">
-					<%= f.check_box :multi_point_astragal %>
+					<%= f.check_box :multi_point_astragal, {checked: @form_params['multi_point_astragal']}, true, false %>
 					<b>Multi-Point Astragal</b>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-4">
 			<div class="form-group">
-				<%= f.check_box :ultimate_astragal %>
+				<%= f.check_box :ultimate_astragal, {checked: @form_params['ultimate_astragal']}, true, false %>
 				<b>Ultimate Astragal</b>
 			</div>
 		</div>
@@ -145,13 +144,13 @@
 	<div class="row">
 		<div class="col-sm-6 col-md-2 col-md-offset-3">
 			<div class="form-group">
-				<%= f.check_box :weathersealing %>
+				<%= f.check_box :weathersealing, {checked: @form_params['weathersealing']}, true, false %>
 				<%= f.label "Weathersealing" %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-4">
 			<div class="form-group">
-				<%= f.check_box :framesaver %>
+				<%= f.check_box :framesaver, {checked: @form_params['framesaver']}, true, false %>
 				<b>FrameSaver</b>
 			</div>
 		</div>
@@ -159,7 +158,7 @@
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
-				<%= f.check_box :ultimate_flip_lever_astragal %>
+				<%= f.check_box :ultimate_flip_lever_astragal, {checked: @form_params['ultimate_flip_lever_astragal']}, true, false %>
 				<b>Ultimate Flip-Lever Astragal</b>
 			</div>
 		</div>
@@ -175,7 +174,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Number of Endura Attendees*' %>
-				<%= f.select :number_of_attendees, @attendees_count.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control'}  %>
+				<%= f.select :number_of_attendees, @attendees_count.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['number_of_attendees']}, {class: 'form-control'}  %>
 				<%= f.label "Please select an option from the dropdown", class: "text-muted" %>
 			</div>
 		</div>

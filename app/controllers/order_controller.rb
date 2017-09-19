@@ -13,7 +13,7 @@ class OrderController < ApplicationController
 			if params[:id] == "nil"
 				@order = current_user.orders.where(current_order: true).last
 			else
-				p @order = Order.find_by_id(params[:id])
+				@order = Order.find_by_id(params[:id])
 			end
 
 			if @order.nil?

@@ -61,11 +61,13 @@ class TradeshowSupportRequestController < ApplicationController
 				end
 
 				flash[:error] = @tradeshow.errors
-				redirect_to :back
+				redirect_to controller: 'user_portal', action: 'index', partial: 'tradeshow_support_request', redirected_form_params: params["tradeshow_request"]
+				# redirect_to :back
 			end
 		rescue Exception => e
 			flash[:error] = e
-			redirect_to :back
+			# redirect_to :back
+			redirect_to controller: 'user_portal', action: 'index', partial: 'tradeshow_support_request', redirected_form_params: params["tradeshow_request"]
 		end
 	end
 
