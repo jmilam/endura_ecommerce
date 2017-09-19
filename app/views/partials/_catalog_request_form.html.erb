@@ -5,36 +5,38 @@
 	</div>
 </div>
 
+<%= @form_params %>
+
 <%= form_for @catalog, url: catalog_request_index_path, method: :post do |f| %>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Date*' %>
-				<%= f.text_field :date, class: 'form-control', id: 'date' %>
+				<%= f.text_field :date, value: @form_params['date'], class: 'form-control', id: 'date' %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label 'Deadline*' %>
-			<%= f.text_field :deadline, class: 'form-control', id: 'deadline' %>
+			<%= f.text_field :deadline, value: @form_params['deadline'], class: 'form-control', id: 'deadline' %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Sales Representative*' %>
-				<%= f.select :sales_rep, @sales_reps.map {|rep| rep.name}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+				<%= f.select :sales_rep, @sales_reps.map {|rep| rep.name}, {prompt: '- Please Select -', selected: @form_params['sales_rep']}, {class: 'form-control '} %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label "Territory Sales Manager*"%>
-			<%= f.select :tsm, @tsms.map {|tsm| tsm.name}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+			<%= f.select :tsm, @tsms.map {|tsm| tsm.name}, {prompt: '- Please Select -', selected: @form_params['tsm']}, {class: 'form-control '} %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Company Name*' %>
-				<%= f.select :company_name, @customers.map {|customer| customer.company_name}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+				<%= f.select :company_name, @customers.map {|customer| customer.company_name}, {prompt: '- Please Select -', selected: @form_params['company_name']}, {class: 'form-control '} %>
 			</div>
 		</div>
 	</div>
@@ -42,7 +44,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Company Contact*' %>
-				<%= f.text_field :company_contact, class: 'form-control company_contact' %>
+				<%= f.text_field :company_contact, value: @form_params['company_contact'], class: 'form-control company_contact' %>
 			</div>
 		</div>
 	</div>
@@ -50,19 +52,19 @@
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Email*' %>
-				<%= f.text_field :email, class: 'form-control email' %>
+				<%= f.text_field :email, value: @form_params['email'], class: 'form-control email' %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label "Phone Number*"%>
-			<%= f.text_field :phone_number, class: 'form-control phone_number' %>
+			<%= f.text_field :phone_number, value: @form_params['phone_number'], class: 'form-control phone_number' %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Shipping Address*' %>
-				<%= f.text_field :ship_address, class: 'form-control ship_address' %>
+				<%= f.text_field :ship_address, value: @form_params['ship_address'], class: 'form-control ship_address' %>
 			</div>
 		</div>
 	</div>
@@ -70,35 +72,35 @@
 		<div class="col-sm-6 col-md-2 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'City*' %>
-				<%= f.text_field :city, class: 'form-control city' %>
+				<%= f.text_field :city, value: @form_params['city'], class: 'form-control city' %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-2">
 			<%= f.label "State/Region*"%>
-			<%= f.text_field :state, class: 'form-control state' %>
+			<%= f.text_field :state, value: @form_params['state'], class: 'form-control state' %>
 		</div>
 		<div class="col-sm-6 col-md-2">
 			<%= f.label "Zip Code*"%>
-			<%= f.text_field :zipcode, class: 'form-control zipcode' %>
+			<%= f.text_field :zipcode, value: @form_params['zipcode'], class: 'form-control zipcode' %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'To Be Produced By*' %>
-				<%= f.select :produced_by, @produced_by.map {|name| name}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :produced_by, @produced_by.map {|name| name}, {prompt: '- Please Select -', selected: @form_params['produced_by']}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label "Total Pages Needed*"%>
-			<%= f.text_field :page_count, class: 'form-control' %>
+			<%= f.text_field :page_count, value: @form_params['page_count'], class: 'form-control' %>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Endura Intro*' %>
-				<%= f.select :endura_intro, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :endura_intro, @page_sizes.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['endura_intro']}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -106,7 +108,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<p><b>Z-Articulating Cap Sill&#8482 *</b></p>
-				<%= f.select :z_cap_sill, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :z_cap_sill, @page_sizes.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['z_cap_sill']}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -114,7 +116,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<p><b>Trillennium Multi-Point Locking System&#174 *</b></p>
-				<%= f.select :trillenium_multi_point, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :trillenium_multi_point, @page_sizes.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['trillenium_multi_point']}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -122,7 +124,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<p><b>Multi-Point Astragal*</b></p>
-				<%= f.select :multi_point_astragal, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :multi_point_astragal, @page_sizes.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['multi_point_astragal']}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -130,7 +132,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<p><b>Ultimate Astragal*</b></p>
-				<%= f.select :ultimate_astragal, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :ultimate_astragal, @page_sizes.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['ultimate_astragal']}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -138,7 +140,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<p><b>Ultimate Flip-Lever Astragal*</b></p>
-				<%= f.select :flip_lever_astragal, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :flip_lever_astragal, @page_sizes.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['flip_lever_astragal']}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -146,7 +148,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<p><b>FrameSaver*</b></p>
-				<%= f.select :framesaver, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :framesaver, @page_sizes.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['framesaver']}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -154,7 +156,7 @@
 		<div class="col-sm-6 col-md-6 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Weathersealing*' %>
-				<%= f.select :weathersealing, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :weathersealing, @page_sizes.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['weathersealing']}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -163,7 +165,7 @@
 			<div class="form-group">
 				<%= f.label 'Other' %>
 				<%= f.label 'If selected, please include the requested product in the description box below', class: 'text-muted' %>
-				<%= f.select :other, @page_sizes.map {|size| size}, {prompt: '- Please Select -'}, {class: 'form-control page_sizes'} %>
+				<%= f.select :other, @page_sizes.map {|size| size}, {prompt: '- Please Select -', selected: @form_params['other']}, {class: 'form-control page_sizes'} %>
 			</div>
 		</div>
 	</div>
@@ -172,7 +174,7 @@
 			<div class="form-group">
 				<%= f.label 'Description*' %>
 				<%= f.label 'Please describe the specific catalogue details - How will this be used?', class: 'text-muted' %>
-				<%= f.text_area :other_desc, class: 'form-control' %>
+				<%= f.text_area :other_desc, value: @form_params['other_desc'], class: 'form-control' %>
 			</div>
 		</div>
 	</div>
@@ -180,12 +182,12 @@
 		<div class="col-sm-6 col-md-3 col-md-offset-3">
 			<div class="form-group">
 				<%= f.label 'Attach a file' %>
-				<%= f.file_field :file_1 %>
+				<%= f.file_field :file_1, value: @form_params['file_1'] %>
 			</div>
 		</div>
 		<div class="col-sm-6 col-md-3">
 			<%= f.label "Attache a second file"%>
-			<%= f.file_field :file_2 %>
+			<%= f.file_field :file_2, value: @form_params['file_2'] %>
 		</div>
 	</div>
 	<div class="row">

@@ -31,11 +31,14 @@ class CatalogRequestController < ApplicationController
 				redirect_to user_portal_index_path(partial: 'catalog_request')
 			else
 				flash[:error] = @catalog.errors
-				render user_portal_index_path(partial: 'catalog_request')
+				redirect_to controller: 'user_portal', action: 'index', partial: 'catalog_request', redirected_form_params: params["catalog_request"]
+				# render user_portal_index_path(partial: 'catalog_request')
 			end
 		rescue 
 			flash[:error] = @catalog.errors
-			redirect_to user_portal_index_path(partial: 'catalog_request')
+			# redirect_to user_portal_index_path(partial: 'catalog_request')
+				redirect_to controller: 'user_portal', action: 'index', partial: 'catalog_request', redirected_form_params: params["catalog_request"]
+
 		end
 	end
 
