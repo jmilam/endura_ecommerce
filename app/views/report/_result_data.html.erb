@@ -150,6 +150,7 @@
 
     $.each(chart_data, function(index, value){
     	var data = google.visualization.arrayToDataTable(value);
+    	console.log(data);
     	var chart = new google.visualization.PieChart(document.getElementById('testDive_' + index));
     	chart.draw(data, options)
     });

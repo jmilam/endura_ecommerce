@@ -2,8 +2,9 @@ class Product < ApplicationRecord
 	validates :name, :price, :group, presence: true
 	validates :name, uniqueness: true
 	def show_image
-		path = "products/#{self.file_name}".match(/[^.]+/)[0] + ".png"
-		if FileTest.exist?(path)
+		path = "/media/z/Marketing/OMRS V2 Files/Images/*Product Offering Thumbnails/#{self.file_name}".match(/[^.]+/)[0] + ".png"
+
+		if File.exist?(path)
 			path
 		else
 			"endura-check.svg"

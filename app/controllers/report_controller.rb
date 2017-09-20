@@ -23,6 +23,7 @@ class ReportController < ApplicationController
 			when 'tradeshow_requests_approved'
 				@results = TradeshowRequest.from_date_range(@start_date, @end_date)
 			when 'funds_details_by_customer'
+				p "FUNDS DETAILS BY CUSTOMER"
 				@customer_chart_data = Array.new
 				@orders = admin ? Order.from_date_range(@start_date, @end_date).includes(:order_items) : Order.from_date_range(@start_date, @end_date).includes(:order_items).individual(current_user.id)
 				@customers = Customer.all
@@ -31,12 +32,19 @@ class ReportController < ApplicationController
 					funds = FundsBank.find_by_customer_id(customer_id)
 					@fund_summary << funds
 
-					@customer_chart_data << [
-													          ['Task', 'Hours per Day'],
-													          ['Used Amt',   (funds.allocated_amt - funds.current_bal).abs],
-													          ['Available Amt',     funds.current_bal]
-													        ]
-					
+					if funds.nil?
+						@customer_chart_data << [
+														          ['Task', 'Hours per Day'],
+														          ['Used Amt',   0],
+														          ['Available Amt',     0]
+														        ]
+					else
+						@customer_chart_data << [
+														          ['Task', 'Hours per Day'],
+														          ['Used Amt',   (funds.allocated_amt - funds.current_bal).abs],
+														          ['Available Amt',     funds.current_bal]
+														        ]
+					end
 				end
 				@results = @customers
 				# @results = @fund_summary
@@ -58,6 +66,7 @@ class ReportController < ApplicationController
 	  		format.js
 	  	end
 		rescue => error
+			p error
 			{response: {error: "#{error}"}}
 		end
 	end
