@@ -41,6 +41,13 @@ class MySpreadsheet
 			customer = customers.find_by_id(o.customer_id)
 			customer = customer.nil? ? "" : customer.company_name
 			@sheet1.row(row_count).concat ["#{o.id}", "#{o.user.name}", "#{o.deadline}", "#{o.deadline_reason}", "#{o.payment_method}", "#{customer}", "#{o.order_reason}", "#{o.accepted}"]
+			
+			row_count = next_row(row_count)
+			@sheet1.row(row_count).concat ["", "Item", "Product Type", "Item Total", "Note"]
+			o.order_items.each do |item|
+				row_count = next_row(row_count)
+				@sheet1.row(row_count).concat ["", "#{Product.find(item.reference_id).name}", "#{item.item_type}", "#{item.item_total}", "#{item.note}"]
+			end
 		end
 
 		write_to_book
