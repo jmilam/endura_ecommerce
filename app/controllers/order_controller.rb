@@ -47,9 +47,18 @@ class OrderController < ApplicationController
 
 		Order.transaction do 
 			begin
-					if params[:job] == "checkout"
+				if params[:job] == "checkout"
+					if params[:order][:payment_method] == "Rebate/Marketing Funds" &&
+						Customer.funds_setup?(params[:order][:customer_id])
+
 						@order.update(update_params)
-						if @order.update(address: params[:address], city: params[:city], state: params[:state], zipcode: params[:zipcode], email: params[:email], order_complete: true, current_order: false)
+						if @order.update(address: params[:address],
+														 city: params[:city],
+														 state: params[:state],
+														 zipcode: params[:zipcode],
+														 email: params[:email],
+														 order_complete: true,
+														 current_order: false)
 							@api.send_tsm_email(@tsm.email, current_user.email, current_user.name, @order.id) unless @tsm.class == String
 							flash[:notice] = "Your order was placed!"
 							redirect_to order_index_path
@@ -57,41 +66,45 @@ class OrderController < ApplicationController
 							flash[:error] = @order.errors
 							redirect_to order_path(@order.id)
 						end
-					elsif params[:job] == "approve"
-						if @order.update(accepted: params[:accepted])
-							if @order.payment_method == "Rebate/Marketing Funds" && @order.accepted
-								includes_other_samples = false
-								other_sample = Product.find_by_name("Other Samples")
-								other_literature = Product.find_by_name("Other Literature")
-								@order.order_items.each {|item| item.reference_id == other_sample.id || item.reference_id == other_literature.id ? includes_other_samples = true : next} unless other_sample.nil?
-								FundsBank.deduct_from_customer(@order.customer_id, @order.id) if includes_other_samples == false
-							end
-							@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id) unless @rep.nil?
-							redirect_to order_index_path(overview: true)
-						else
-							flash[:error] = @order.errors
-						end
-					elsif params[:job] == "admin_verify"
-						order = nil
-						counter = 0
-						
-						params[:item_total].each do |key, value|
-							if params[:item_note].class == Array
-								note = params[:item_note][counter][0]
-							else
-								note = params[:item_note].values[counter][0]
-							end
-							order = OrderItem.find_by_id(key).order if order.nil?
-							OrderItem.find_by_id(key).update(item_total: value.last.to_f, note: note,  admin_verified: true)
-							counter += 1
-						end
-				
-						FundsBank.deduct_from_customer(order.customer_id, order.id)
-
-						flash[:notice] = "Your order has been verified!"
-						redirect_to need_verification_path
 					else
+						flash[:error] = "This customer does not have a Marketing Funds Account setup. Please setup this up before using this payment method."
+						redirect_to order_path(@order.id)
 					end
+				elsif params[:job] == "approve"
+					if @order.update(accepted: params[:accepted])
+						if @order.payment_method == "Rebate/Marketing Funds" && @order.accepted
+							includes_other_samples = false
+							other_sample = Product.find_by_name("Other Samples")
+							other_literature = Product.find_by_name("Other Literature")
+							@order.order_items.each {|item| item.reference_id == other_sample.id || item.reference_id == other_literature.id ? includes_other_samples = true : next} unless other_sample.nil?
+							FundsBank.deduct_from_customer(@order.customer_id, @order.id) if includes_other_samples == false
+						end
+						@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id) unless @rep.nil?
+						redirect_to order_index_path(overview: true)
+					else
+						flash[:error] = @order.errors
+					end
+				elsif params[:job] == "admin_verify"
+					order = nil
+					counter = 0
+					
+					params[:item_total].each do |key, value|
+						if params[:item_note].class == Array
+							note = params[:item_note][counter][0]
+						else
+							note = params[:item_note].values[counter][0]
+						end
+						order = OrderItem.find_by_id(key).order if order.nil?
+						OrderItem.find_by_id(key).update(item_total: value.last.to_f, note: note,  admin_verified: true)
+						counter += 1
+					end
+			
+					FundsBank.deduct_from_customer(order.customer_id, order.id)
+
+					flash[:notice] = "Your order has been verified!"
+					redirect_to need_verification_path
+				else
+				end
 			rescue Exception => error
 				flash[:error] = error
 				redirect_to order_path(@order.id)

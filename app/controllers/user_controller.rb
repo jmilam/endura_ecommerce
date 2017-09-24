@@ -11,8 +11,9 @@ class UserController < ApplicationController
 	end
 
 	def create
-		@user = User.new(user_params)
+		@user = User.new(email: params[:user][:email], password: params[:user][:password], password_confirmation: params[:password])
 		@user.created_at = Date.today
+
 		begin
 			if @user.save
 				flash[:notice] = "User successfully created"
@@ -73,7 +74,7 @@ class UserController < ApplicationController
 	private
 
 	def user_params
-		params.require(:user).permit(:email, :password, :password_confirmation, :name, :checkbox, :created_at, :admin)
+		params.require(:user).permit(:email, :password, :password_confirmation, :created_at, :admin)
 	end
 
 end

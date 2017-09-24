@@ -50,16 +50,37 @@ class MySpreadsheet
 		customers = Customer.all.includes(:sales_rep)
 
 		row_count = 1
-		@sheet1.merge_cells(0,0,0,8)
+		@sheet1.merge_cells(0,0,0,7)
 
-		@sheet1.row(row_count).concat ["Company Name", "Company Contact", "Contact Email", "Phone Number", "Address", "City", "State", "Zipcode", "Sales Rep"]
+		@sheet1.row(row_count).concat ["Company Name", "Company Contact", "Contact Email", "Phone Number", "Address", "City", "State", "Zipcode", "Sales Rep", "Allocated Amount", "Current Balance"]
 		
 		customers.each do |customer|
 			row_count = next_row(row_count)
-			@sheet1.row(row_count).concat ["#{customer.company_name}", "#{customer.company_contact}", "#{customer.contact_email}", "#{customer.phone_number}", "#{customer.address}", "#{customer.city}", "#{customer.state}", "#{customer.zipcode}", "#{customer.sales_rep.name}"]
+
+			customer_data = customer.funds_bank.nil? ? ["#{customer.company_name}",
+																									"#{customer.company_contact}",
+																									"#{customer.contact_email}",
+																									"#{customer.phone_number}",
+																									"#{customer.address}",
+																									"#{customer.city}",
+																									"#{customer.state}",
+																									"#{customer.zipcode}",
+																									"#{customer.sales_rep.name}"] :
+																									["#{customer.company_name}",
+																									"#{customer.company_contact}",
+																									"#{customer.contact_email}",
+																									"#{customer.phone_number}",
+																									"#{customer.address}",
+																									"#{customer.city}",
+																									"#{customer.state}",
+																									"#{customer.zipcode}",
+																									"#{customer.sales_rep.name}",
+																									"#{customer.funds_bank.allocated_amt}",
+																									"#{customer.funds_bank.current_bal}"]
+			@sheet1.row(row_count).concat customer_data
 		end
 
-		write_to_book
+		write_to_book.string
 	end
 
 	def next_row(count)
@@ -68,6 +89,7 @@ class MySpreadsheet
 
 	def write_to_book
 		@book.write @file_contents
+
 		@file_contents
 	end
 end
