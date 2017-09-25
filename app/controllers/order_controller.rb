@@ -48,8 +48,9 @@ class OrderController < ApplicationController
 		Order.transaction do 
 			begin
 				if params[:job] == "checkout"
-					if params[:order][:payment_method] == "Rebate/Marketing Funds" &&
-						Customer.funds_setup?(params[:order][:customer_id])
+					if (params[:order][:payment_method] == "Rebate/Marketing Funds" &&
+						Customer.funds_setup?(params[:order][:customer_id])) ||
+						params[:order][:payment_method] != "Rebate/Marketing Funds"
 
 						@order.update(update_params)
 						if @order.update(address: params[:address],
@@ -70,6 +71,17 @@ class OrderController < ApplicationController
 						flash[:error] = "This customer does not have a Marketing Funds Account setup. Please setup this up before using this payment method."
 						redirect_to order_path(@order.id)
 					end
+					item_ids = []
+
+					@order.order_items.each do |item|
+						if item.item_type == "catalog_request"
+							item_ids << item.id
+						elsif item.item_type == "image_request"
+							@api.send_new_image_request(@order.id)
+						end
+					end
+
+					@api.send_new_catalog_request(item_ids) unless item_ids.empty?
 				elsif params[:job] == "approve"
 					if @order.update(accepted: params[:accepted])
 						if @order.payment_method == "Rebate/Marketing Funds" && @order.accepted
@@ -106,7 +118,7 @@ class OrderController < ApplicationController
 				else
 				end
 			rescue Exception => error
-				flash[:error] = error
+				p flash[:error] = error
 				redirect_to order_path(@order.id)
 			end
 		end

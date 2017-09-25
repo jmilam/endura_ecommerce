@@ -32,4 +32,18 @@ class API
 		response = Net::HTTP.post_form(uri, {to_email: tsm_email, from_email: rep_email, user: user, order: Order.find(order_id).to_json, items: @items.to_json})
 		JSON.parse(response.body)["success"]
 	end
+
+	def send_new_catalog_request(order_item)
+		uri = URI("#{@url}/email/marketing/new_catalog_request")
+
+		response = Net::HTTP.post_form(uri, {request: order_item.to_json})
+		JSON.parse(response.body)["success"]
+	end
+
+	def send_new_image_request(order_id)
+		uri = URI("#{@url}/email/marketing/new_image_request")
+
+		response = Net::HTTP.post_form(uri, {order_id: order_id})
+		JSON.parse(response.body)["success"]
+	end
 end
