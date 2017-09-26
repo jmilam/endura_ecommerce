@@ -27,7 +27,6 @@ class ReportController < ApplicationController
 				@orders = admin ? Order.from_date_range(@start_date, @end_date).includes(:order_items) : Order.from_date_range(@start_date, @end_date).includes(:order_items).individual(current_user.id)
 				@customers = Customer.all
 				FundsBank.calculate_used(@orders).keys.each do |customer_id|
-
 					funds = FundsBank.find_by_customer_id(customer_id)
 					@fund_summary << funds
 
@@ -46,8 +45,6 @@ class ReportController < ApplicationController
 					end
 				end
 				@results = @customers
-				# @results = @fund_summary
-				@customers = @customers.sort_by {|customer| customer.company_name}
 			when 'image_requests_approved'
 				approved_images = Array.new
 				images = OrderItem.from_date_range(@start_date, @end_date).includes(:order).images
