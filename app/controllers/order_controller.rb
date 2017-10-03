@@ -88,7 +88,7 @@ class OrderController < ApplicationController
 							includes_other_samples = false
 							other_sample = Product.find_by_name("Other Samples")
 							other_literature = Product.find_by_name("Other Literature")
-							@order.order_items.each {|item| item.reference_id == other_sample.id || item.reference_id == other_literature.id ? includes_other_samples = true : next} unless other_sample.nil?
+							@order.order_items.each {|item| item.reference_id == other_sample.id || item.reference_id == other_literature.id ? includes_other_samples = true : next} unless other_sample.nil? || other_literature.nil?
 							FundsBank.deduct_from_customer(@order.customer_id, @order.id) if includes_other_samples == false
 						end
 						@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id) unless @rep.nil?
