@@ -46,7 +46,7 @@ class OrderController < ApplicationController
 		@api = API.new(Rails.env)
 
 		Order.transaction do 
-			# begin
+			begin
 				if params[:job] == "checkout"
 					if (params[:order][:payment_method] == "Rebate/Marketing Funds" &&
 						Customer.funds_setup?(params[:order][:customer_id])) ||
@@ -117,10 +117,10 @@ class OrderController < ApplicationController
 					redirect_to need_verification_path
 				else
 				end
-			# rescue Exception => error
-			# 	p flash[:error] = error
-			# 	redirect_to order_path(@order.id)
-			# end
+			rescue Exception => error
+				flash[:error] = error
+				redirect_to order_path(@order.id)
+			end
 		end
 		
 	end
