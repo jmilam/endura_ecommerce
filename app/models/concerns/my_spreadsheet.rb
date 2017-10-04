@@ -46,7 +46,14 @@ class MySpreadsheet
 			@sheet1.row(row_count).concat ["", "Item", "Product Type", "Item Total", "Note"]
 			o.order_items.each do |item|
 				row_count = next_row(row_count)
-				unless Product.find_by_id(item.reference_id).nil?
+
+				found_item = if item.item_type == "product"
+											 Product.find_by_id(item.reference_id)
+										 elsif item.item_type == "image_request"
+										 		Image.find_by_id(item.reference_id)
+										 end
+
+				unless found_item.nil?
 					@sheet1.row(row_count).concat ["", "#{Product.find(item.reference_id).name}", "#{item.item_type}", "#{item.item_total}", "#{item.note}"]
 				end
 			end
