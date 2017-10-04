@@ -67,9 +67,8 @@ class ReportController < ApplicationController
 	end
 
 	def create
-		begin
+		# begin
 			@export = MySpreadsheet.new(params[:start_date], params[:end_date])
-			p params[:report_type].downcase
 			case params[:report_type].downcase
 			# when "fund_tracking"
 			# 	@orders = Order.from_date_range(params[:start_date], params[:end_date]).includes(:order_items)
@@ -79,7 +78,6 @@ class ReportController < ApplicationController
 			# 	send_data @export, filename: "#{params[:report_type]}.xls", type: "application/vnd.ms-excel"
 			when "all_approved/rejected_orders"
 				@orders = Order.no_nil_accepted.from_date_range(params[:start_date], params[:end_date]).includes(:order_items).sort_by {|order| order.accepted ? 0 : 1}
-				p "ORDers #{@orders}"
 				@export = @export.approved_reject(@orders, Customer.all).string
 				send_data @export, filename: "#{params[:report_type]}.xls", type: "application/vnd.ms-excel"
 			when 'export_customer_details'
@@ -101,8 +99,8 @@ class ReportController < ApplicationController
 				send_data @export.image_requests(OrderItem.from_date_range(params[:start_date], params[:end_date]).includes(:order).images).render, type: "application/pdf"
 			else
 			end
-		rescue => error
-			p error
-		end
+		# rescue => error
+		# 	p error
+		# end
 	end
 end
