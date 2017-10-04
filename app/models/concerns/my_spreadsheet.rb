@@ -54,7 +54,7 @@ class MySpreadsheet
 										 end
 
 				unless found_item.nil?
-					@sheet1.row(row_count).concat ["", "#{Product.find(item.reference_id).name}", "#{item.item_type}", "#{item.item_total}", "#{item.note}"]
+					@sheet1.row(row_count).concat ["", "#{found_item.name}", "#{item.item_type}", "#{item.item_total}", "#{item.note}"]
 				end
 			end
 		end
