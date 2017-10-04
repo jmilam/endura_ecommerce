@@ -67,7 +67,7 @@ class ReportController < ApplicationController
 	end
 
 	def create
-		# begin
+		begin
 			@export = MySpreadsheet.new(params[:start_date], params[:end_date])
 			case params[:report_type].downcase
 			# when "fund_tracking"
@@ -99,8 +99,8 @@ class ReportController < ApplicationController
 				send_data @export.image_requests(OrderItem.from_date_range(params[:start_date], params[:end_date]).includes(:order).images).render, type: "application/pdf"
 			else
 			end
-		# rescue => error
-		# 	p error
-		# end
+		rescue => error
+			p error
+		end
 	end
 end
