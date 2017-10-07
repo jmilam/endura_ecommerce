@@ -12,7 +12,6 @@ class ImportTsmAssociationData
 			  companies = false
 
 			  data.each do |row|
-			  	p row[0]
 			  	unless row[0].nil?
 					  if row[0].downcase == "tsm"
 						  tsm = true
@@ -35,7 +34,6 @@ class ImportTsmAssociationData
 						elsif companies
 						  rep_group = SalesRep.last.rep_group
 						  unless row[0].downcase == "company name"
-						  	p "CREATE CUSTOMER"
 							  customer = SalesRep.last.customers.create(company_name: row[0],
 							  																					contact_email: row[2],
 							  																					phone_number: row[4],
@@ -46,7 +44,6 @@ class ImportTsmAssociationData
 							  																					company_contact: row[1],
 							  																					rep_group: row[3])
 
-							  p customer.errors
 							  FundsBank.create(customer_id: customer.id, allocated_amt: row[9], current_bal: row[10])
 							 end
 				  	end
@@ -61,7 +58,7 @@ class ImportTsmAssociationData
 	def create_user(name, email, password)
 		user = User.find_by_email(email)
 
-		unless user.nil?
+		if user.nil?
 			User.create(name: name, email: email, password: password)
 		end
 	end
