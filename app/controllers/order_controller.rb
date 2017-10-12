@@ -83,7 +83,7 @@ class OrderController < ApplicationController
 
 					@api.send_new_catalog_request(item_ids) unless item_ids.empty?
 				elsif params[:job] == "approve"
-					if @order.update(accepted: params[:accepted])
+					if @order.update(accepted: params[:accepted], accept_deny_comment: params[:comment])
 						if @order.payment_method == "Rebate/Marketing Funds" && @order.accepted
 							includes_other_samples = false
 							other_sample = Product.find_by_name("Other Samples")
@@ -92,7 +92,8 @@ class OrderController < ApplicationController
 							FundsBank.deduct_from_customer(@order.customer_id, @order.id) if includes_other_samples == false
 						end
 						@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id) unless @rep.nil?
-						redirect_to order_index_path(overview: true)
+						# redirect_to order_index_path(overview: true)
+						render json: {success: true}
 					else
 						flash[:error] = @order.errors
 					end

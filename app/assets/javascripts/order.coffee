@@ -16,6 +16,30 @@ $(document).on "turbolinks:load", ->
   $('.right').tooltip
     placehment: 'right'
 
+  $('#accept_order, #decline_order').on 'click', (e) ->
+    e.preventDefault()
+    
+    decision
+
+    if $(this).attr('id') == 'accept_order'
+      decision = true
+    else
+      decision = false
+
+    $.ajax
+      url: '/order/' + $(this).attr('order_id')
+      type: 'PATCH'
+      dataType: 'json'
+      data:  accepted: decision, job: "approve", comment: $('#approve_deny_comment').val()
+      success: (response) ->
+        $('#order-approve-functions').hide()
+        $('#order-alert').append '<p>This order has successfully been approved/declined.</p>'
+        $('#order-alert').show()
+        return
+      error: (jqXHR, textStatus) ->
+        alert textStatus
+        return
+
   $("#image_request_company_name, #catalog_request_company_name, #order_customer_id").on 'change', ->
     ajaxCompanyRequest $(this).find('option:selected').text(), '/customer/1', 'GET'
 

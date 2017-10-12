@@ -165,9 +165,13 @@
 		<% end %>
 	</div>
 
-	<div class="row">
+	<div class="row" id="order-approve-functions">
 	<% if @order.accepted.nil?  && @order.order_complete %>
-		<div class="pull-right"><%= link_to "Approve", order_path(@order.id, accepted: true, job: "approve"), method: :put, class: 'btn btn-success' %> <%= link_to "Decline", order_path(@order.id, accepted: false, job: "approve"), method: :put, class: 'btn btn-danger' %></div>
+		<div class="row">
+			<%= text_area_tag :approve_deny_comment, nil, size: '50x5', class: "pull-right", style: "margin-right: 20px;margin-bottom:10px;", placeholder: "Please enter your comments here to go with your reasoning." %>
+		</div>
+
+		<div class="pull-right"><%= button_to "Approve", nil, class: 'btn btn-success', id: "accept_order", order_id: @order.id %> <%= button_to "Decline", nil, class: 'btn btn-danger', id: "decline_order", order_id: @order.id %></div>
 	<% end %>
 	</div>
 <% end %>

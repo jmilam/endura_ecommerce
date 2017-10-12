@@ -59,13 +59,16 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <div style="margin-top: 60px;">
   	        <div class="row">
+                <div class="alert alert-info alert-dismissable", id="order-alert", style="display: none;">
+                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                </div>
   	            <% if flash[:notice] %>
-  	              <div class="alert alert-success alert-dismissable">
+  	              <div class="alert alert-success alert-dismissable", id="success-alert">
   	                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   	                <strong>Success!</strong> <%= flash[:notice] %>
   	              </div>
   	            <% elsif flash[:error] %>
-  		            <div class="alert alert-danger alert-dismissable">
+  		            <div class="alert alert-danger alert-dismissable", id="error-alert">
   	                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   	                <strong>Error!</strong> 
   	                <ul>

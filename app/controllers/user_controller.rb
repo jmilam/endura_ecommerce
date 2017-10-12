@@ -4,18 +4,23 @@ class UserController < ApplicationController
 		@table_headers = ["Email", "Actions"]
 		@data_variable = User.new
 		@path = user_index_path
-		@column_names = [:email, :password, :password_confirmation, :admin]
+		@column_names = [:name, :email, :password, :admin]
 		respond_to do |format|
 			format.js { render :template => "/partials/new" }
 		end
 	end
 
 	def create
-		@user = User.new(email: params[:user][:email], password: params[:user][:password], password_confirmation: params[:password])
-		@user.created_at = Date.today
+		begin 
+			admin = params[:user][:admin].nil? ? false : params[:user][:admin]
 
-		begin
-			if @user.save
+			if User.create(name: params[:user][:name],
+										 email: params[:user][:email],
+										 password: params[:user][:password],
+										 password_confirmation: params[:user][:password],
+										 admin: admin,
+										 created_at: Date.today)
+
 				flash[:notice] = "User successfully created"
 				redirect_to :back
 			else
@@ -74,7 +79,7 @@ class UserController < ApplicationController
 	private
 
 	def user_params
-		params.require(:user).permit(:email, :password, :password_confirmation, :created_at, :admin)
+		params.require(:user).permit(:name, :email, :password, :password_confirmation, :created_at, :admin)
 	end
 
 end

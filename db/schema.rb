@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170914032652) do
+ActiveRecord::Schema.define(version: 20171012024624) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -93,8 +93,8 @@ ActiveRecord::Schema.define(version: 20170914032652) do
     t.float    "price",      limit: 24
     t.string   "group"
     t.string   "file_name"
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",            default: '2017-10-11 00:00:00', null: false
+    t.datetime "updated_at",            default: '2017-10-11 00:00:00', null: false
     t.string   "sub_group"
   end
 
@@ -112,28 +112,29 @@ ActiveRecord::Schema.define(version: 20170914032652) do
 
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
-    t.datetime "created_at",                                    null: false
-    t.datetime "updated_at",                                    null: false
-    t.boolean  "current_order",                 default: false
-    t.boolean  "order_complete",                default: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
+    t.boolean  "current_order",                     default: false
+    t.boolean  "order_complete",                    default: false
     t.date     "deadline"
     t.string   "deadline_reason"
-    t.text     "payment_method",  limit: 65535
+    t.text     "payment_method",      limit: 65535
     t.integer  "customer_id"
-    t.text     "order_reason",    limit: 65535
+    t.text     "order_reason",        limit: 65535
     t.string   "address"
     t.string   "city"
     t.string   "state"
     t.string   "zipcode"
     t.boolean  "accepted"
     t.string   "email"
+    t.text     "accept_deny_comment", limit: 65535
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "name",       limit: 65535
     t.float    "price",      limit: 24
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",               default: '2017-10-11 00:00:00', null: false
+    t.datetime "updated_at",               default: '2017-10-11 00:00:00', null: false
     t.text     "group",      limit: 65535
     t.string   "file_name"
   end
