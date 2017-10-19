@@ -1,5 +1,5 @@
 # config valid only for current version of Capistrano
-lock "3.7.2"
+lock "3.9.1"
 server "192.168.3.131", port: 22, roles: [:web, :app, :db]
 
 set :repo_url, "git@github.com:jmilam/endura_ecommerce.git"

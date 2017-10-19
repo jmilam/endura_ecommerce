@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171012024624) do
+ActiveRecord::Schema.define(version: 20171018200740) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -110,6 +110,12 @@ ActiveRecord::Schema.define(version: 20171012024624) do
     t.boolean  "admin_verified"
   end
 
+  create_table "order_statuses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.text     "status",     limit: 65535
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "user_id"
     t.datetime "created_at",                                        null: false
@@ -128,6 +134,10 @@ ActiveRecord::Schema.define(version: 20171012024624) do
     t.boolean  "accepted"
     t.string   "email"
     t.text     "accept_deny_comment", limit: 65535
+    t.integer  "order_status_id",                   default: 1
+    t.string   "po_number",                         default: ""
+    t.date     "accepted_date"
+    t.string   "order_receipient",                  default: ""
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

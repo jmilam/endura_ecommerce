@@ -33,6 +33,12 @@ class API
 		JSON.parse(response.body)["success"]
 	end
 
+	def send_daily_order_overview(orders)
+		uri = URI("http://localhost:3000/api/endura/email/marketing/daily_order_overview")
+
+		response = Net::HTTP.post_form(uri, {orders: orders.to_json})
+	end
+
 	def send_new_catalog_request(order_item)
 		uri = URI("#{@url}/email/marketing/new_catalog_request")
 

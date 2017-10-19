@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   post 'product/upload'
   get 'order/need_verification' => 'order#need_verification', as: :need_verification
+  get 'order/daily_order_overview' => 'order#daily_order_overview', as: :daily_order_overview
+  patch 'order/update_status' => 'order#update_status', as: :update_order_status
   
   devise_for :users, controllers: {
     registrations: 'users/registrations'

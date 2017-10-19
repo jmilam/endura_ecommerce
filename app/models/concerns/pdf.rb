@@ -121,6 +121,46 @@ class Pdf
 		@pdf
 	end
 
+	def funds_details_by_customer(customers, orders, funds)
+		page_count = funds.count
+		left_start = 80
+		right_start = 350
+		default_width = 250
+		draw_header "", [right_start, @pdf.cursor ], 180, :right
+
+		funds.each do |key, fund|
+			page_count -= 1
+			@pdf.move_down 20
+
+			curr_cursor = @pdf.cursor
+			customer = customers.find_by(id: key)
+
+			bank = customer.funds_bank
+
+			unless bank.nil?
+				@pdf.text "#{customer.company_name}", align: :center, size: 14
+				@pdf.table [["Allocated Amount", "Current Balance"], ["#{bank.allocated_amt}", "#{bank.current_bal}"]], width: 540 do
+					row(0).style background_color: 'd9534f'
+				end
+
+				@pdf.move_down 20
+
+				@pdf.table [["Order #", "Order Total"]], width: 540, column_widths: 270 do
+					row(0).style background_color: 'd9534f'
+				end
+
+				fund[:order_ids].zip(fund[:order_sum]).each do |order_details|
+					@pdf.table [["#{order_details[0]}", "#{order_details[1]}"]], width: 540, column_widths: 270
+				end
+
+				@pdf.move_down 20
+				@pdf.start_new_page
+			end
+		end
+
+		@pdf
+	end
+
 	def draw_header (text, location, width, align)
 		@pdf.image "#{Rails.root}/public/images/endura-pdf.jpeg", height: 40
 		draw_text_box text, location, width, align

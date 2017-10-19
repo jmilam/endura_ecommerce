@@ -82,7 +82,7 @@
 		
 		<table class="table table-bordered">
 			<thead>
-				<tr style="background-color:darkgrey;"><th class="text-center" colspan="<%= @column_count %>"><%= @title %> <%#= link_to "Export Data", report_index_path(start_date: @start_date, end_date: @end_date, report_type: @report_type), method: :post %></th></tr>
+				<tr style="background-color:darkgrey;"><th class="text-center" colspan="<%= @column_count %>"><%= @title %> <%= link_to "Export Data", report_index_path(start_date: @start_date, end_date: @end_date, report_type: @report_type), method: :post %></th></tr>
 			</thead>
 		</table>
 		

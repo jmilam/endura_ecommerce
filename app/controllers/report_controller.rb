@@ -90,9 +90,13 @@ class ReportController < ApplicationController
 				@export = Pdf.new
 				send_data @export.tradeshow_requests(TradeshowRequest.from_date_range(params[:start_date], params[:end_date])).render, type: "application/pdf"
 			when 'funds_details_by_customer'
+				@export = Pdf.new
+
 				customers = Customer.all
 				orders = Order.from_date_range(params[:start_date], params[:end_date]).includes(:order_items)
-				@funds_summary = FundsBank.calculate_used(orders)
+				funds_summary = FundsBank.calculate_used(orders)
+
+				send_data @export.funds_details_by_customer(customers, orders, funds_summary).render, type: "application/pdf"
 			when 'image_requests_approved'
 				@export = Pdf.new
 

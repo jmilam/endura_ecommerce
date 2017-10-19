@@ -1,15 +1,19 @@
 class OrderController < ApplicationController
 	def index
 		if params[:overview]
-			@orders = current_user.admin? ? Order.all.includes(:order_items) : current_user.orders.includes(:order_items)
+			@orders = current_user.admin? || !Tsm.find_by(email: current_user.email).nil? ? Order.all.includes(:order_items) : current_user.orders.includes(:order_items)
 		else
 			@orders = current_user.orders.current
 		end
+
+		@panel_colors = ["panel-info", "panel-success", "panel-danger", "panel-warning", "panel-default", "panel-primary"]
+		@counter = 0
+		@statuses = OrderStatus.all.map { |order_status| order_status.status }
+		@orders = @orders.sort_by(&:order_status_id).group_by(&:order_status_id)
 	end
 
 	def show
 		begin
-			#@order = Order.find_by_id(params[:id])
 			if params[:id] == "nil"
 				@order = current_user.orders.where(current_order: true).last
 			else
@@ -26,12 +30,12 @@ class OrderController < ApplicationController
 				@products = Product.all
 				@customers = Customer.all.order('company_name ASC')
 				@payment_methods = ["Rebate/Marketing Funds", "Sales Rep", "Customer PO"]
+				@statuses = OrderStatus.all[1..5].map { |order_status| order_status.status }
 			end
 		rescue => error
 			flash[:error] = "There was an error when trying to find your order, #{error}"
 			redirect_to order_index_path
 		end
-
 	end
 
 	def edit
@@ -59,8 +63,10 @@ class OrderController < ApplicationController
 														 zipcode: params[:zipcode],
 														 email: params[:email],
 														 order_complete: true,
-														 current_order: false)
-							@api.send_tsm_email(@tsm.email, current_user.email, current_user.name, @order.id) unless @tsm.class == String
+														 current_order: false,
+														 po_number: params[:po_number],
+														 order_receipient: params[:order_recipient])
+							# @api.send_tsm_email(@tsm.email, current_user.email, current_user.name, @order.id) unless @tsm.class == String
 							flash[:notice] = "Your order was placed!"
 							redirect_to order_index_path
 						else
@@ -77,13 +83,15 @@ class OrderController < ApplicationController
 						if item.item_type == "catalog_request"
 							item_ids << item.id
 						elsif item.item_type == "image_request"
-							@api.send_new_image_request(@order.id)
+							# @api.send_new_image_request(@order.id)
 						end
 					end
 
-					@api.send_new_catalog_request(item_ids) unless item_ids.empty?
+					# @api.send_new_catalog_request(item_ids) unless item_ids.empty?
 				elsif params[:job] == "approve"
-					if @order.update(accepted: params[:accepted], accept_deny_comment: params[:comment])
+					order_status = params[:accepted] ? OrderStatus.find_by(status: "Approved") : OrderStatus.find_by(status: "Denied")
+					if @order.update(accepted: params[:accepted], accept_deny_comment: params[:comment], order_status_id: order_status.id)
+						@order.update(accepted_date: Date.today) if params[:accepted]
 						if @order.payment_method == "Rebate/Marketing Funds" && @order.accepted
 							includes_other_samples = false
 							other_sample = Product.find_by_name("Other Samples")
@@ -91,8 +99,8 @@ class OrderController < ApplicationController
 							@order.order_items.each {|item| item.reference_id == other_sample.id || item.reference_id == other_literature.id ? includes_other_samples = true : next} unless other_sample.nil? || other_literature.nil?
 							FundsBank.deduct_from_customer(@order.customer_id, @order.id) if includes_other_samples == false
 						end
-						@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id) unless @rep.nil?
-						# redirect_to order_index_path(overview: true)
+						# @api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id) unless @rep.nil?
+
 						render json: {success: true}
 					else
 						flash[:error] = @order.errors
@@ -169,6 +177,43 @@ class OrderController < ApplicationController
 			end
 		end
 		@orders = @orders.empty? ? [] : @orders
+	end
+
+	def update_status
+		response = {successful: false}
+		order_status = OrderStatus.find_by(status: params[:order_status])
+		order = Order.find_by(id: params[:order_id])
+
+		unless order.nil? || order_status.nil?
+			accepted = order.accepted
+			accepted_date = nil
+
+			if params[:order_status] == "Approved"
+				accepted = true
+				accepted_date = Date.today
+			elsif params[:order_status] == "Denied"
+				accepted = false
+			end
+			order.update(order_status_id: order_status.id, accepted: accepted)
+			order.update(accepted_date: accepted_date) if order.accepted_date.nil? && !accepted_date.nil?
+			response[:successful] = true
+		end
+
+		respond_to do |format|
+			format.json { render json: response}
+		end
+	end
+
+	def daily_order_overview
+		status = OrderStatus.find_by(status: "Approved")
+		orders = Order.where(accepted_date: Date.today - 1.day)
+
+		@api = API.new(Rails.env)
+		@api.send_daily_order_overview(orders)
+
+		respond_to do |format|
+			format.json { render json: {success: true}}
+		end
 	end
 
 	private

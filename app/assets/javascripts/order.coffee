@@ -16,6 +16,26 @@ $(document).on "turbolinks:load", ->
   $('.right').tooltip
     placehment: 'right'
 
+  $('.order_status').on 'change', (e) ->
+
+    $.ajax
+      url: '/order/update_status'
+      type: 'PATCH'
+      dataType: 'json'
+      data:  order_id: $(this).attr('order_id'), order_status: e.target.options[e.target.options.selectedIndex].text
+      success: (response) ->
+        return
+      error: (jqXHR, textStatus) ->
+        alert textStatus
+        return
+
+  $('#order_payment_method').on 'change', (e) ->
+    console.log e.target.value
+    if e.target.value == "Customer PO"
+      $('#po_number_row').toggle()
+    else
+      $('#po_number_row').hide()
+
   $('#accept_order, #decline_order').on 'click', (e) ->
     e.preventDefault()
     

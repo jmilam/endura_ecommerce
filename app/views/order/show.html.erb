@@ -18,6 +18,13 @@
 				<%= @customer.address %><br/>
 				<%= @customer.city %>, <%= @customer.state %> <%= @customer.zipcode %><br/>
 			</p>
+
+			<b>Ship To:</b>
+			<p>
+				<%= @order.order_receipient %><br/>
+				<%= @order.address %><br/>
+				<%= @order.city %>, <%= @order.state %> <%= @order.zipcode %><br/>
+			</p>
 		</div>
 
 		<div class="col-md-3 col-md-offset-3">
@@ -27,6 +34,12 @@
 				<%= @customer.sales_rep.email %><br/>
 				<%= @customer.sales_rep.rep_group %><br/>
 			</p>
+
+				<div class="col-md-12" style="padding-left:0px;">
+					<% unless @order.order_status.status == "Pending" %>
+						<%= select_tag "order_status", options_for_select(@statuses, @order.order_status.status), class: "form-control order_status", order_id: "#{@order.id}" %>
+					<% end %>
+				</div>
 		</div>
 	</div>
 <% end %>
@@ -64,6 +77,12 @@
 				<div class="col-sm-6 col-md-6 col-md-offset-3">
 					<%= f.label 'Payment Method' %>
 					<%= f.select :payment_method, @payment_methods.map {|payment| payment}, {}, {class: 'form-control '} %>
+				</div>
+			</div>
+			<div class="row" id="po_number_row" style="display:none;">
+				<div class="col-sm-6 col-md-6 col-md-offset-3">
+					<%= f.label :po_number, 'PO Number' %>
+					<%= text_field_tag :po_number, nil, class: 'form-control po_number' %>
 				</div>
 			</div>
 			<div class="row">
@@ -166,12 +185,14 @@
 	</div>
 
 	<div class="row" id="order-approve-functions">
-	<% if @order.accepted.nil?  && @order.order_complete %>
-		<div class="row">
-			<%= text_area_tag :approve_deny_comment, nil, size: '50x5', class: "pull-right", style: "margin-right: 20px;margin-bottom:10px;", placeholder: "Please enter your comments here to go with your reasoning." %>
-		</div>
+		<% if @order.accepted.nil? && @order.order_complete %>
+			<div class="row">
+				<%= text_area_tag :approve_deny_comment, nil, size: '50x5', class: "pull-right", style: "margin-right: 20px;margin-bottom:10px;", placeholder: "Please enter your comments here to go with your reasoning." %>
+			</div>
 
-		<div class="pull-right"><%= button_to "Approve", nil, class: 'btn btn-success', id: "accept_order", order_id: @order.id %> <%= button_to "Decline", nil, class: 'btn btn-danger', id: "decline_order", order_id: @order.id %></div>
-	<% end %>
+			<div class="pull-right"><%= button_to "Approve", nil, class: 'btn btn-success', id: "accept_order", order_id: @order.id %> <%= button_to "Decline", nil, class: 'btn btn-danger', id: "decline_order", order_id: @order.id %></div>
+		<% end %>
+	</div>
+
 	</div>
 <% end %>
