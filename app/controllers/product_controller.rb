@@ -16,9 +16,9 @@ class ProductController < ApplicationController
 
 	def edit
 		@type = "product"
-		@table_headers = ["Name", "Price", "Group", "Actions"]
+		@table_headers = ["Name","Price", "Group", "File Name", "Item Number", "Actions"]
 		@data_variable = Product.all
-		@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id" || value == "file_name"}
+		@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
 			format.js { render :template => "/partials/edit" }
 		end
@@ -43,7 +43,13 @@ class ProductController < ApplicationController
 
 	def update
 		begin
-			if Product.update(params[:id], name: params[:name], price: params[:price], group: params[:group])
+			if Product.update(params[:id],
+				name: params[:name],
+				price: params[:price],
+				group: params[:group],
+				file_name: params[:file_name],
+				item_number: params[:item_number])
+				
 				@response = {response: {success: true}}
 			else
 				"Not saved"

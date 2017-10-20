@@ -16,7 +16,7 @@ class ImageController < ApplicationController
 
 	def edit
 		@type = "image"
-		@table_headers = ["Name", "Price", "Group", "File Name", "Sub-Group", "Actions"]
+		@table_headers = ["Name", "Price", "Group", "File Name", "Sub-Group", "Item Number", "Actions"]
 		@data_variable = Image.all
 		@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id" }
 
@@ -45,7 +45,13 @@ class ImageController < ApplicationController
 
 	def update
 		begin
-			if Image.update(params[:id], name: params[:name], price: params[:price], group: params[:group], file_name: params[:file_name], sub_group: params[:sub_group])
+			if Image.update(params[:id],
+				name: params[:name],
+				price: params[:price],
+				group: params[:group],
+				file_name: params[:file_name],
+				sub_group: params[:sub_group],
+				item_number: params[:item_number])
 				@response = {response: {success: true}}
 			else
 				"Not saved"
