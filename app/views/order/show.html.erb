@@ -1,198 +1,223 @@
-<!-- <div class="row">
-	<%#= link_to "<< Back", :back %>
-</div> -->
-<div class="row">
-	<div class="text-center"><h3>Order #<%= @order.id %> Summary</h3></div>
-</div>
-
-<% unless @customer.nil? %>
-	<div class="row">
-		<div class="col-md-3 col-md-offset-2">
-			<b>Customer Information:</b>
-			<p>
-				<%= @customer.company_name %><br/>
-				<%= @customer.company_contact %><br/>
-				<%= @customer.contact_email %><br/>
-				<%= @customer.phone_number %><br/>
-				<br/>
-				<%= @customer.address %><br/>
-				<%= @customer.city %>, <%= @customer.state %> <%= @customer.zipcode %><br/>
-			</p>
-
-			<b>Ship To:</b>
-			<p>
-				<%= @order.order_receipient %><br/>
-				<%= @order.address %><br/>
-				<%= @order.city %>, <%= @order.state %> <%= @order.zipcode %><br/>
-			</p>
-		</div>
-
-		<div class="col-md-3 col-md-offset-3">
-			<b>Sales Rep Information:</b>
-			<p>
-				<%= @customer.sales_rep.name %><br/>
-				<%= @customer.sales_rep.email %><br/>
-				<%= @customer.sales_rep.rep_group %><br/>
-			</p>
-
-				<div class="col-md-12" style="padding-left:0px;">
-					<% unless @order.order_status.status == "Pending" %>
-						<%= select_tag "order_status", options_for_select(@statuses, @order.order_status.status), class: "form-control order_status", order_id: "#{@order.id}" %>
-					<% end %>
-				</div>
-		</div>
-	</div>
-<% end %>
-
-<%= form_for @order, url: order_path(@order.id, job: "checkout"), method: :put do |f| %>
-	<% if @order.current_order == true && @order.order_complete == false %>
-		<div class="row">
+<% if @order.current_order %>
+	<%= form_for @order, url: order_path(@order.id, job: "checkout"), method: :put do |f| %>
+		<% if @order.current_order == true && @order.order_complete == false %>
 			<div class="row">
-				<div class="col-sm-12 col-md-6 col-md-offset-3">
-					<div class="form-group">
-						<%= f.label :deadline %>
-						<%= f.text_field :deadline, class: 'form-control', id: 'deadline' %>
+				<div class="row">
+					<div class="col-sm-12 col-md-6 col-md-offset-3">
+						<div class="form-group">
+							<%= f.label :deadline %>
+							<%= f.text_field :deadline, class: 'form-control', id: 'deadline' %>
+						</div>
+					</div>
+					<div class="col-sm-12 col-md-6 col-md-offset-3">
+						<%= f.label 'Deadline Reason' %>
+						<%= f.text_area :deadline_reason, class: 'form-control', id: 'deadline_reason' %>
+					</div>
+					<div class="col-sm-12 col-md-6 col-md-offset-3">
+						<%= f.label 'Reason for Placing Order' %>
+						<%= f.text_area :order_reason, class: 'form-control' %>
 					</div>
 				</div>
-				<div class="col-sm-12 col-md-6 col-md-offset-3">
-					<%= f.label 'Deadline Reason' %>
-					<%= f.text_area :deadline_reason, class: 'form-control', id: 'deadline_reason' %>
+				<div class="row">
+					<div class="col-sm-6 col-md-3 col-md-offset-3">
+						<p>Requester</p>
+						<p><%= current_user.name %></p>
+					</div>
+					<div class="col-sm-6 col-md-3 col-md-offset-1">
+						<p>Email</p>
+						<p><%= current_user.email %></p>
+					</div>
 				</div>
-				<div class="col-sm-12 col-md-6 col-md-offset-3">
-					<%= f.label 'Reason for Placing Order' %>
-					<%= f.text_area :order_reason, class: 'form-control' %>
+				<div class="row">
+					<div class="col-sm-6 col-md-6 col-md-offset-3">
+						<%= f.label 'Payment Method' %>
+						<%= f.select :payment_method, @payment_methods.map {|payment| payment}, {}, {class: 'form-control '} %>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6 col-md-3 col-md-offset-3">
-					<p>Requester</p>
-					<p><%= current_user.name %></p>
+				<div class="row" id="po_number_row" style="display:none;">
+					<div class="col-sm-6 col-md-6 col-md-offset-3">
+						<%= f.label :po_number, 'PO Number' %>
+						<%= text_field_tag :po_number, nil, class: 'form-control po_number' %>
+					</div>
 				</div>
-				<div class="col-sm-6 col-md-3 col-md-offset-1">
-					<p>Email</p>
-					<p><%= current_user.email %></p>
+				<div class="row">
+					<div class="col-sm-6 col-md-6 col-md-offset-3">
+						<%= f.label 'Company Name' %>
+						<%= f.select :customer_id, @customers.map {|customer| [customer.company_name, customer.id]}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6 col-md-6 col-md-offset-3">
-					<%= f.label 'Payment Method' %>
-					<%= f.select :payment_method, @payment_methods.map {|payment| payment}, {}, {class: 'form-control '} %>
+				<div class="row">
+					<div class="col-sm-6 col-md-3 col-md-offset-3">
+						<%= f.label 'Order Recipient' %>
+						<%= text_field_tag :order_recipient, nil, class: 'form-control company_contact' %>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<%= f.label :email %>
+						<%= text_field_tag :email, nil, class: 'form-control email' %>
+					</div>
 				</div>
-			</div>
-			<div class="row" id="po_number_row" style="display:none;">
-				<div class="col-sm-6 col-md-6 col-md-offset-3">
-					<%= f.label :po_number, 'PO Number' %>
-					<%= text_field_tag :po_number, nil, class: 'form-control po_number' %>
+				<div class="row">
+					<div class="col-sm-6 col-md-3 col-md-offset-3">
+						<%= f.label 'Phone Number' %>
+						<%= text_field_tag :phone_number, nil, class: 'form-control phone_number' %>
+					</div>
+					<div class="col-sm-6 col-md-3">
+						<%= f.label 'Shipping address' %>
+						<%= text_field_tag :address, nil, class: 'form-control ship_address' %>
+					</div>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6 col-md-6 col-md-offset-3">
-					<%= f.label 'Company Name' %>
-					<%= f.select :customer_id, @customers.map {|customer| [customer.company_name, customer.id]}, {prompt: '- Please Select -'}, {class: 'form-control '} %>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6 col-md-3 col-md-offset-3">
-					<%= f.label 'Order Recipient' %>
-					<%= text_field_tag :order_recipient, nil, class: 'form-control company_contact' %>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<%= f.label :email %>
-					<%= text_field_tag :email, nil, class: 'form-control email' %>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6 col-md-3 col-md-offset-3">
-					<%= f.label 'Phone Number' %>
-					<%= text_field_tag :phone_number, nil, class: 'form-control phone_number' %>
-				</div>
-				<div class="col-sm-6 col-md-3">
-					<%= f.label 'Shipping address' %>
-					<%= text_field_tag :address, nil, class: 'form-control ship_address' %>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-6 col-md-3 col-md-offset-3">
-					<%= f.label :city %>
-					<%= text_field_tag :city, nil, class: 'form-control city' %>
-				</div>
-				<div class="col-sm-6 col-md-1">
-					<%= f.label :state %>
-					<%= text_field_tag :state, nil, class: 'form-control state' %>
-				</div>
-				<div class="col-sm-6 col-md-2">
-					<%= f.label :zipcode %>
-					<%= text_field_tag :zipcode, nil, class: 'form-control zipcode' %>
+				<div class="row">
+					<div class="col-sm-6 col-md-3 col-md-offset-3">
+						<%= f.label :city %>
+						<%= text_field_tag :city, nil, class: 'form-control city' %>
+					</div>
+					<div class="col-sm-6 col-md-1">
+						<%= f.label :state %>
+						<%= text_field_tag :state, nil, class: 'form-control state' %>
+					</div>
+					<div class="col-sm-6 col-md-2">
+						<%= f.label :zipcode %>
+						<%= text_field_tag :zipcode, nil, class: 'form-control zipcode' %>
+					</div>
 				</div>
 			</div>
+		<% end %>
+
+		<div class="row" style="margin-top:15px;">
+			<table class="table table-stripped">
+				<thead>
+				</thead>
+					<tr>
+						<th>Product Name</th>
+						<th>Quantity</th>
+						<th>Price</th>
+						<th>Notes</th>
+						<th/>
+					</tr>
+				<tbody>
+					<% @items.each do |item| %>
+						<tr>
+							<td><%= item.product_name_by_product_type %></td>
+							<td><%= item.quantity %></td>
+							<td><%= number_to_currency(item.item_total) %></td>
+							<td>
+								<% if item.note.nil? || item.note.empty? %>
+									<% if item.product_name_by_product_type == "Image Request" %>
+										<%= link_to image_request_path(item.reference_id)  do %>
+											<span class="glyphicon glyphicon-eye-open text-primary right" title='Click for details'></span> 
+										<% end %>
+									<% elsif item.product_name_by_product_type == "Catalog Request" %>
+										<%= link_to catalog_request_path(item.reference_id)  do %>
+											<span class="glyphicon glyphicon-eye-open text-primary right" title='Click for details'></span> 
+										<% end %>
+									<% elsif item.product_name_by_product_type == "Tradeshow Support Request" %>
+										<%= link_to tradeshow_support_request_path(item.reference_id)  do %>
+											<span class="glyphicon glyphicon-eye-open text-primary right" title='Click for details'></span> 
+										<% end %>
+									<% end %>
+								<% else %>
+									<span class="glyphicon glyphicon-info-sign text-primary right" title='<%= item.note %>'></span> 
+								<% end %>
+							</td>
+							<td><%= link_to "Delete", order_item_path(item.id), method: :delete, class: 'order_item_delete' if @order.current_order == true && @order.order_complete == false %></td>
+						</tr>
+					<% end %>
+					<tr class="success">
+						<td>Total</td>
+						<td><%= @total_qty %></td>
+						<td><%= number_to_currency(@total_sum) %></td>
+						<td/>
+						<td/>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="row">
+			<% if @order.order_complete == false %>
+				<%= f.submit "Check Out",  class: "btn btn-block btn-primary" %>
+			<% end %>
+		</div>
+
+		
+
 		</div>
 	<% end %>
+<% else %>
+	<div class="panel panel-danger">
+	  <div class="panel-heading text-center"><h3>Order Number: <%= @order.id %></h3></div>
+	  <div class="panel-body">
+	  	<div class="row">
+		  	<div class="col-md-5">
+			  	<b>Order Date:</b> <%= @order.created_at.strftime('%m/%d/%Y') %><br/>
+			  	<b>Deadline Date:</b> <%= @order.deadline %><br/>
+			  	<b>Approved Date:</b> <%= @order.accepted_date %><br/>
 
-	<div class="row" style="margin-top:15px;">
-		<table class="table table-stripped">
-			<thead>
-			</thead>
-				<tr>
-					<th>Product Name</th>
-					<th>Quantity</th>
-					<th>Price</th>
-					<th>Notes</th>
-					<th/>
-				</tr>
-			<tbody>
-				<% @items.each do |item| %>
-					<tr>
-						<td><%= item.product_name_by_product_type %></td>
-						<td><%= item.quantity %></td>
-						<td><%= number_to_currency(item.item_total) %></td>
-						<td>
-							<% if item.note.nil? || item.note.empty? %>
-								<% if item.product_name_by_product_type == "Image Request" %>
-									<%= link_to image_request_path(item.reference_id)  do %>
-										<span class="glyphicon glyphicon-eye-open text-primary right" title='Click for details'></span> 
-									<% end %>
-								<% elsif item.product_name_by_product_type == "Catalog Request" %>
-									<%= link_to catalog_request_path(item.reference_id)  do %>
-										<span class="glyphicon glyphicon-eye-open text-primary right" title='Click for details'></span> 
-									<% end %>
-								<% elsif item.product_name_by_product_type == "Tradeshow Support Request" %>
-									<%= link_to tradeshow_support_request_path(item.reference_id)  do %>
-										<span class="glyphicon glyphicon-eye-open text-primary right" title='Click for details'></span> 
-									<% end %>
-								<% end %>
-							<% else %>
-								<span class="glyphicon glyphicon-info-sign text-primary right" title='<%= item.note %>'></span> 
-							<% end %>
-						</td>
-						<td><%= link_to "Delete", order_item_path(item.id), method: :delete, class: 'order_item_delete' if @order.current_order == true && @order.order_complete == false %></td>
-					</tr>
-				<% end %>
-				<tr class="success">
-					<td>Total</td>
-					<td><%= @total_qty %></td>
-					<td><%= number_to_currency(@total_sum) %></td>
-					<td/>
-					<td/>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+			  	<b>Requested By:</b> <%= @order.user.name %><br/>
+			  	<b>Payment Method:</b> <%= @order.payment_method %><br/><br/>
+			  	
+			  	<div class="col-md-12" style="padding-left:0px;">
+						<% unless @order.order_status.status == "Pending" %>
+							<%= select_tag "order_status", options_for_select(@statuses, @order.order_status.status), class: "form-control order_status", order_id: "#{@order.id}" %>
+						<% end %>
+					</div>
+			  </div>
+			  <div class="col-md-7">
+			  	<b>Ship To:</b>
+					<p>
+						<%= @order.order_receipient %><br/>
+						<%= @order.address %><br/>
+						<%= @order.city %>, <%= @order.state %> <%= @order.zipcode %><br/>
+					</p>
 
-	<div class="row">
-		<% if @order.order_complete == false %>
-			<%= f.submit "Check Out",  class: "btn btn-block btn-primary" %>
-		<% end %>
-	</div>
-
-	<div class="row" id="order-approve-functions">
-		<% if @order.accepted.nil? && @order.order_complete %>
-			<div class="row">
-				<%= text_area_tag :approve_deny_comment, nil, size: '50x5', class: "pull-right", style: "margin-right: 20px;margin-bottom:10px;", placeholder: "Please enter your comments here to go with your reasoning." %>
+					<b>Company:</b>
+					<% unless @customer.nil? %>
+						<p>
+							<%= @customer.company_name %><br/>
+							<%= @customer.contact_email %><br/>
+							<%= @customer.phone_number %><br/>
+						</p>
+					<% end %>
+			  </div>
 			</div>
 
-			<div class="pull-right"><%= button_to "Approve", nil, class: 'btn btn-success', id: "accept_order", order_id: @order.id %> <%= button_to "Decline", nil, class: 'btn btn-danger', id: "decline_order", order_id: @order.id %></div>
-		<% end %>
-	</div>
+			<div class="row">
+				<table class="table table-bordered">
+			    <thead>
+			      <tr>
+			        <th>Line #</th>
+			        <th>Item Number</th>
+			        <th>Item Description</th>
+			        <th>Qty Ordered</th>
+			        <th>Price</th>
+			        <th>Notes</th>
 
+			      </tr>
+			    </thead>
+			    <tbody>
+			    	<% @items.each_with_index do |item, idx| %>
+				      <tr>
+				        <td><%= idx + 1 %></td>
+				        <td><%= item.product_number_by_product_type %></td>
+				        <td><%= item.product_name_by_product_type %></td>
+				        <td><%= item.quantity %></td>
+				        <td><%= number_to_currency(item.item_total) %></td>
+				        <td><%= item.note %></td>
+				      </tr>
+				    <% end %>
+			    </tbody>
+			  </table>
+			</div>
+
+			<div class="row" id="order-approve-functions">
+			<% if @order.accepted.nil? && @order.order_complete %>
+				<div class="row">
+					<%= text_area_tag :approve_deny_comment, nil, size: '50x5', class: "pull-right", style: "margin-right: 20px;margin-bottom:10px;", placeholder: "Please enter your comments here to go with your reasoning." %>
+				</div>
+
+				<div class="pull-right"><%= button_to "Approve", nil, class: 'btn btn-success', id: "accept_order", order_id: @order.id %> <%= button_to "Decline", nil, class: 'btn btn-danger', id: "decline_order", order_id: @order.id %></div>
+			<% end %>
+		</div>
+	  </div>
 	</div>
 <% end %>

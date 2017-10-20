@@ -14,7 +14,7 @@ class ReportController < ApplicationController
 
 			case params[:commit].downcase
 			when "all_approved/rejected_orders"
-				@orders = admin ? Order.no_nil_accepted.from_date_range(@start_date, @end_date).includes(:order_items).sort_by {|order| order.accepted ? 0 : 1} : Order.no_nil_accepted.from_date_range(@start_date, @end_date).includes(:order_items).individual(current_user.id).sort_by {|order| order.accepted ? 0 : 1}
+				@orders = admin ? Order.no_nil_accepted.from_date_range(@start_date, @end_date).includes(:order_items).group_by {|order| order.accepted ? 0 : 1} : Order.no_nil_accepted.from_date_range(@start_date, @end_date).includes(:order_items).individual(current_user.id).group_by {|order| order.accepted ? 0 : 1}
 				@results = @orders
 			when 'export_customer_details'
 				@results = Customer.all

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171018200740) do
+ActiveRecord::Schema.define(version: 20171020030648) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -90,12 +90,13 @@ ActiveRecord::Schema.define(version: 20171018200740) do
 
   create_table "images", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
-    t.float    "price",      limit: 24
+    t.float    "price",       limit: 24
     t.string   "group"
     t.string   "file_name"
-    t.datetime "created_at",            default: '2017-10-11 00:00:00', null: false
-    t.datetime "updated_at",            default: '2017-10-11 00:00:00', null: false
+    t.datetime "created_at",             default: '2017-10-11 00:00:00', null: false
+    t.datetime "updated_at",             default: '2017-10-11 00:00:00', null: false
     t.string   "sub_group"
+    t.string   "item_number",            default: ""
   end
 
   create_table "order_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -141,12 +142,13 @@ ActiveRecord::Schema.define(version: 20171018200740) do
   end
 
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.text     "name",       limit: 65535
-    t.float    "price",      limit: 24
-    t.datetime "created_at",               default: '2017-10-11 00:00:00', null: false
-    t.datetime "updated_at",               default: '2017-10-11 00:00:00', null: false
-    t.text     "group",      limit: 65535
+    t.text     "name",        limit: 65535
+    t.float    "price",       limit: 24
+    t.datetime "created_at",                default: '2017-10-11 00:00:00', null: false
+    t.datetime "updated_at",                default: '2017-10-11 00:00:00', null: false
+    t.text     "group",       limit: 65535
     t.string   "file_name"
+    t.string   "item_number",               default: ""
   end
 
   create_table "sales_reps", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

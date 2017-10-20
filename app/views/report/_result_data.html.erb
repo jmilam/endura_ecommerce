@@ -9,45 +9,125 @@
 <% else %>
 	<% if @title.downcase.match(/funds/).nil? %>
 		<% if @title.downcase.match(/tradeshow/).nil? && @title.downcase.match(/catalog/).nil? %>
-			<table class="table table-bordered">
-				<thead>
-					<tr style="background-color:darkgrey;"><th class="text-center" colspan="<%= @column_count %>"><%= @title %> - <%= link_to "Export Data", report_index_path(start_date: @start_date, end_date: @end_date, report_type: @report_type), method: :post %></th></tr>
-				</thead>
-					<tbody>
-						<tr class="danger">
-							<th>
+			<% if @title.downcase.match(/rejected/).nil? %>
+				<table class="table table-bordered">
+					<thead>
+						<tr style="background-color:darkgrey;"><th class="text-center" colspan="<%= @column_count %>"><%= @title %> - <%= link_to "Export Data", report_index_path(start_date: @start_date, end_date: @end_date, report_type: @report_type), method: :post %></th></tr>
+					</thead>
+						<tbody>
+							<tr class="danger">
+								<th>
 
-								<% @results.first.attributes.each do |key, value| %>
-									<%# unless key == "id" || key == "current_order" %>
-									<% if key == "id" && @title.downcase.match(/order/) != nil %>
-										<td><%= @formatter.table_header_data(key) %></td>
-									<% elsif key =="id" && @title.downcase.match(/image/) != nil %>
-									<% else %>
-										<td><%= @formatter.table_header_data(key) %></td>
+									<% @results.first.attributes.each do |key, value| %>
+										<%# unless key == "id" || key == "current_order" %>
+										<% if key == "id" && @title.downcase.match(/order/) != nil %>
+											<td><%= @formatter.table_header_data(key) %></td>
+										<% elsif key =="id" && @title.downcase.match(/image/) != nil %>
+										<% else %>
+											<td><%= @formatter.table_header_data(key) %></td>
+										<% end %>
 									<% end %>
-								<% end %>
-							</th>
-						</tr>
-						<% @results.each do |result| %>
-							<tr>
-								<td/>
-								<% result.attributes.each do |key, value| %>
-									<%# unless key == "id"  || key == "current_order" %>
-									<% if key == "id" && @title.downcase.match(/order/) != nil %>
-										<td class="text-center"><%= link_to "#{raw @formatter.report_data(key, value)}", "#{eval Report.create_get_link_from_text("#{@title}", value)}", target: :_blank %></td>
-									<% elsif key =="id" && @title.downcase.match(/customer/) != nil %>
-										<td class="text-center"><%= link_to "#{raw @formatter.report_data(key, value)}", "#{eval Report.create_get_link_from_text("#{@title}", value)}", target: :_blank %></td>
-									<% elsif key =="id" && @title.downcase.match(/image/) != nil %>
-									<% elsif key =="order_id" && @title.downcase.match(/image/) != nil %>
-									<td class="text-center"><%= link_to "#{raw @formatter.report_data(key, value)}", "#{eval Report.create_get_link_from_text("#{@title}", value)}", target: :_blank %></td>
-									<% else %>
-										<td class="text-center"><%= raw @formatter.report_data(key, value) %></td>
-									<% end %>
-								<% end unless result.nil?%>
+								</th>
 							</tr>
-						<% end %>
-					</tbody>
-			</table>
+							<% @results.each do |result| %>
+								<tr>
+									<td/>
+									<% result.attributes.each do |key, value| %>
+										<%# unless key == "id"  || key == "current_order" %>
+										<% if key == "id" && @title.downcase.match(/order/) != nil %>
+											<td class="text-center"><%= link_to "#{raw @formatter.report_data(key, value)}", "#{eval Report.create_get_link_from_text("#{@title}", value)}", target: :_blank %></td>
+										<% elsif key =="id" && @title.downcase.match(/customer/) != nil %>
+											<td class="text-center"><%= link_to "#{raw @formatter.report_data(key, value)}", "#{eval Report.create_get_link_from_text("#{@title}", value)}", target: :_blank %></td>
+										<% elsif key =="id" && @title.downcase.match(/image/) != nil %>
+										<% elsif key =="order_id" && @title.downcase.match(/image/) != nil %>
+										<td class="text-center"><%= link_to "#{raw @formatter.report_data(key, value)}", "#{eval Report.create_get_link_from_text("#{@title}", value)}", target: :_blank %></td>
+										<% else %>
+											<td class="text-center"><%= raw @formatter.report_data(key, value) %></td>
+										<% end %>
+									<% end unless result.nil?%>
+								</tr>
+							<% end %>
+						</tbody>
+				</table>
+			<% else %>
+				<% @results.each do |key, orders| %>
+					<% if key == 0 %>
+						<div class="panel panel-success">
+						<div class="panel-heading text-center"><h3>Approved Orders</h3></div>
+					<% else %>
+						<div class="panel panel-warning">
+						<div class="panel-heading text-center"><h3>Rejected Orders</h3></div>
+					<% end %>
+
+						<div class="panel-body">
+
+							<% orders.each do |order| %>
+								<div class="panel panel-danger">
+								  <div class="panel-heading text-center"><h3>Order Number: <%= order.id %></h3></div>
+								  <div class="panel-body">
+								  	<div class="row">
+									  	<div class="col-md-5">
+										  	<b>Order Date:</b> <%= order.created_at.strftime('%m/%d/%Y') %><br/>
+										  	<b>Deadline Date:</b> <%= order.deadline %><br/>
+										  	<b>Approved Date:</b> <%= order.accepted_date %><br/>
+
+										  	<b>Requested By:</b> <%= order.user.name %><br/>
+										  	<b>Payment Method:</b> <%= order.payment_method %><br/><br/>
+										  </div>
+										  <div class="col-md-7">
+										  	<b>Ship To:</b>
+												<p>
+													<%= order.order_receipient %><br/>
+													<%= order.address %><br/>
+													<%= order.city %>, <%= order.state %> <%= order.zipcode %><br/>
+												</p>
+
+												<b>Company:</b>
+												<% customer = Customer.find_by(id: order.customer_id) %>
+												<% unless customer.nil? %>
+													<p>
+														<%= customer.company_name %><br/>
+														<%= customer.contact_email %><br/>
+														<%= customer.phone_number %><br/>
+													</p>
+												<% end %>
+										  </div>
+										</div>
+
+										<div class="row">
+											<table class="table table-bordered">
+										    <thead>
+										      <tr>
+										        <th>Line #</th>
+										        <th>Item Number</th>
+										        <th>Item Description</th>
+										        <th>Qty Ordered</th>
+										        <th>Price</th>
+										        <th>Notes</th>
+
+										      </tr>
+										    </thead>
+										    <tbody>
+										    	<% order.order_items.each_with_index do |item, idx| %>
+											      <tr>
+											        <td><%= idx + 1 %></td>
+											        <td><%= item.product_number_by_product_type %></td>
+											        <td><%= item.product_name_by_product_type %></td>
+											        <td><%= item.quantity %></td>
+											        <td><%= number_to_currency(item.item_total) %></td>
+											        <td><%= item.note %></td>
+											      </tr>
+											    <% end %>
+										    </tbody>
+										  </table>
+										</div>
+								  </div>
+								</div>
+							<% end %>
+						</div>
+					</div>
+				<% end %>
+			<% end %>
 		<% else %>
 			<table class="table table-bordered">
 				<thead>

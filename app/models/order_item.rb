@@ -21,4 +21,21 @@ class OrderItem < ApplicationRecord
 			"Product not defined"
 		end
 	end
+
+	def product_number_by_product_type
+		case self.item_type
+		when "catalog_request"
+			"Catalog Request"
+		when "product"
+			Product.find(self.reference_id).item_number
+		when "image_request"
+			Image.find(self.reference_id).item_number
+		when "tradeshow_request"
+			"Tradeshow Support Request"
+		when "refund"
+			"Refund"
+		else
+			"Proudct not defined"
+		end
+	end
 end
