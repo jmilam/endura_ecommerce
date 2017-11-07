@@ -3,6 +3,7 @@ class API
 	attr_reader :url
 
 	def initialize(rails_env)
+		@current_url = rails_env == "production" ? "http://marketing.enduraproducts.com" : "http://marketing-test.enduraproducts.com"
     @url = rails_env == "production" ? "http://webapi.enduraproducts.com/api/endura" : "http://webapidev.enduraproducts.com/api/endura"
   end
 
@@ -33,10 +34,13 @@ class API
 		JSON.parse(response.body)["success"]
 	end
 
-	def send_daily_order_overview(orders)
-		uri = URI("http://localhost:3000/api/endura/email/marketing/daily_order_overview")
+	def send_daily_order_overview(orders, customers, order_items, item_references)
+		uri = URI("#{@url}/email/marketing/daily_order_overview")
 
-		response = Net::HTTP.post_form(uri, {orders: orders.to_json})
+		response = Net::HTTP.post_form(uri, {orders: orders.to_json,
+																				 customers: customers.to_json,
+																				 order_items: order_items.to_json,
+																				 item_references: item_references.to_json})
 	end
 
 	def send_new_catalog_request(order_item)

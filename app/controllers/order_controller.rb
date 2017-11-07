@@ -101,7 +101,7 @@ class OrderController < ApplicationController
 						end
 						# @api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id) unless @rep.nil?
 
-						render json: {success: true}
+						render json: {success: true, redirect_url: "#{@api.instance_variable_get(:@current_url) }/order?overview=true"}
 					else
 						flash[:error] = @order.errors
 					end
@@ -205,11 +205,27 @@ class OrderController < ApplicationController
 	end
 
 	def daily_order_overview
+		customers = {}
+		order_items = []
+		item_references = {}
 		status = OrderStatus.find_by(status: "Approved")
-		orders = Order.where(accepted_date: Date.today - 1.day)
+		orders = Order.where(accepted_date: Date.today).includes(:order_items)
+
+		orders.each do |order| 
+			customers[order.customer_id] = Customer.find(order.customer_id)
+		end
+
+		orders.each do |order| 
+			customers[order.customer_id] = Customer.find(order.customer_id)
+			order_items = order.order_items
+			order.order_items.each do |item|
+				product = item.product_name_by_product_type
+				item_references[item.reference_id] = product
+			end
+		end
 
 		@api = API.new(Rails.env)
-		@api.send_daily_order_overview(orders)
+		@api.send_daily_order_overview(orders, customers, order_items, item_references)
 
 		respond_to do |format|
 			format.json { render json: {success: true}}

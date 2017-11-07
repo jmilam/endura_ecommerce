@@ -17,6 +17,7 @@ $(document).on "turbolinks:load", ->
     placehment: 'right'
 
   $('.order_status').on 'change', (e) ->
+    $("[id=" + "'" + e.target.options[e.target.options.selectedIndex].text + "'" + "]").children().children('table').append($(this).parents('tr'));
 
     $.ajax
       url: '/order/update_status'
@@ -24,6 +25,9 @@ $(document).on "turbolinks:load", ->
       dataType: 'json'
       data:  order_id: $(this).attr('order_id'), order_status: e.target.options[e.target.options.selectedIndex].text
       success: (response) ->
+        if $("[id=" + "'" + e.target.options[e.target.options.selectedIndex].text + "'" + "]").length == 0
+          location.reload()
+          
         return
       error: (jqXHR, textStatus) ->
         alert textStatus
@@ -52,6 +56,7 @@ $(document).on "turbolinks:load", ->
       dataType: 'json'
       data:  accepted: decision, job: "approve", comment: $('#approve_deny_comment').val()
       success: (response) ->
+        window.location.replace(response.redirect_url)
         $('#order-approve-functions').hide()
         $('#order-alert').append '<p>This order has successfully been approved/declined.</p>'
         $('#order-alert').show()
