@@ -34,8 +34,8 @@ class API
 		JSON.parse(response.body)["success"]
 	end
 
-	def send_daily_order_overview(orders, customers, order_items, item_references)
-		uri = URI("#{@url}/email/marketing/daily_order_overview")
+	def send_order_overview(orders, customers, order_items, item_references)
+		uri = URI("#{@url}/email/marketing/order_overview_by_date_range")
 
 		response = Net::HTTP.post_form(uri, {orders: orders.to_json,
 																				 customers: customers.to_json,

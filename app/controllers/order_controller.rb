@@ -204,12 +204,15 @@ class OrderController < ApplicationController
 		end
 	end
 
-	def daily_order_overview
+	def order_overview_for_date_range
+		#Date params should be formatted "YYYY-MM-DD"
+		start_date = params[:start_date].nil? ? Date.today : params[:start_date].to_date
+		end_date = params[:end_date].nil? ? Date.today : params[:end_date].to_date
 		customers = {}
 		order_items = []
 		item_references = {}
 		status = OrderStatus.find_by(status: "Approved")
-		orders = Order.where(accepted_date: Date.today).includes(:order_items)
+		orders = Order.where(accepted_date: start_date..end_date).includes(:order_items)
 
 		orders.each do |order| 
 			customers[order.customer_id] = Customer.find(order.customer_id)
@@ -225,7 +228,7 @@ class OrderController < ApplicationController
 		end
 
 		@api = API.new(Rails.env)
-		@api.send_daily_order_overview(orders, customers, order_items, item_references)
+		@api.send_order_overview(orders, customers, order_items, item_references)
 
 		respond_to do |format|
 			format.json { render json: {success: true}}
