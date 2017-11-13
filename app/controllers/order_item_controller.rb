@@ -16,10 +16,10 @@ class OrderItemController < ApplicationController
 			begin
 				if @order.nil?
 					#create new order
-					@order = @user.orders.new(current_order: true, customer_id: 0)
+					@order = @user.orders.new(current_order: true)
 
 					if @order.save
-						p @item = @order.order_items.new(item_type: "#{type}", reference_id: @product.id, quantity: params[:qty], item_total: params[:qty].to_i * @product.price, note: params[:note])
+						@item = @order.order_items.new(item_type: "#{type}", reference_id: @product.id, quantity: params[:qty], item_total: params[:qty].to_i * @product.price, note: params[:note])
 
 						if @item.save
 							@result = {success: true}
@@ -27,8 +27,6 @@ class OrderItemController < ApplicationController
 							@result = {success: false, message: @item.errors}
 						end
 					else
-						p "No Order saved"
-						p @order.errors
 						@result = {success: false, message: @order.errors}
 					end
 				else

@@ -66,7 +66,7 @@ class OrderController < ApplicationController
 														 current_order: false,
 														 po_number: params[:po_number],
 														 order_receipient: params[:order_recipient])
-							# @api.send_tsm_email(@tsm.email, current_user.email, current_user.name, @order.id) unless @tsm.class == String
+							@api.send_tsm_email(@tsm.email, current_user.email, current_user.name, @order.id) unless @tsm.class == String
 							flash[:notice] = "Your order was placed!"
 							redirect_to order_index_path
 						else
@@ -83,11 +83,11 @@ class OrderController < ApplicationController
 						if item.item_type == "catalog_request"
 							item_ids << item.id
 						elsif item.item_type == "image_request"
-							# @api.send_new_image_request(@order.id)
+							@api.send_new_image_request(@order.id)
 						end
 					end
 
-					# @api.send_new_catalog_request(item_ids) unless item_ids.empty?
+					@api.send_new_catalog_request(item_ids) unless item_ids.empty?
 				elsif params[:job] == "approve"
 					order_status = params[:accepted] ? OrderStatus.find_by(status: "Approved") : OrderStatus.find_by(status: "Denied")
 					if @order.update(accepted: params[:accepted], accept_deny_comment: params[:comment], order_status_id: order_status.id)
@@ -99,7 +99,7 @@ class OrderController < ApplicationController
 							@order.order_items.each {|item| item.reference_id == other_sample.id || item.reference_id == other_literature.id ? includes_other_samples = true : next} unless other_sample.nil? || other_literature.nil?
 							FundsBank.deduct_from_customer(@order.customer_id, @order.id) if includes_other_samples == false
 						end
-						# @api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id) unless @rep.nil?
+						@api.send_rep_email(@rep.email, current_user.email, current_user.name, @order.id) unless @rep.nil?
 
 						render json: {success: true, redirect_url: "#{@api.instance_variable_get(:@current_url) }/order?overview=true"}
 					else

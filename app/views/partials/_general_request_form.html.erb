@@ -17,7 +17,7 @@
 
   	<div class="col-sm-6 col-md-4">
       <%= hidden_field_tag "#{product.group}", "#{product.group}", class: "#{product.group.downcase.gsub(" ", "_")}" %>
-    	<div class="thumbnail">
+    	<div class="thumbnail product_container" product_id="<%= product.id %>">
       	<%= image_tag product.show_image, size: 70 %>
       	<p class="text-center product_name_container"><%= product.name %></p>
       	<p><div class="text-center item_cost"><%= number_to_currency(product.price) %></div></p>
@@ -34,4 +34,30 @@
 		</div>
 		
 	<% end %>
+</div>
+
+<div class="modal fade" id="configModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger" style="text-align:center">
+        <h3 class="modal-title">Astragal Configuration</h3>
+      </div>
+      <div class="modal-body">
+        <%= form_for 'product_config', url: product_configuration_index_path(format: 'json'), remote: true, as: :post, html: {id: "product_config"}  do |f| %>
+          <%= f.hidden_field "product_id", id: "product_config_product_id" %>
+          <%= f.hidden_field "item_qty", id: "product_config_item_qty" %>
+          <%= f.hidden_field "item_note", id: "product_config_item_note" %>
+          <%= f.select "sub_product", [], {include_blank: "Select a Sub-Product"}, class: "form-control ", id: "sub_product" %>
+          <br/>
+          <%= f.select "finish", [], {include_blank: "Select a Finish"}, class: "form-control ", id: "product_finish" %>
+          <br/>
+          <%= f.select "sub_finish", [], {include_blank: "Select a Sub-Finish"}, class: "form-control ", id: "sub_finish" %>
+        <% end %>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="save_config">Save Configuration</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
 </div>

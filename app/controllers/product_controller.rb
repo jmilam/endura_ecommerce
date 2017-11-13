@@ -128,6 +128,20 @@ class ProductController < ApplicationController
 		redirect_to user_portal_index_path
 	end
 
+	def get_product_sub_values
+		if params[:model_value] == 'product_finish'
+			p sub_values = SubProduct.find_by(id: params[:id]).product_finishes
+		elsif params[:model_value] == 'sub_finish'
+			p sub_values = ProductFinish.find_by(id: params[:id]).sub_finishes
+		else
+			p sub_values = Product.find_by(id: params[:id]).get_and_format_sub_products
+		end
+
+		respond_to do |format|
+			format.json { render json: { has_sub_values: !sub_values.empty?, sub_values: sub_values } }
+		end
+	end
+
 	private
 
 	def product_params

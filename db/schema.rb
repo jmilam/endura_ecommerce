@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171020030648) do
+ActiveRecord::Schema.define(version: 20171113192528) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -141,6 +141,24 @@ ActiveRecord::Schema.define(version: 20171020030648) do
     t.string   "order_receipient",                  default: ""
   end
 
+  create_table "product_configurations", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "order_item_id"
+    t.integer  "sub_product_id"
+    t.integer  "product_finish_id"
+    t.integer  "sub_finish_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["order_item_id"], name: "index_product_configurations_on_order_item_id", using: :btree
+  end
+
+  create_table "product_finishes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "sub_product_id"
+    t.string   "name"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.index ["sub_product_id"], name: "index_product_finishes_on_sub_product_id", using: :btree
+  end
+
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "name",        limit: 65535
     t.float    "price",       limit: 24
@@ -159,6 +177,22 @@ ActiveRecord::Schema.define(version: 20171020030648) do
     t.string   "email"
     t.string   "rep_group"
     t.index ["tsm_id"], name: "index_sales_reps_on_tsm_id", using: :btree
+  end
+
+  create_table "sub_finishes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "product_finish_id"
+    t.string   "name"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.index ["product_finish_id"], name: "index_sub_finishes_on_product_finish_id", using: :btree
+  end
+
+  create_table "sub_products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "product_id"
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_sub_products_on_product_id", using: :btree
   end
 
   create_table "tradeshow_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
