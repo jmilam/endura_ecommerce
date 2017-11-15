@@ -145,7 +145,7 @@ ActiveRecord::Schema.define(version: 20171113192528) do
     t.integer  "order_item_id"
     t.integer  "sub_product_id"
     t.integer  "product_finish_id"
-    t.integer  "sub_finish_id"
+    t.string   "sub_finish_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.index ["order_item_id"], name: "index_product_configurations_on_order_item_id", using: :btree

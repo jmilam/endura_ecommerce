@@ -1,0 +1,25 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th colspan=2 style="text-align:center;">
+				<%= @product.name %> Sub-Products
+			</th>
+		</tr>
+		<tr>
+			<th></th>
+			<th>Sub Products</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @sub_products.each do |sub_product| %>
+			<tr>
+				<td><%= sub_product.id %></td>
+				<td><%= sub_product.name %></td>
+				<td><%= link_to "Edit", edit_sub_product_path(sub_product.id) %> | <%= link_to "Delete", sub_product_path(id: sub_product.id, product_id: @product.id), method: :delete, data: { confirm: "Are you sure you want to delete #{sub_product.name}?" } %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+<%= link_to 'Add Sub Product', new_sub_product_path(id: @product.id), method: :get , class: "btn btn-warning pull-right" %>

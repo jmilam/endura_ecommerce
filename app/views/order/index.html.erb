@@ -25,10 +25,10 @@
 								<th/>
 						</thead>
 						<tbody>
-							<% order_group.each_with_index do |order, idx| %>
+							<% order_group.each do |order| %>
 								<% customer = Customer.find_by_id(order.customer_id) %>
 					  		<tr>
-					  			<td><%= idx + 1 %></td>
+					  			<td><%= order.id %></td>
 					  			<td><%= customer.company_name unless customer.nil? %></td>
 					  			<td><%= customer.sales_rep.name unless customer.nil? %></td>
 					  			<td class="text-center"><%= order.order_items.count %></td>

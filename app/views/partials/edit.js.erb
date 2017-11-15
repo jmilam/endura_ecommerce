@@ -4,3 +4,17 @@ $('#rep_group').on('change', function(){
 	$('tbody tr').attr('hidden', false)
 	$('tbody tr').not('.' + $(this).val()).attr('hidden',true)
 });
+
+$('.admin_checkbox').on('click', function(){
+	var email = $(this).parents('tr').children('td:eq(0)').text()
+
+	$.ajax({
+      url: '/user/update_admin_value',
+      type: 'PATCH',
+      data: {user_email: email, admin: $(this).prop('checked')},
+      datatype: 'json',
+      beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+      success: function (data) {
+      }   
+    });
+});

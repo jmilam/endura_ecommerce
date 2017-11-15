@@ -1,0 +1,72 @@
+<div class="panel panel-default">
+  <div class="panel-heading" style="text-align:center;"><h4>Create New Customer</h4></div>
+  <div class="panel-body">
+  	<%= form_for @customer, url: customer_index_path, method: :post do |f| %>
+  		<div class="form-group">
+  			<%= f.label :company_name, "Company Name *" %>
+  			<%= f.text_field :company_name, class: "form-control", value: @customer.company_name %> 
+  		</div>
+
+  		<div class="form-group">
+  			<%= f.label :company_contact, "Company Contact Name *" %>
+  			<%= f.text_field :company_contact, class: "form-control", value: @customer.company_contact %> 
+  		</div>
+
+  		<div class="form-group">
+  			<%= f.label :contact_email, "Contact Email" %>
+  			<%= f.text_field :contact_email, class: "form-control" %> 
+  		</div>
+
+  		<div class="form-group">
+  			<%= f.label :phone_number, "Phone Number *" %>
+  			<%= f.text_field :phone_number, class: "form-control" %> 
+  		</div>
+
+  		<div class="form-group">
+  			<%= f.label :address, "Address *" %>
+  			<%= f.text_field :address, class: "form-control" %> 
+  		</div>
+
+  		<div class="form-group">
+  			<div class="col-md-4">
+	  			<%= f.label :city, "City *" %>
+	  			<%= f.text_field :city, class: "form-control" %>
+	  		</div>
+	  		<div class="col-md-4">
+  				<%= f.label :state, "State *" %>
+  				<%= f.text_field :state, class: "form-control" %> 
+	  		</div>
+	  		<div class="col-md-4">
+	  			<%= f.label :zipcode, "Zipcode *" %>
+	  			<%= f.text_field :zipcode, class: "form-control" %>
+  			</div>
+  		</div>
+
+  		<div class="form-group">
+  			<div class="col-md-6">
+	  			<%= f.label :sales_rep, "Sales Rep" %>
+	  			<%= f.select :sales_rep, @select_box_data.collect { |rep| [rep.name, rep.id] }, {}, class: "form-control" %> 
+	  		</div>
+	  		<div class="col-md-6">
+	  			<%= f.label :rep_group, "Rep Group" %>
+	  			<%= f.select :rep_group, @select_box_data.collect { |rep| [rep.rep_group, rep.id] }, {}, class: "form-control" %> 
+	  		</div>
+  		</div>
+
+			<div class="form-group">
+  			<div class="col-md-6">
+	  			<%= f.label :allocated_amt, "Allocated Funds Amount" %>
+	  			<%= f.text_field :allocated_amt, class: "form-control", value: "0.00" %> 
+	  		</div>
+	  		<div class="col-md-6">
+	  			<%= f.label :funds_balance, "Current Funds Balance" %>
+	  			<%= f.text_field :funds_balance, class: "form-control", value: "0.00" %> 
+	  		</div>
+  		</div>  		
+
+  		<div class="form-group col-md-12">
+  			<%= f.submit "Create Customer", class: "btn btn-success pull-right", style: "margin-top: 10px;" %>
+  		</div>
+  	<% end %>
+  </div>
+</div>

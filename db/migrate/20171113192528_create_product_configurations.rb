@@ -4,7 +4,7 @@ class CreateProductConfigurations < ActiveRecord::Migration[5.0]
     	t.integer :order_item_id
     	t.integer :sub_product_id
     	t.integer :product_finish_id
-    	t.integer :sub_finish_id
+    	t.string :sub_finish_id
 
       t.timestamps
     end

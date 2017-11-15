@@ -57,10 +57,11 @@ class UserController < ApplicationController
 
 	def edit
 		@type = "user"
-  	@table_headers = ["Email", "Password", "Actions"]
+  	@table_headers = ["Email", "Password", "Admin", "Actions"]
   	@data_variable = User.all
   	@column_names = @data_variable.column_names.keep_if {|value| value == "email" }
   	@column_names << "*******"
+  	@column_names << "admin"
 		respond_to do |format|
 			format.js { render :template => "/partials/edit" }
 		end
@@ -74,6 +75,11 @@ class UserController < ApplicationController
 		else
 			redirect_to(:root)
 		end
+	end
+
+	def update_admin_value
+		user = User.find_by(email: params[:user_email])
+		user.update(admin: params[:admin])
 	end
 
 	private

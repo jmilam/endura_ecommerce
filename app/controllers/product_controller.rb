@@ -4,7 +4,7 @@ class ProductController < ApplicationController
 	def new
 		@type = "product"
 		@data_variable = Product.new
-		@select_box_data = ["Literature", "Samples & Displays", "Services"]
+		@select_box_data = ["Literature", "Samples", "Services"]
 		@path = product_index_path
 		@select_id = "group"
 		@column_names = @data_variable.attributes.keys.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}

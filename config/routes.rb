@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get 'order/order_overview_for_date_range' => 'order#order_overview_for_date_range', as: :order_overview_for_date_range
 
   patch 'order/update_status' => 'order#update_status', as: :update_order_status
-
+  patch 'user/update_admin_value' => 'user#update_admin_value', as: :update_admin_value
   post 'refund/create'
   post 'product/upload'
   
@@ -30,6 +30,9 @@ Rails.application.routes.draw do
   resources :image
   resources :order_status
   resources :product_configuration
+  resources :sub_product
+  resources :sub_finish
+  resources :product_finish
   
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'user_portal#index'

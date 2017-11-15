@@ -51,7 +51,7 @@
           <br/>
           <%= f.select "finish", [], {include_blank: "Select a Finish"}, class: "form-control ", id: "product_finish" %>
           <br/>
-          <%= f.select "sub_finish", [], {include_blank: "Select a Sub-Finish"}, class: "form-control ", id: "sub_finish" %>
+          <%= f.select "sub_finish", [], {include_blank: "Select a Sub-Finish"}, multiple: true, class: "form-control ", id: "sub_finish" %>
         <% end %>
       </div>
       <div class="modal-footer">

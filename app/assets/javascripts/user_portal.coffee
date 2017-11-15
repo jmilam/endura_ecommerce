@@ -11,12 +11,12 @@ $(document).on "turbolinks:load", ->
     $('div').attr 'hidden', false
     $('input').not('.' + $(this).val().toLowerCase()).parent().attr 'hidden', true
     $('.item_qty_input').parent().attr 'hidden', false
+    $('#product_config, #sub_product, #product_finish, #sub_finish').attr 'hidden', false
 
   $('.update_response').css 'height', '20px'
 
   $('.add_user').on 'click', ->
-    $('.user_group').append '<div class="form-group"><div class="form-inline"><input placeholder="Name" class="form-control" type="text" name="tradeshow_request[attendee_name][]" id="tradeshow_request_attendee_name[]"> <input placeholder="Email" class="form-control" type="text" name="tradeshow_request[attendee_email][]" id="tradeshow_request_attendee_email[]"></div></div>'
-
+    $('.user_group').append '<div class="form-group"><div class="form-inline"><input placeholder="Name" class="form-control" type="text" name="tradeshow_request[attendee_name][]" id="tradeshow_request_attendee_name[]"> <input placeholder="Email" class="form-control" type="text" name="tradeshow_request[attendee_email][]" id="tradeshow_request_attendee_email[]"></div></div>' 
 
   $('#date').datepicker
     dateFormat: 'yy-mm-dd'

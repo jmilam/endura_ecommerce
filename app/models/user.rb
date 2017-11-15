@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   validates :email, uniqueness: true
   validates :email, presence: true
-  validates :password, presence: true
+  validates :password, presence: true, on: :create
   validates_format_of :email,:with => Devise::email_regexp
 
   

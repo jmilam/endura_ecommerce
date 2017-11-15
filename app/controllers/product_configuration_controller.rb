@@ -21,7 +21,7 @@ class ProductConfigurationController < ApplicationController
 							product_config = ProductConfiguration.new(order_item_id: item.id,
 																												sub_product_id: params[:product_config][:sub_product],
 																												product_finish_id: params[:product_config][:finish],
-																												sub_finish_id: params[:product_config][:sub_finish])
+																												sub_finish_id: params[:product_config][:sub_finish].join(","))
 							if product_config.save
 								result = {success: true}
 							else
@@ -46,7 +46,7 @@ class ProductConfigurationController < ApplicationController
 							product_config = ProductConfiguration.new(order_item_id: item.id,
 																												sub_product_id: params[:product_config][:sub_product],
 																												product_finish_id: params[:product_config][:finish],
-																												sub_finish_id: params[:product_config][:sub_finish])
+																												sub_finish_id: params[:product_config][:sub_finish].join(","))
 							if product_config.save
 								result = {success: true}
 							else

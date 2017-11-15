@@ -1,0 +1,23 @@
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th colspan=2 style="text-align:center;">
+				<%= @sub_product.name %>
+			</th>
+		</tr>
+		<tr>
+			<th></th>
+			<th>Product Finish Name</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @product_finishes.each do |finish| %>
+			<tr>
+				<td></td>
+				<td><%= finish.name %></td>
+				<td><%= link_to "Edit", edit_sub_finish_path(finish.id) %> | <%= link_to "Delete", product_finish_path(id: finish.id, sub_product_id: @sub_product.id), method: :delete, data: { confirm: "Are you sure you want to deleted #{finish.name}?" } %>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
