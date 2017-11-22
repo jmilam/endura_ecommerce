@@ -17,8 +17,8 @@
 						<thead>
 								<th/>
 								<th>Customer</th>
-								<th>Sales Rep</th>
-								<th>Items in Cart</th>
+								<th>Sales Rep Group</th>
+								<th class="text-center">Items in Cart</th>
 								<th>Order Total</th>
 								<th>Order Date</th>
 								<th>Order Status</th>
@@ -30,7 +30,7 @@
 					  		<tr>
 					  			<td><%= order.id %></td>
 					  			<td><%= customer.company_name unless customer.nil? %></td>
-					  			<td><%= customer.sales_rep.name unless customer.nil? %></td>
+					  			<td><%= customer.rep_group unless customer.nil? %></td>
 					  			<td class="text-center"><%= order.order_items.count %></td>
 					  			<td><%= number_to_currency(order.sum) %></td>
 					  			<td><%= order.created_at.strftime("%m/%d/%Y") %></td>

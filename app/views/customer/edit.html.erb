@@ -22,6 +22,11 @@
   			<%= f.text_field :phone_number, class: "form-control" %> 
   		</div>
 
+      <div class="form-group">
+        <%= f.label :rep_group, "Rep Group" %>
+        <%= f.select :rep_group, @select_box_data.collect { |rep| [rep.rep_group, rep.id] }, {}, class: "form-control" %> 
+      </div>
+
   		<div class="form-group">
   			<%= f.label :address, "Address *" %>
   			<%= f.text_field :address, class: "form-control" %> 
@@ -42,25 +47,14 @@
   			</div>
   		</div>
 
-  		<div class="form-group">
-  			<div class="col-md-6">
-	  			<%= f.label :sales_rep, "Sales Rep" %>
-	  			<%= f.select :sales_rep, @select_box_data.collect { |rep| [rep.name, rep.id] }, {}, class: "form-control" %> 
-	  		</div>
-	  		<div class="col-md-6">
-	  			<%= f.label :rep_group, "Rep Group" %>
-	  			<%= f.select :rep_group, @select_box_data.collect { |rep| [rep.rep_group, rep.id] }, {}, class: "form-control" %> 
-	  		</div>
-  		</div>
-
 			<div class="form-group">
   			<div class="col-md-6">
 	  			<%= f.label :allocated_amt, "Allocated Funds Amount" %>
-	  			<%= f.text_field :allocated_amt, class: "form-control", value: "0.00" %> 
+	  			<%= f.text_field :allocated_amt, class: "form-control", value: @customer.funds_bank.allocated_amt %> 
 	  		</div>
 	  		<div class="col-md-6">
 	  			<%= f.label :funds_balance, "Current Funds Balance" %>
-	  			<%= f.text_field :funds_balance, class: "form-control", value: "0.00" %> 
+	  			<%= f.text_field :funds_balance, class: "form-control", value: @customer.funds_bank.current_bal %> 
 	  		</div>
   		</div>  		
 

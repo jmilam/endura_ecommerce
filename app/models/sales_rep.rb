@@ -1,6 +1,6 @@
 class SalesRep < ApplicationRecord
 	belongs_to :tsm
-	has_many :customers
+	# has_many :customers
 	validates :name, presence: true
 	validates :email, presence: true
 	validates_format_of :email,:with => Devise::email_regexp

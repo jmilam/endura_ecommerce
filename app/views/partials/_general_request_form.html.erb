@@ -19,7 +19,7 @@
       <%= hidden_field_tag "#{product.group}", "#{product.group}", class: "#{product.group.downcase.gsub(" ", "_")}" %>
     	<div class="thumbnail product_container" product_id="<%= product.id %>">
       	<%= image_tag product.show_image, size: 70 %>
-      	<p class="text-center product_name_container"><%= product.name %></p>
+      	<p class="text-center product_name_container" style="overflow: hidden;white-space: nowrap;"><%= product.name %></p>
       	<p><div class="text-center item_cost"><%= number_to_currency(product.price) %></div></p>
       	<div class="col-md-10 col-md-offset-1 item_qty"><p class="text-center">Qty: <%= text_field_tag :qty, 0, class: "form-control text-center item_qty_input"%></p></div>
       		<div class="text-center"><%= label_tag 'Total Cost: ' %></div>

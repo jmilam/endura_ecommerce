@@ -10,7 +10,8 @@ class Product < ApplicationRecord
 		file = self.file_name.to_s
 
 		if Rails.application.assets.find_asset(file)
-			file
+			#file
+			"endura-check.svg"
 		else
 			"endura-check.svg"
 		end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171113192528) do
+ActiveRecord::Schema.define(version: 20171122124036) do
 
   create_table "catalog_requests", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.date     "date"
@@ -104,10 +104,10 @@ ActiveRecord::Schema.define(version: 20171113192528) do
     t.string   "item_type"
     t.integer  "reference_id"
     t.integer  "quantity"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-    t.float    "item_total",     limit: 24, default: 0.0
-    t.string   "note"
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.float    "item_total",     limit: 24,    default: 0.0
+    t.text     "note",           limit: 65535
     t.boolean  "admin_verified"
   end
 
@@ -124,8 +124,8 @@ ActiveRecord::Schema.define(version: 20171113192528) do
     t.boolean  "current_order",                     default: false
     t.boolean  "order_complete",                    default: false
     t.date     "deadline"
-    t.string   "deadline_reason"
-    t.text     "payment_method",      limit: 65535
+    t.text     "deadline_reason",     limit: 65535
+    t.string   "payment_method"
     t.integer  "customer_id"
     t.text     "order_reason",        limit: 65535
     t.string   "address"
@@ -134,7 +134,7 @@ ActiveRecord::Schema.define(version: 20171113192528) do
     t.string   "zipcode"
     t.boolean  "accepted"
     t.string   "email"
-    t.text     "accept_deny_comment", limit: 65535
+    t.string   "accept_deny_comment"
     t.integer  "order_status_id",                   default: 1
     t.string   "po_number",                         default: ""
     t.date     "accepted_date"

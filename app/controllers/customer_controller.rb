@@ -10,8 +10,8 @@ class CustomerController < ApplicationController
 
 	def create
 		begin
-			@sales_rep = SalesRep.find(params[:customer][:sales_rep])
-			@customer = @sales_rep.customers.new(customer_params)
+			@sales_rep = SalesRep.find(params[:customer][:rep_group])
+			@customer = Customer.new(customer_params)
 			@customer.rep_group = @sales_rep.rep_group
 			@customer.created_at = Date.today
 
@@ -70,15 +70,21 @@ class CustomerController < ApplicationController
 	end
 
 	def update
-		begin
-			@rep = SalesRep.find_by_name(params[:sales_rep])
-			if Customer.update(params[:id], company_name: params[:company_name], contact_email: params[:contact_email], phone_number: params[:phone_number], address: params[:address], city: params[:city], state: params[:state], zipcode: params[:zipcode], company_contact: params[:company_contact], rep_group: params[:rep_group], sales_rep_id: @rep.id)
-				@response = {response: {success: true}}
-			else
-				"Not saved"
+		Customer.transaction do 
+			begin
+				rep = SalesRep.find(params[:customer][:rep_group])
+				@customer = Customer.find(params[:id])
+				if @customer.update(customer_params)
+					@customer.update(rep_group: rep.rep_group)
+					@customer.funds_bank.update(allocated_amt: params[:customer][:allocated_amt],
+																			current_bal: params[:customer][:funds_balance])
+					@response = {response: {success: true}}
+				else
+					@response = {response: {success: false, error: "#{@customer.errors}"}}
+				end
+			rescue Exception => error
+				@response = {response: {success: false, error: "#{error}"}}
 			end
-		rescue Exception => error
-			@response = {response: {success: false, error: "#{error}"}}
 		end
 
 		respond_to do |format|
@@ -99,7 +105,7 @@ class CustomerController < ApplicationController
 	private
 
 	def customer_params
-		params.require(:customer).permit(:company_name, :contact_email, :phone_number, :address, :city, :state, :zipcode, :created_at, :sales_rep_id, :company_contact, :rep_group)
+		params.require(:customer).permit(:company_name, :contact_email, :phone_number, :address, :city, :state, :zipcode, :created_at, :company_contact, :rep_group)
 	end
 
 end
