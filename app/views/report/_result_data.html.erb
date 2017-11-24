@@ -117,6 +117,21 @@
 											        <td><%= number_to_currency(item.item_total) %></td>
 											        <td><%= item.note %></td>
 											      </tr>
+
+											      <% unless item.product_configuration.nil? %>
+											      	<tr class="bg-info">
+											      		<td colspan="2">Product</td>
+											      		<td colspan="2">Product Finish</td>
+											      		<td colspan="2">Product Sub Finish</td>
+											      	</tr>
+												      <tr>
+												      	<td colspan="2"><%= SubProduct.find(item.product_configuration.sub_product_id).name %></td>
+												      	<td colspan="2"><%= ProductFinish.find(item.product_configuration.product_finish_id).name %></td>
+												      	<td colspan="2">
+												      		<%= item.product_configuration.sub_finish_id.split(",").map { |finish| SubFinish.find(finish).name } %>
+												      	</td>
+												      </tr>
+												    <% end %>
 											    <% end %>
 										    </tbody>
 										  </table>
