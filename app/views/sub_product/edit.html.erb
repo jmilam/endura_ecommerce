@@ -1,30 +1,22 @@
 <div class="panel panel-default">
-  <div class="panel-heading" style="text-align:center;"><h4>Edit Sub Product Configuration</h4></div>
+  <div class="panel-heading" style="text-align:center;"><h4>Step 2: <i>Edit Product Configuration</i></h4></div>
   <div class="panel-body">
   	<%= form_for :sub_product, url: sub_product_path, method: :put, html: {id: 'sub_product_form'} do |f| %>
   		<%= f.hidden_field :sub_product_id, value: @sub_product.id %>
   		<div class="form-group">
-	  		<%= f.label :name, 'Sub-Product Name' %>
-	  		<%= f.text_field :name, class: 'form-control' %>
+	  		<%= f.label :name, 'Product Name' %>
+	  		<%= f.text_field :name, class: 'form-control', title: "Enter Product Name" %>
 	  	</div>
 	  	<div class="form-group">
-	  		<%= f.label :product_finishes, 'Add Sub-Product Finish Name' %>
+	  		<%= f.label :product_finishes, 'Add Associated Product Finish Name' %>
 	  		<div class="input-group">
-		  		<%= f.text_field :product_finish, class: 'form-control', id: 'product-finish', value: "" %>
-		  		<span class="input-group-addon" id="product-finish-add">+</span>
+		  		<%= f.text_field :product_finish, class: 'form-control', id: 'product-finish', value: "", title: "Enter a finish that you wantto add to this products configuration options." %>
+		  		<span class="input-group-addon" id="product-finish-add" title="Add Finish to the box below.">+</span>
 		  	</div>
 		  	<%= f.select :product_finishes, @sub_product.product_finishes.collect { |finish| [finish.name, finish.name] }, {}, multiple: true, class: "form-control ", id: "product_finishes" %>
 	  	</div>
-	  	<%= link_to "Edit Sub-Product Finishes", sub_finish_index_path(id: @sub_product.id), class: 'pull-right', id: 'edit-sub-finish' %>
-	  	<div class="form-group">
-	  		<%#= f.label :sub_finishes, 'Sub-Finish Name' %>
-	  		<div class="input-group">
-	  			<%#= f.text_field :sub_finishes, class: 'form-control', id: 'sub-finish' %>
-	  			<!-- <span class="input-group-addon" id="sub-finish-add">+</span> -->
-	  		</div>
-	  		<%#= f.select :sub_finishes, @sub_product.sub_finishes.collect { |finish| [finish.name, finish.id] }, {}, multiple: true, class: "form-control ", id: "sub_finishes" %>
-	  	</div>
+	  	<%= link_to "Edit Product Swatch Finishes", sub_finish_index_path(id: @sub_product.id), class: 'pull-right', id: 'edit-sub-finish' %>
   	<% end %>
-  	<%= button_to "Save Sub-Product", {}, class: 'btn btn-warning', id: 'save-sub-product' %>
+  	<%= button_to "Save Product Finish Configuration", {}, class: 'btn btn-warning', id: 'save-sub-product' %>
   </div>
 </div>

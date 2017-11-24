@@ -39,7 +39,7 @@ $(document).on "turbolinks:load", ->
       url: '/product_configuration'
       dataType: 'json'
       type: 'post'
-      data: product_config: product_id: $('#product_config_product_id').val(), item_qty: $('#product_config_item_qty').val(), item_note: $('#product_config_item_note').val(), sub_product: $('#sub_product').val(), finish: $('#product_finish').val(), sub_finish: $('#sub_finish').val()
+      data: product_config: product_id: $('#product_config_product_id').val(), item_qty: $('#product_config_item_qty').val(), item_note: $('#product_config_item_note').val(), sub_product: $('#sub_product').val(), finish: $('#product_finish').val(), sub_finish: $('#hidden_sub_finish').val()
       success: (response) ->
         $('#configModal').modal 'hide'
         response = JSON.stringify response
@@ -124,7 +124,8 @@ $(document).on "turbolinks:load", ->
 
           working_select.children('option:gt(0)').remove()
           $('#product_finish').children('option:gt(0)').remove()
-          $('#sub_finish').children('option:gt(0)').remove()
+          $('#hidden_sub_finish').children('option:gt(0)').remove()
+          $('#sub_finish_select').children().remove()
 
           $.each response.sub_values, (key, value) ->
             working_select.append '<option value=' + value.sub_product_id + '>' + key + '</option>'
@@ -132,16 +133,25 @@ $(document).on "turbolinks:load", ->
           $('#configModal').modal 'show'
         else if response.has_sub_values && model_value == 'product_finish'
           working_select.children('option:gt(0)').remove()
-          $('#sub_finish').children('option:gt(0)').remove()
+          $('#hidden_sub_finish').children('option:gt(0)').remove()
+          $('#sub_finish_select').children().remove()
 
           $.each response.sub_values, (key, value) ->
             $('#product_finish').append '<option value=' + value.id + '>' + value.name + '</option>'
         else if response.has_sub_values && model_value == 'sub_finish'
           working_select.children('option:gt(0)').remove()
-          $('#sub_finish').children('option:gt(0)').remove()
+          $('#sub_finish_select').children().remove()
+          $('#hidden_sub_finish').children('option:gt(0)').remove()
 
           $.each response.sub_values, (key, value) ->
-            $('#sub_finish').append '<option value=' + value.id + '>' + value.name + '</option>'
+            $('#sub_finish_select').append '<input type="checkbox" value="' + value.id + '" class="sub-finish-swatch"> <label>' + value.name + '</label><br/>'
+
+          $.each response.sub_values, (key, value) ->
+            $('#hidden_sub_finish').append '<option value=' + value.id + '>' + value.name + '</option>'
+
+          $('.sub-finish-swatch').on 'change', ->
+            $('#hidden_sub_finish option[value=' + $(this).val() + ']').attr('selected', $(this).prop 'checked')
+
         else if response.has_product_finish
           working_select.children().remove()
 

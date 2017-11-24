@@ -1,13 +1,23 @@
+<h2 class="text-center">Step #1 - <i>Create Associated Products</i></h2>
+
+<div class="jumbotron">
+	<%= form_for :sub_product, url: sub_product_index_path(id: @product.id) do |f| %>
+		<div class="container">
+			<div class="form-group">
+				<%= f.label :name, 'Product Name' %>
+				<%= f.text_field :name, class: 'form-control' %>
+			</div>
+
+			<%= f.submit "Create Sub Product", class: "btn btn-warning pull-right" %>
+		</div>
+	<% end %>
+</div>
+
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th colspan=2 style="text-align:center;">
-				<%= @product.name %> Sub-Products
-			</th>
-		</tr>
-		<tr>
 			<th></th>
-			<th>Sub Products</th>
+			<th>Product</th>
 			<th>Actions</th>
 		</tr>
 	</thead>
@@ -21,5 +31,3 @@
 		<% end %>
 	</tbody>
 </table>
-
-<%= link_to 'Add Sub Product', new_sub_product_path(id: @product.id), method: :get , class: "btn btn-warning pull-right" %>

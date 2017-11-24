@@ -1,8 +1,0 @@
-<%= form_for :sub_product, url: sub_product_index_path(id: @product.id) do |f| %>
-	<div class="form-group">
-		<%= f.label :name, 'Sub-Product Name' %>
-		<%= f.text_field :name, class: 'form-control' %>
-	</div>
-
-	<%= f.submit "Create Sub Product" %>
-<% end %>

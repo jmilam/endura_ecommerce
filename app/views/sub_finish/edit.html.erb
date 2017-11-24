@@ -1,22 +1,21 @@
 <div class="panel panel-default">
-  <div class="panel-heading" style="text-align:center;"><%= @finish.name %></div>
+  <div class="panel-heading" style="text-align:center;"><h4>Step #3: Add Product Swatch Finsihes to <%= @finish.name %></h4></div>
   <div class="panel-body">
   	<%= form_for :sub_finish, url: sub_finish_path, method: :put, html: {id: 'sub_finish_form'} do |f| %>
   		<%= f.hidden_field :product_finish_id, value: @finish.id %>
 				<div class="form-group">
 	  		<%= f.label :name, 'Product Finish Name' %>
-	  		<%= f.text_field :name, class: 'form-control', value: @finish.name %>
+	  		<%= f.text_field :name, class: 'form-control', value: @finish.name, title: "Edit the top level Product Finish name." %>
 	  	</div>
-	  	<%#= link_to "Edit Sub-Finishes", sub_finish_index_path(id: @sub_product.id), class: 'pull-right', id: 'edit-sub-finish' %>
 	  	<div class="form-group">
-	  		<%= f.label :sub_finishes, 'Sub-Finish Name' %>
+	  		<%= f.label :sub_finishes, 'Product Swatch Finish Name' %>
 	  		<div class="input-group">
-	  			<%= f.text_field :sub_finish, class: 'form-control', id: 'sub-finish' %>
-	  			<span class="input-group-addon" id="sub-finish-add">+</span>
+	  			<%= f.text_field :sub_finish, class: 'form-control', id: 'sub-finish', title: "Enter a Swatch Finish that you want to be able to add to the list below." %>
+	  			<span class="input-group-addon" id="sub-finish-add" title="Add Swatch Finish to production configuration.">+</span>
 	  		</div>
 	  		<%= f.select :sub_finishes, @sub_finishes.collect { |finish| [finish.name, finish.id] }, {}, multiple: true, class: "form-control ", id: "sub_finishes" %>
 	  	</div>
   	<% end %>
-  	<%= button_to "Save Sub-Finish", {}, class: 'btn btn-warning', id: 'save-sub-finish' %>
+  	<%= button_to "Save Product Swatch", {}, class: 'btn btn-warning', id: 'save-sub-finish' %>
   </div>
 </div>

@@ -47,11 +47,13 @@
           <%= f.hidden_field "product_id", id: "product_config_product_id" %>
           <%= f.hidden_field "item_qty", id: "product_config_item_qty" %>
           <%= f.hidden_field "item_note", id: "product_config_item_note" %>
-          <%= f.select "sub_product", [], {include_blank: "Select a Sub-Product"}, class: "form-control ", id: "sub_product" %>
+          <%= f.select "sub_product", [], {include_blank: "Select a Product"}, class: "form-control ", id: "sub_product", title: "Select a Product from the drop down." %>
           <br/>
-          <%= f.select "finish", [], {include_blank: "Select a Finish"}, class: "form-control ", id: "product_finish" %>
+          <%= f.select "finish", [], {include_blank: "Select a Product Finish"}, class: "form-control ", id: "product_finish", title: "Select a Finish from the drop down. This will populate the list of Product Swatch Finishes below." %>
           <br/>
-          <%= f.select "sub_finish", [], {include_blank: "Select a Sub-Finish"}, multiple: true, class: "form-control ", id: "sub_finish" %>
+          <%= f.label :sub_finish, "Select a Product Swatch Finish" %>
+          <%= f.select "sub_finish", [], {include_blank: "Select a Product Swatch Finish"}, multiple: true, class: "form-control ", id: "hidden_sub_finish", style: "display:none;" %>
+          <div id="sub_finish_select"></div>
         <% end %>
       </div>
       <div class="modal-footer">

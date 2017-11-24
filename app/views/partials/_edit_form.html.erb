@@ -33,9 +33,9 @@
 					<% end %>
 				<% end %>
 				<% if @type == "customer" %>
-					<td><%= link_to "Edit", edit_customer_path(data.id) %> | <%= link_to "Delete", eval("#{@type}_path(data.id)"), method: :delete, data: {confirm: "Are you sure?"} %> <%= link_to "| Add Sub-Product", sub_product_index_path(id: data.id) if @type == "product" %></td>
+					<td><%= link_to "Edit", edit_customer_path(data.id) %> | <%= link_to "Delete", eval("#{@type}_path(data.id)"), method: :delete, data: {confirm: "Are you sure?"} %> <%= link_to "| Configure Product", sub_product_index_path(id: data.id) if @type == "product" %></td>
 				<% else %>
-					<td><%= link_to "Edit", "#", class: "edit_#{@type}" %> | <%= link_to "Delete", eval("#{@type}_path(data.id)"), method: :delete, data: {confirm: "Are you sure?"} %> <%= link_to "| Add Sub-Product", sub_product_index_path(id: data.id) if @type == "product" %></td>
+					<td><%= link_to "Edit", "#", class: "edit_#{@type}" %> | <%= link_to "Delete", eval("#{@type}_path(data.id)"), method: :delete, data: {confirm: "Are you sure?"} %> <%= link_to "| Configure Product", sub_product_index_path(id: data.id) if @type == "product" %></td>
 				<% end %>
 				<td/>
 			</tr>
