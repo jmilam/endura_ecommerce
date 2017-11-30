@@ -12,21 +12,26 @@ class ProductConfigurationController < ApplicationController
 
 					if order.save
 						item = order.order_items.new(item_type: "product",
-																					 reference_id: params[:product_config][:product_id],
-																					 quantity: params[:product_config][:item_qty],
-																					 item_total: params[:product_config][:item_qty].to_i * product.price,
-																					 note: params[:product_config][:item_note])
+																				 reference_id: params[:product_config][:product_id],
+																				 quantity: params[:product_config][:item_qty],
+																				 item_total: params[:product_config][:item_qty].to_i * product.price,
+																				 note: params[:product_config][:item_note])
 
 						if item.save
-							product_config = ProductConfiguration.new(order_item_id: item.id,
-																												sub_product_id: params[:product_config][:sub_product],
-																												product_finish_id: params[:product_config][:finish],
-																												sub_finish_id: params[:product_config][:sub_finish].join(","))
-							if product_config.save
-								result = {success: true}
-							else
-								result = {success: false, message: product_config.errors}
+							sub_finish_ids = params[:product_config][:sub_finish].class == String ? params[:product_config][:sub_finish] : params[:product_config][:sub_finish].join(",") 
+							ProductConfiguration.create(order_item_id: item.id,
+																				  sub_product_id: params[:product_config][:sub_product],
+																				  product_finish_id: params[:product_config][:finish],
+																				  sub_finish_id: sub_finish_ids)
+
+							unless params[:product_config][:sub_product_2].empty? || params[:product_config][:finish_2].empty?
+								sub_finish_ids = params[:product_config][:sub_finish].class == String ? params[:product_config][:sub_finish] : params[:product_config][:sub_finish].join(",") 
+								ProductConfiguration.create(order_item_id: item.id,
+																					  sub_product_id: params[:product_config][:sub_product_2],
+																					  product_finish_id: params[:product_config][:finish_2],
+																					  sub_finish_id: sub_finish_ids)
 							end
+							result = {success: true}
 						else	
 							result = {success: false, message: item.errors}
 						end
@@ -42,16 +47,23 @@ class ProductConfigurationController < ApplicationController
 																					 quantity: params[:product_config][:item_qty],
 																					 item_total: params[:product_config][:item_qty].to_i * product.price,
 																					 note: params[:product_config][:item_note])
+
 						if item.save
-							product_config = ProductConfiguration.new(order_item_id: item.id,
-																												sub_product_id: params[:product_config][:sub_product],
-																												product_finish_id: params[:product_config][:finish],
-																												sub_finish_id: params[:product_config][:sub_finish].join(","))
-							if product_config.save
-								result = {success: true}
-							else
-								result = {success: false, message: product_config.errors}
+							sub_finish_ids = params[:product_config][:sub_finish].class == String ? params[:product_config][:sub_finish] : params[:product_config][:sub_finish].join(",") 
+							ProductConfiguration.create(order_item_id: item.id,
+																				  sub_product_id: params[:product_config][:sub_product],
+																				  product_finish_id: params[:product_config][:finish],
+																				  sub_finish_id: sub_finish_ids)
+
+							unless params[:product_config][:sub_product_2].empty? || params[:product_config][:finish_2].empty?
+								sub_finish_ids = params[:product_config][:sub_finish].class == String ? params[:product_config][:sub_finish] : params[:product_config][:sub_finish].join(",") 
+								ProductConfiguration.create(order_item_id: item.id,
+																					  sub_product_id: params[:product_config][:sub_product_2],
+																					  product_finish_id: params[:product_config][:finish_2],
+																					  sub_finish_id: sub_finish_ids)
 							end
+
+							result = {success: true}
 						else	
 							result = {success: false, message: @item.errors}
 						end

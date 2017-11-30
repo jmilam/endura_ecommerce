@@ -39,7 +39,7 @@ $(document).on "turbolinks:load", ->
       url: '/product_configuration'
       dataType: 'json'
       type: 'post'
-      data: product_config: product_id: $('#product_config_product_id').val(), item_qty: $('#product_config_item_qty').val(), item_note: $('#product_config_item_note').val(), sub_product: $('#sub_product').val(), finish: $('#product_finish').val(), sub_finish: $('#hidden_sub_finish').val()
+      data: product_config: product_id: $('#product_config_product_id').val(), item_qty: $('#product_config_item_qty').val(), item_note: $('#product_config_item_note').val(), sub_product: $('#sub_product').val(), finish: $('#product_finish').val(), sub_finish: $('#hidden_sub_finish').val(), sub_product_2: $('#sub_product_2').val(), finish_2: $('#product_finish_2').val(), sub_finish_2: $('#hidden_sub_finish_2').val()
       success: (response) ->
         $('#configModal').modal 'hide'
         response = JSON.stringify response
@@ -66,11 +66,15 @@ $(document).on "turbolinks:load", ->
     else
       $(this).parents('.row:eq(0)').next().addClass('hide')
 
-  $('#sub_product, #product_finish').on 'change', ->
+  $('#sub_product, #sub_product_2, #product_finish, #product_finish_2').on 'change', ->
     if $(this).attr('id') == 'sub_product'
       ajaxSubProductRequest($(this), '/product/get_product_sub_values', $(this).val(), $('#product_finish'), 'product_finish')
     else if $(this).attr('id') == 'product_finish'
       ajaxSubProductRequest($(this), '/product/get_product_sub_values', $(this).val(), $('#sub_finish'), 'sub_finish')
+    else if $(this).attr('id') == 'sub_product_2'
+      ajaxSubProductRequest($(this), '/product/get_product_sub_values', $(this).val(), $('#product_finish_2'), 'product_finish')
+    else if $(this).attr('id') == 'product_finish_2'
+      ajaxSubProductRequest($(this), '/product/get_product_sub_values', $(this).val(), $('#sub_finish_2'), 'sub_finish')
     else
       console.log $(this).attr 'id'
 
@@ -125,33 +129,66 @@ $(document).on "turbolinks:load", ->
           working_select.children('option:gt(0)').remove()
           $('#product_finish').children('option:gt(0)').remove()
           $('#hidden_sub_finish').children('option:gt(0)').remove()
+          $('#product_finish_2').children('option:gt(0)').remove()
+          $('#hidden_sub_finish_2').children('option:gt(0)').remove()
+
           $('#sub_finish_select').children().remove()
+          $('#sub_finish_select_2').children().remove()
 
           $.each response.sub_values, (key, value) ->
             working_select.append '<option value=' + value.sub_product_id + '>' + key + '</option>'
 
+          if response.product.configurable_sides_count == 1
+            $('#side2config').addClass 'hide'
+            $('#side2config').attr 'hidden', 'hidden'
+          else
+            $('#side2config').removeClass 'hide'
+            $('#side2config').removeAttr 'hidden'
+
+            $.each response.sub_values, (key, value) ->
+              $('#sub_product_2').append '<option value=' + value.sub_product_id + '>' + key + '</option>'
+
           $('#configModal').modal 'show'
         else if response.has_sub_values && model_value == 'product_finish'
+          if working_div.attr('id') == 'sub_product'
+            $('#hidden_sub_finish').children('option:gt(0)').remove()
+            $('#sub_finish_select').children().remove()
+          else if working_div.attr('id') == 'sub_product_2'
+            $('#hidden_sub_finish_2').children('option:gt(0)').remove()
+            $('#sub_finish_select_2').children().remove()
+
           working_select.children('option:gt(0)').remove()
-          $('#hidden_sub_finish').children('option:gt(0)').remove()
-          $('#sub_finish_select').children().remove()
+
+          working_div.siblings('select:eq(0)').children('option:gt(0)').remove()
 
           $.each response.sub_values, (key, value) ->
-            $('#product_finish').append '<option value=' + value.id + '>' + value.name + '</option>'
+            working_div.siblings('select:eq(0)').append '<option value=' + value.id + '>' + value.name + '</option>'
         else if response.has_sub_values && model_value == 'sub_finish'
-          working_select.children('option:gt(0)').remove()
-          $('#sub_finish_select').children().remove()
-          $('#hidden_sub_finish').children('option:gt(0)').remove()
+          if working_div.attr('id') == 'product_finish'
+            working_select.children('option:gt(0)').remove()
+            $('#sub_finish_select').children().remove()
+            $('#hidden_sub_finish').children('option:gt(0)').remove()
+          else
+            working_select.children('option:gt(0)').remove()
+            $('#sub_finish_select_2').children().remove()
+            $('#hidden_sub_finish_2').children('option:gt(0)').remove()
 
           $.each response.sub_values, (key, value) ->
-            $('#sub_finish_select').append '<input type="checkbox" value="' + value.id + '" class="sub-finish-swatch"> <label>' + value.name + '</label><br/>'
+            if working_div.attr('id') == 'product_finish'
+              $('#sub_finish_select').append '<input type="checkbox" value="' + value.id + '" class="sub-finish-swatch"> <label>' + value.name + '</label><br/>'
 
-          $.each response.sub_values, (key, value) ->
-            $('#hidden_sub_finish').append '<option value=' + value.id + '>' + value.name + '</option>'
+              #$.each response.sub_values, (key, value) ->
+              $('#hidden_sub_finish').append '<option value=' + value.id + '>' + value.name + '</option>'
+            else if working_div.attr('id') == 'product_finish_2'
+              $('#sub_finish_select_2').append '<input type="checkbox" value="' + value.id + '" class="sub-finish-swatch-2"> <label>' + value.name + '</label><br/>'
+
+              #$.each response.sub_values, (key, value) ->
+              $('#hidden_sub_finish_2').append '<option value=' + value.id + '>' + value.name + '</option>'
 
           $('.sub-finish-swatch').on 'change', ->
             $('#hidden_sub_finish option[value=' + $(this).val() + ']').attr('selected', $(this).prop 'checked')
-
+          $('.sub-finish-swatch-2').on 'change', ->
+            $('#hidden_sub_finish_2 option[value=' + $(this).val() + ']').attr('selected', $(this).prop 'checked')
         else if response.has_product_finish
           working_select.children().remove()
 

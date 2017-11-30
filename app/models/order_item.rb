@@ -1,7 +1,7 @@
 class OrderItem < ApplicationRecord
 	validates :item_type, :reference_id, :quantity, :item_total, presence: true
 	belongs_to :order, dependent: :destroy
-	has_one :product_configuration
+	has_many :product_configurations
 	scope :from_date_range, -> (start_date, end_date) {where("DATE_FORMAT(created_at,'%Y-%m-%d') >= ? AND DATE_FORMAT(created_at,'%Y-%m-%d') <= ?", start_date, end_date)}
 	scope :images, -> {where(item_type: "image_request")}
 	scope :other_samples, -> (product_id) {where("reference_id = ?", product_id)}

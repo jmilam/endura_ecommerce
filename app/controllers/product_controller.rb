@@ -16,7 +16,7 @@ class ProductController < ApplicationController
 
 	def edit
 		@type = "product"
-		@table_headers = ["Name","Price", "Group", "File Name", "Item Number", "Actions"]
+		@table_headers = ["Name","Price", "Group", "File Name", "Item Number", "Config. Side Count", "Actions"]
 		@data_variable = Product.all
 		@column_names = @data_variable.column_names.delete_if {|value| value == "created_at" || value == "updated_at" || value == "id"}
 		respond_to do |format|
@@ -130,15 +130,16 @@ class ProductController < ApplicationController
 
 	def get_product_sub_values
 		if params[:model_value] == 'product_finish'
-			p sub_values = SubProduct.find_by(id: params[:id]).product_finishes
+			sub_values = SubProduct.find_by(id: params[:id]).product_finishes
 		elsif params[:model_value] == 'sub_finish'
-			p sub_values = ProductFinish.find_by(id: params[:id]).sub_finishes
+			sub_values = ProductFinish.find_by(id: params[:id]).sub_finishes
 		else
-			p sub_values = Product.find_by(id: params[:id]).get_and_format_sub_products
+			product = Product.find_by(id: params[:id])
+			sub_values = product.get_and_format_sub_products
 		end
 
 		respond_to do |format|
-			format.json { render json: { has_sub_values: !sub_values.empty?, sub_values: sub_values } }
+			format.json { render json: { has_sub_values: !sub_values.empty?, sub_values: sub_values, product: product } }
 		end
 	end
 
