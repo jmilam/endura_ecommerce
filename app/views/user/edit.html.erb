@@ -1,0 +1,50 @@
+<div class="container">
+	<div class="panel panel-danger">
+	  <div class="panel-heading text-center">Edit User</div>
+	  <div class="panel-body">
+	  	<%= form_for @user, url: user_path, method: :patch do |f| %>
+	  		<div class="row">
+		  		<div class="col-md-4 offset-4 col-sm-12">
+						<%= f.label :name, class: 'pull-right' %>
+					</div>
+					<div class="col-md-4 offset-8 col-sm-12">
+						<%= f.text_field :name, class: 'col-md-12' %>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 offset-4">
+						<%= f.label :email, class: 'pull-right' %>
+					</div>
+					<div class="col-md-4 offset-8">
+						<%= f.text_field :email, class: 'col-md-12' %>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 offset-4">
+						<%= f.label :password, class: 'pull-right' %>
+					</div>
+					<div class="col-md-4 offset-8">
+						<%= f.password_field :password, class: 'col-md-12' %>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 offset-4">
+						<%= f.label :admin, class: 'pull-right' %>
+					</div>
+					<div class="col-md-4 offset-8">
+						<%= f.check_box :admin %>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-4 col-md-offset-4">
+						<%= f.submit 'Edit User', class: "col-md-12 btn btn-primary" %>
+					</div>
+				</div>
+			<% end %>
+	  </div>
+	</div>
+</div>

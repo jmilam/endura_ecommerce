@@ -321,6 +321,7 @@
 			    params = {email: field_1, password: field_2}
 		    }
 	    } else if (row.children().length == 5) {
+	    	console.log(table_name)
   			field_1 = row.children('td:eq(0)').children().val();
 		    field_2 = row.children('td:eq(1)').children().val();
 		    field_3 = row.children('td:eq(2)').children().val();
@@ -336,6 +337,8 @@
 		    	params = {customer_name: field_1, allocated_amt: field_2, current_bal: field_3}
 		    } else if (table_name === "sales"){
 		    	params = {tsm: field_1, name: field_2, email: field_3}
+		    } else if (table_name === "user"){
+		    	params = {email: field_1, password: field_2}
 		    } else {
 		    	params = {name: field_1, price: field_2, group: field_3}		    	
 		    }
@@ -446,6 +449,8 @@
 	  	
 	    if (path == undefined) {
 	    } else {
+	    	console.log(path)
+	    	console.log(params)
 	    	postForm(path, 'put', params);
 	    }
   	});	
